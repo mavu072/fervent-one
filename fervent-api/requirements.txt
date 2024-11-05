@@ -1,0 +1,13 @@
+fastapi
+pydantic
+python-multipart
+python-dotenv
+unstructured
+langchain
+langchain_chroma
+langchain_openai
+langchain_community
+pillow
+pdf2image
+pytesseract
+spacy==3.8.0
