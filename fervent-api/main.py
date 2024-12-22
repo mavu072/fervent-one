@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from models.message import UserMessage
 from services.vector_db import init_chromadb, query_chromadb
@@ -7,12 +8,26 @@ from services.ocr import convert_pdf_to_image, ocr_image_to_text, read_from_file
 from services.ner import find_named_entities
 from services.llm_chains import run_retrieval_chain, run_conversational_chain
 from utils.message_utils import format_chat_history
-
 from utils.ner_validator_utils import censor_named_entities
+
 import traceback
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN")
 
 app = FastAPI()
 
+# CORS middleware to allow cross-origin connections
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[ALLOWED_ORIGIN],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():

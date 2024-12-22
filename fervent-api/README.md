@@ -89,6 +89,7 @@ Create an `.env file` and add the environment variables.
 OPENAI_API_KEY = "xxxxxxxx"
 CHROMA_DIR = "__chroma__"
 DOCUMENT_DIR = "__local__"
+ALLOWED_ORIGIN = "*" # Insecure: Allows all origins, not for production
 ```
 
 3. Run application.
@@ -103,7 +104,7 @@ uvicorn main:app --reload
 
 To make the application available on your local network, use:
 ```
---host 0.0.0.0 or --host '::'
+--host 0.0.0.0 # Your IP Address
 ```
 Default: '127.0.0.1'.
 
