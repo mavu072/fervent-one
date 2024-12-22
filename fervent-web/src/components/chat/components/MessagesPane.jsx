@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import ChatBubble from './ChatBubble';
 import MessageInput from './MessageInput';
 import InlineLoader from '../../loader/InlineLoader';
+import SnackBarNotification from '../../notification/SnackBar';
 import LoadMoreButton from './LoadMoreButton';
 import MessageFactory from '../../../factory/MessageFactory';
 import { getAssistantResponse } from '../../../service/AssistantResponseService';
@@ -19,23 +20,35 @@ const messageFactory = new MessageFactory();
 
 export default function MessagesPane(props) {
   const { user, messageService, messageLimit, onLoadOlder } = props;
+
   const query = messageService.getAll(messageLimit);
   const [messages, isMessagesloading, messagesError] = useCollection(query);
+
   const [textAreaValue, setTextAreaValue] = useState('');
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [chatHistory, setChatHistory] = useState([]);
+  const [errorMsg, setErrorMsg] = useState(null);
+
   const messagesEndRef = useRef(null);
   const messagesTopRef = useRef(null);
-
-  const scrollToTop = () => {
-    messagesTopRef.current?.scrollIntoView({ behavior: "smooth" })
-  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => { scrollToBottom(); }, [messages]);
+  useEffect(() => {
+    scrollToBottom();
+    setChatHistory(() => {
+      return messages?.docs.map(msg => {
+        const { content, role } = msg.data();
+        return {
+          role: role === "user" ? "human" : "system",
+          content: content
+        }
+      })
+    })
+  }, [messages]);
 
   const handleSubmit = () => {
     const userMsg = messageFactory.createMessage({
@@ -45,37 +58,42 @@ export default function MessagesPane(props) {
       createdAt: getServerTimestamp(),
     });
 
+    // Send message
     messageService.saveMessage(userMsg)
       .then(() => {
         setIsTyping(true);
-      })
-      .catch(error => console.error(error));
+        // Await response
+        getAssistantResponse(textAreaValue, chatHistory)
+          .then(({ response, sources }) => {
+            const assistantMsg = messageFactory.createMessage({
+              content: response,
+              sources: sources,
+              userId: user.uid,
+              role: "assistant",
+              createdAt: getServerTimestamp(),
+            });
 
-    getAssistantResponse(textAreaValue)
-      .then(({ response, sources }) => {
-        const assistantMsg = messageFactory.createMessage({
-          content: response,
-          sources: sources,
-          userId: user.uid,
-          role: "assistant",
-          createdAt: getServerTimestamp(),
-        });
-
-        messageService.saveMessage(assistantMsg)
-          .catch(error => console.error(error))
+            messageService.saveMessage(assistantMsg);
+          })
+          .catch(error => {
+            console.error(error);
+            setErrorMsg(error.message);
+          })
           .finally(() => {
             setIsTyping(false);
           });
       })
-      .catch(error => console.error(error))
-      .finally(() => {
+      .catch(error => {
+        console.error(error);
+        setErrorMsg(error.message);
         setIsTyping(false);
       });
   }
 
   const handleFileUpload = () => {
-
+    // TODO implement
   }
+
   return (
     <Paper
       sx={(theme) => ({
@@ -87,6 +105,8 @@ export default function MessagesPane(props) {
         backgroundColor: theme.palette.mode === 'light' ? 'background.body' : 'background.body'
       })}
     >
+      {errorMsg && <SnackBarNotification message={errorMsg} />}
+      {messagesError && <SnackBarNotification message={messagesError.message} />}
       <Box
         sx={{
           display: 'flex',
