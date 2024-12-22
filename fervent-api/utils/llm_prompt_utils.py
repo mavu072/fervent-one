@@ -1,3 +1,8 @@
+CONTEXTUALISE_CHAT_HISTORY_PROMPT = """Given a chat history and the latest user message which might reference context
+in the chat history, formulate a standalone question which can be understood without the chat history.
+Do NOT answer the question, just reformulate it if needed and otherwise return it as is.
+"""
+
 PROMPT_TEMPLATE = """Act as a legal advisor.
 Assume all questions are only relating to South African employment laws and statutes.
 Answer the following question based only on the provided context:
@@ -6,7 +11,7 @@ Answer the following question based only on the provided context:
 {context}
 </context>
 
-Question: {query}
+Question: {input}
 """
 
 COMPLIANCE_REPORT_PROMPT_TEMPLATE = """

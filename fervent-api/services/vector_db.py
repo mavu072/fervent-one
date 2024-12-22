@@ -3,6 +3,7 @@ from langchain.schema import Document
 from langchain_openai import OpenAIEmbeddings
 
 from services.document_loader import load_document_dir, split_documents_to_chunks
+from utils.file_utils import create_directory_if_not_exists
 
 import os
 from dotenv import load_dotenv
@@ -30,6 +31,8 @@ def persist_to_chromadb(chunks: list[Document]):
     if os.path.exists(CHROMA_DIR):
         print(f">>> Deleted existing directory: {CHROMA_DIR}.")
         shutil.rmtree(CHROMA_DIR)
+    else:
+        create_directory_if_not_exists(CHROMA_DIR)
 
     db = Chroma.from_documents(chunks, OpenAIEmbeddings(), persist_directory=CHROMA_DIR)
 

@@ -37,13 +37,13 @@ def run_conversational_chain(user_message:str, message_history:list):
 
     result = get_llm_conversational_response(user_message, message_history)
     print(f">>>>> User message: {user_message}")
-    print(f">>>>> Message history: {str(message_history)}")
+    # print(f">>>>> Message history: {str(message_history)}")
 
     response = result['answer']
     print(f">>>>> Response: {response}")
 
     message_history.append((user_message, response))
-    print(f">>>>> Message history: {str(message_history)}")
+    # print(f">>>>> Message history: {str(message_history)}")
 
     # Todo add sources and metadata
     return { "content": response, "message_history": result['chat_history'] }

@@ -1,25 +1,63 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
 
+from models.message import UserMessage
 from services.vector_db import init_chromadb, query_chromadb
 from services.ocr import convert_pdf_to_image, ocr_image_to_text, read_from_file, find_all_files
 from services.ner import find_named_entities
 from services.llm_chains import run_retrieval_chain, run_conversational_chain
+from utils.message_utils import format_chat_history
 
 from utils.ner_validator_utils import censor_named_entities
-
+import traceback
 
 app = FastAPI()
 
 
 @app.get("/")
 def root():
-    return {"message": "Hello world"}
+    return {"message": "Lets roll out!"}
+
+
+@app.get("/vectordb/init")
+def initialize_vector_database():
+    """Initialize the vector database from the files in the local storage."""
+    try:
+        init_chromadb()
+
+        return JSONResponse(
+            status_code=200,
+            content={"message": "Vector DB initialized"}
+        )
+    except Exception as error:
+        traceback.print_exception(error)
+        return JSONResponse(
+            status_code=500,
+            content={"error": str(error)}
+        )
+
+
+@app.post("/vectordb/query")
+def query_vector_database(query: str):
+    """Query the vector database using a similarity search."""
+    try:
+        results = query_chromadb(query)
+        total = len(results)
+
+        return JSONResponse(
+            status_code=200,
+            content={"total": total, "result": results}
+        )
+    except Exception as error:
+        return JSONResponse(
+            status_code=500,
+            content={"error": str(error)}
+        )
 
 
 @app.post("/ocr/files/upload/")
 async def upload_file(file: UploadFile):
-    """Upload a PDF or image file to be processed by the OCR engine."""
+    """Upload a PDF or image file to be processed by the OCR engine and save it in the local storage."""
     try:
         fname, fsize = file.filename, file.size
 
@@ -43,7 +81,7 @@ async def upload_file(file: UploadFile):
 
 @app.get("/ocr/files/retrieve/")
 def retrieve_file(filename: str):
-    """Retrieve an uploaded file."""
+    """Retrieve an uploaded file from the local storage."""
     try:
         filecontent = read_from_file(filename)
 
@@ -95,41 +133,6 @@ def identify_named_entities(text: str):
         )
 
 
-@app.get("/vectordb/init")
-def initialize_vector_database():
-    """Initialize the vector database."""
-    try:
-        init_chromadb();
-
-        return JSONResponse(
-            status_code=200,
-            content={"message": "Vector DB initialized"}
-        )
-    except Exception as error:
-        return JSONResponse(
-            status_code=500,
-            content={"error": str(error)}
-        )
-
-
-@app.post("/vectordb/query")
-def query_vector_database(query: str):
-    """Query the vector database using a similarity search."""
-    try:
-        results = query_chromadb(query)
-        total = len(results)
-
-        return JSONResponse(
-            status_code=200,
-            content={"total": total, "result": results}
-        )
-    except Exception as error:
-        return JSONResponse(
-            status_code=500,
-            content={"error": str(error)}
-        )
-
-
 @app.post("/llm/prompt")
 async def prompt_llm_assistant(query: str):
     """Prompt the LLM."""
@@ -149,13 +152,13 @@ async def prompt_llm_assistant(query: str):
             content={"error": str(error)}
         )
 
-
-chat_history = []
-
 @app.post("/llm/chat")
-async def send_message_to_llm_assistant(message: str):
+async def send_message_to_llm_assistant(user_message: UserMessage):
     """Send a message to the LLM."""
     try:
+        message = user_message.message
+        chat_history = format_chat_history(user_message.prev_messages)
+
         entity_list = find_named_entities(message)
         censored_message = censor_named_entities(entity_list, message)
         result = run_conversational_chain(censored_message, chat_history)

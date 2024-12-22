@@ -1,12 +1,12 @@
-from langchain.prompts import ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.schema import Document
 from langchain_openai import ChatOpenAI
-from langchain.chains import ConversationalRetrievalChain # TODO delete
-from langchain.chains import create_retrieval_chain
+from langchain.chains import ( create_retrieval_chain, create_history_aware_retriever )
+from langchain.chains.combine_documents import create_stuff_documents_chain
 
 from services.vector_db import query_chromadb, get_chromadb_retriever
 
-from utils.llm_prompt_utils import PROMPT_TEMPLATE
+from utils.llm_prompt_utils import PROMPT_TEMPLATE, CONTEXTUALISE_CHAT_HISTORY_PROMPT
 
 import os
 from dotenv import load_dotenv
@@ -15,12 +15,14 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+llm = ChatOpenAI()
+retriever = get_chromadb_retriever()
 
 def create_llm_prompt(context_text:str, query_text:str):
     """Creates the LLM prompt from a prompt template."""
 
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
-    prompt = prompt_template.format(context=context_text, query=query_text)
+    prompt = prompt_template.format(context=context_text, input=query_text)
 
     return prompt
 
@@ -28,18 +30,36 @@ def create_llm_prompt(context_text:str, query_text:str):
 def get_llm_prompt_response(prompt:str):
     """Creates a response for a prompt."""
 
-    model = ChatOpenAI()
-    response = model.invoke(prompt)
+    response = llm.invoke(prompt)
 
     return response
 
 
 def get_llm_conversational_response(query_message:str, message_history:list):
     """Creates a response for the user message using the previous messages as context."""
-    
-    retriever = get_chromadb_retriever()
-    qa_chain = ConversationalRetrievalChain.from_llm(ChatOpenAI(), retriever)
-    response = qa_chain.invoke({"question": query_message, "chat_history": message_history})
+
+    contextualize_input_prompt =  ChatPromptTemplate.from_messages(
+        [
+            ("system", CONTEXTUALISE_CHAT_HISTORY_PROMPT),
+            MessagesPlaceholder("chat_history"),
+            ("human", "{input}"),
+        ]
+    )
+    history_aware_retriever = create_history_aware_retriever(llm, retriever, contextualize_input_prompt)
+
+    qa_system_prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", PROMPT_TEMPLATE),
+            MessagesPlaceholder("chat_history"),
+            ("human", "{input}"),
+        ]
+    )
+    question_answer_chain = create_stuff_documents_chain(llm, qa_system_prompt)
+
+    rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
+
+    response = rag_chain.invoke({"input": query_message, "chat_history": message_history})
+    # print(response)
 
     return response
 

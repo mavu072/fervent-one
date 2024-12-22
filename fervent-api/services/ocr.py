@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DOCUMENT_DIR = os.getenv("DOCUMENT_DIR")
+docs_dir = DOCUMENT_DIR
 
 def ocr_image_to_text(images, filename: str):
     """Start a thread to run images through OCR engine."""
@@ -61,7 +62,7 @@ def read_images_to_text(images, filename: str):
 def write_to_file(filename: str, content: str):
     """Writes content to a file and creates the file if it does not exist."""
 
-    fpath = f"{dir}/{filename}.txt"
+    fpath = f"{docs_dir}/{filename}.txt"
 
     file = open(fpath, "a")
     file.write(content)
@@ -71,9 +72,9 @@ def write_to_file(filename: str, content: str):
 def read_from_file(filename):
     """Reads content from a file, if it exists."""
 
-    fpath = f"{dir}/{filename}.txt"
+    fpath = f"{docs_dir}/{filename}.txt"
 
-    if (os.path.exists(fpath)):
+    if os.path.exists(fpath):
         file = open(fpath)
         content = file.read()
     else:
@@ -85,27 +86,24 @@ def read_from_file(filename):
 def find_all_files():
     """Lists all files in the document directory."""
 
-    mkdir_if_not_exists();
+    mkdir_if_not_exists()
     
-    return os.listdir(dir);
+    return os.listdir(docs_dir)
 
 
 def rm_file_if_exists(filename):
     """Deletes a file from document directory, if it exists."""
 
-    fpath = f"{dir}/{filename}.txt"
+    fpath = f"{docs_dir}/{filename}.txt"
 
-    if (os.path.exists(fpath)):
+    if os.path.exists(fpath):
         os.remove(fpath)
         print(f">>> Deleted file: {fpath}")
 
 
 def mkdir_if_not_exists():
-    """Creats a document directory, if it does not exist."""
+    """Creates a document directory, if it does not exist."""
 
-    global dir
-    dir = DOCUMENT_DIR
-
-    if (os.path.exists(dir) == False):
-        os.mkdir(dir)
-        print(f">>> Created directory: {dir}")
+    if not os.path.exists(docs_dir):
+        os.mkdir(docs_dir)
+        print(f">>> Created directory: {docs_dir}")
