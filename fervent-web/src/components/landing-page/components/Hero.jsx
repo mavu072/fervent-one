@@ -65,7 +65,7 @@ export default function Hero() {
             useFlexGap
             sx={{ pt: 1, width: { xs: '100%', sm: 'auto' } }}
           >
-            <Button variant="contained" color="primary" href="/home" target="_blank">
+            <Button variant="contained" color="primary" href="/home">
               Get started
             </Button>
           </Stack>
