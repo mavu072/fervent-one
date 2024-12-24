@@ -6,20 +6,10 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { appName, orgName, gitRepo } from '../../../util/appNameUtil';
+import Copyright from './Copyright';
+import { appName, gitRepo } from '../../../util/appNameUtil';
 import { logoStyle, logoLight, logoDark } from '../../../util/logoUtil';
 import { AppContext } from '../../context-provider/Context';
-
-export function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" mt={1}>
-      {'Copyright © '}
-      <Link href="/about">{orgName}</Link>&nbsp;
-      {new Date().getFullYear()}
-      {'. All Rights Reserved.'}
-    </Typography>
-  );
-}
 
 export default function Footer() {
   const { mode } = useContext(AppContext);

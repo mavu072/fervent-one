@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import App from '../../App';
-import SignIn from '../login/SignIn';
+import SignInPage from '../login/SignInPage';
 import LandingPage from '../landing-page/LandingPage';
 import PageNotFound from '../error/RouteErrors';
 // import Privacy from '../../legal/Privacy';
@@ -16,7 +16,7 @@ const Router = createBrowserRouter([
     },
     {
         path: '/login',
-        element: <SignIn />
+        element: <SignInPage />
     },
     {
         path: '/home',

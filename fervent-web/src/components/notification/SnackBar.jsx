@@ -3,10 +3,15 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-function SnackBarNotification(props) {
-    const message = props.message;
-
+/**
+ * SnackBarNotification.
+ * @param {object} props
+ * @param {string} props.message
+ * @returns JSX Component
+ */
+function SnackBarNotification({ message }) {
     const [open, setOpen] = useState(false);
+
     useEffect(() => { setOpen(true); }, []);
 
     const handleClose = (event, reason) => {
@@ -29,7 +34,7 @@ function SnackBarNotification(props) {
     return (
         <Snackbar
             open={open}
-            autoHideDuration={5000}
+            autoHideDuration={3000}
             onClose={handleClose}
             message={message}
             action={closeAction}
