@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -12,14 +11,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from '../../theme/ToggleColorMode';
-import { appName } from '../../../util/appNameUtil';
-import { logoShortStyle, logoShortLight as logoLight, logoShortDark as logoDark } from '../../../util/logoUtil';
-
-const logoStyle = {
-  ...logoShortStyle,
-  marginLeft: '10px',
-  marginRight: '5px',
-};
+import LogoSmall from '../../logo/LogoSmall';
+import GoToLoginButton from '../../login/components/GoToLoginButton';
 
 function AppAppBar({ mode, toggleColorMode }) {
   const [open, setOpen] = useState(false);
@@ -70,10 +63,6 @@ function AppAppBar({ mode, toggleColorMode }) {
               maxHeight: 40,
               border: '1px solid',
               borderColor: 'divider',
-              boxShadow:
-                theme.palette.mode === 'light'
-                  ? `0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)`
-                  : '0 0 1px rgba(2, 31, 59, 0.7), 1px 1.5px 2px -1px rgba(2, 31, 59, 0.65), 4px 4px 12px -2.5px rgba(2, 31, 59, 0.65)',
             })}
           >
             <Box
@@ -85,11 +74,12 @@ function AppAppBar({ mode, toggleColorMode }) {
                 px: 0,
               }}
             >
-              <img
-                src={mode === 'light' ? logoLight : logoDark}
-                style={logoStyle}
-                alt={appName}
-              />
+              <Stack sx={{
+                marginLeft: '10px',
+                marginRight: '5px',
+              }}>
+                <LogoSmall mode={mode} />
+              </Stack>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem
                   onClick={() => scrollToSection('features')}
@@ -133,16 +123,7 @@ function AppAppBar({ mode, toggleColorMode }) {
               }}
             >
               <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                component="a"
-                href="/login"
-                target="_blank"
-              >
-                Sign In
-              </Button>
+              <GoToLoginButton title={"Sign In"} />
             </Box>
             <Box sx={{ display: { sm: '', md: 'none' } }}>
               <Button
@@ -182,19 +163,12 @@ function AppAppBar({ mode, toggleColorMode }) {
                   <MenuItem onClick={() => scrollToSection('pricing')}>
                     Pricing
                   </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
+                  <MenuItem onClick={() => scrollToSection('faq')}>
+                    FAQ
+                  </MenuItem>
                   <Divider />
                   <MenuItem>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      component="a"
-                      href="/login"
-                      target="_blank"
-                      sx={{ width: '100%' }}
-                    >
-                      Sign In
-                    </Button>
+                    <GoToLoginButton title={"Sign In"} />
                   </MenuItem>
                 </Box>
               </Drawer>
@@ -205,10 +179,5 @@ function AppAppBar({ mode, toggleColorMode }) {
     </div>
   );
 }
-
-AppAppBar.propTypes = {
-  mode: PropTypes.oneOf(['dark', 'light']).isRequired,
-  toggleColorMode: PropTypes.func.isRequired,
-};
 
 export default AppAppBar;

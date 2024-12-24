@@ -12,9 +12,9 @@ import MessageFactory from '../../../factory/MessageFactory';
 import { getAssistantResponse } from '../../../service/AssistantResponseService';
 import { getServerTimestamp } from '../../../firebase/firebaseUtil';
 import { formatTime } from '../../../util/dateTimeUtil';
-import PageLoader from '../../loader/PageLoader';
 import { scrollbarStyle } from '../util/scrollbarUtil';
 import { grey } from '@mui/material/colors';
+import SectionLoader from '../../loader/SectionLoader';
 
 const messageFactory = new MessageFactory();
 
@@ -118,7 +118,7 @@ export default function MessagesPane(props) {
           flexDirection: 'column-reverse'
         }}
       >
-        {isMessagesloading && <PageLoader />}
+        {isMessagesloading && <SectionLoader />}
         {!isMessagesloading && <Stack spacing={2} justifyContent="flex-end" >
           <Stack
             sx={{

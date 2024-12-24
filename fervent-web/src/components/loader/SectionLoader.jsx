@@ -2,11 +2,11 @@ import React from "react";
 import Stack from "@mui/material/Stack";
 import { Oval } from "react-loader-spinner";
 
-function PageLoader() {
+function SectionLoader() {
     return (
         <Stack sx={{
-            height: '100dvh',
-            width: '100dvw',
+            height: '100%',
+            width: '100%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -17,7 +17,7 @@ function PageLoader() {
                 width="40"
                 color="darkgrey"
                 secondaryColor="lightgrey"
-                radius="9"
+                radius="0"
                 ariaLabel="three-dots-loading"
                 wrapperStyle={{}}
                 wrapperClass=""
@@ -26,4 +26,4 @@ function PageLoader() {
     );
 }
 
-export default PageLoader;
+export default SectionLoader;

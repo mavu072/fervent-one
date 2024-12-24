@@ -11,6 +11,7 @@ export default function ChatInterface() {
     const { user, mode, app } = useContext(AppContext);
     
     const defaultTheme = createTheme({ palette: { mode } });
+    
     return (
         <ThemeProvider theme={defaultTheme}>
             <CssBaseline />
