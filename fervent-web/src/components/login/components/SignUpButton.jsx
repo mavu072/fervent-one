@@ -8,10 +8,10 @@ import { getUserFriendlyErrorMessage } from "../../../firebase/firebaseErrorUtil
  * @param {object} props 
  * @param {firebase.auth.Auth} props.auth 
  * @param {React.MutableRefObject} props.formRef
- * @param {Function} props.onError
+ * @param {Function} props.onMessage
  * @returns JSX Component
  */
-function SignUpButton({ auth, formRef, onError }) {
+function SignUpButton({ auth, formRef, onMessage }) {
 
     function handleSignUp() {
         const data = new FormData(formRef.current);
@@ -20,8 +20,9 @@ function SignUpButton({ auth, formRef, onError }) {
         const confirmPassword = data.get("confirm-password");
 
         if (password !== confirmPassword) {
-            onError("Passwords do not match.");
+            onMessage("Passwords do not match.");
         } else {
+            onMessage("Creating and signing in new user...");
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCred) => {
                     console.log("User created and authenticated", userCred.user.displayName);
@@ -29,7 +30,7 @@ function SignUpButton({ auth, formRef, onError }) {
                 .catch((error) => {
                     console.log(error.code, error.message);
                     const friendlyMsg = getUserFriendlyErrorMessage(error?.code, error?.message);
-                    onError(friendlyMsg ? friendlyMsg : error.message);
+                    onMessage(friendlyMsg ? friendlyMsg : error.message);
                 });
         }
     };

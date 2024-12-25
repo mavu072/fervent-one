@@ -8,15 +8,14 @@ import { getUserFriendlyErrorMessage } from "../../../firebase/firebaseErrorUtil
  * @param {object} props
  * @param {firebase.auth.Auth} props.auth
  * @param {string} props.emailAddress
- * @param {Function} props.onError
  * @param {Function} props.onMessage
  * @returns JSX Component
  */
-function PasswordResetLink({ auth, emailAddress, onError, onMessage }) {
+function PasswordResetLink({ auth, emailAddress, onMessage }) {
 
     function handlePasswordResetRequest() {
         if (!emailAddress) {
-            onError('Invalid email address.');
+            onMessage('Invalid email address.');
         } else {
             auth.sendPasswordResetEmail(emailAddress)
                 .then(() => {
@@ -27,7 +26,7 @@ function PasswordResetLink({ auth, emailAddress, onError, onMessage }) {
                 .catch((error) => {
                     console.log(error.code, error.message);
                     const friendlyMsg = getUserFriendlyErrorMessage(error?.code);
-                    onError(friendlyMsg ? friendlyMsg : error.message);
+                    onMessage(friendlyMsg ? friendlyMsg : error.message);
                 });
         }
     }

@@ -8,16 +8,17 @@ import { getUserFriendlyErrorMessage } from "../../../firebase/firebaseErrorUtil
  * @param {object} props 
  * @param {firebase.auth.Auth} props.auth 
  * @param {React.MutableRefObject} props.formRef
- * @param {Function} props.onError
+ * @param {Function} props.onMessage
  * @returns JSX Component
  */
-function SignInButton({ auth, formRef, onError }) {
+function SignInButton({ auth, formRef, onMessage }) {
 
     function handleSignIn() {
         const data = new FormData(formRef.current);
         const email = data.get('email');
         const password = data.get('password');
 
+        onMessage("Signing in...");
         auth.signInWithEmailAndPassword(email, password)
             .then(() => {
                 console.log("User signed in.");
@@ -25,7 +26,7 @@ function SignInButton({ auth, formRef, onError }) {
             .catch((error) => {
                 console.log(error.code, error.message);
                 const friendlyMsg = getUserFriendlyErrorMessage(error?.code);
-                onError(friendlyMsg ? friendlyMsg : error.message);
+                onMessage(friendlyMsg ? friendlyMsg : error.message);
             });
     };
 

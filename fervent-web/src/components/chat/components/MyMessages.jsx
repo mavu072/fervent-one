@@ -1,15 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
+import firebase from 'firebase/compat/app';
 import Paper from '@mui/material/Paper';
 import MessagesPane from './MessagesPane';
-import MessageRepository from '../../../repository/MessageRepository';
 import MessageService from '../../../service/MessageService';
 
 const INITIAL_MESSAGE_LIMIT = 10;
 
-function MyMessages(props) {
-  const { user, app } = props;
-  const messageRepository = new MessageRepository(app, user.uid);
-  const messageService = new MessageService(messageRepository);
+/**
+ * MyMessages.
+ * @param {object} props 
+ * @param {firebase.User} props.user
+ * @param {MessageService} props.messageService
+ * @returns JSX component
+ */
+function MyMessages({ user, messageService }) {
   const [messageLimit, setMessageLimit] = useState(INITIAL_MESSAGE_LIMIT);
 
   const onLoadOlder = () => {

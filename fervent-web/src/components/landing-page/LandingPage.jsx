@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -14,14 +14,9 @@ import Footer from './components/Footer';
 import { AppContext } from '../context-provider/Context';
 
 function LandingPage() {
-  const { auth, user, mode, toggleColorMode } = useContext(AppContext);
-  const navigate = useNavigate();
-
- useEffect(() => {
-      if (user) navigate('/home');
-  }, [auth, user, navigate]);
-
+  const { mode, toggleColorMode } = useContext(AppContext);
   const defaultTheme = createTheme({ palette: { mode } });
+  const navigate = useNavigate();
 
   return (
     <ThemeProvider theme={defaultTheme}>

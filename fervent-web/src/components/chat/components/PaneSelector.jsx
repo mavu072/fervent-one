@@ -9,10 +9,10 @@ import FolderRoundedIcon from '@mui/icons-material/FolderCopyRounded';
 
 const panes = [
   { name: "Messages", icon: <QuestionAnswerRoundedIcon /> }, 
-  { name: "Files", icon: <FolderRoundedIcon />  },
+  { name: "My Files", icon: <FolderRoundedIcon />  },
 ]
 
-function SelectPane() {
+function PaneSelector() {
   return (
     <Stack>
       {panes.map((pane, index) =>
@@ -31,4 +31,4 @@ function SelectPane() {
   )
 }
 
-export default SelectPane;
+export default PaneSelector;

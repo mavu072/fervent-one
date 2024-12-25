@@ -12,10 +12,10 @@ import SignUpButton from './SignUpButton';
  * SignInForm
  * @param {object} props
  * @param {firebase.auth.Auth} props.auth
- * @param {Function} props.onError
+ * @param {Function} props.onMessage
  * @returns JSX Component
  */
-function SignInForm({ auth, onError, onMessage }) {
+function SignInForm({ auth, onMessage }) {
     const authForm = useRef();
     const [email, setEmail] = useState(null);
     const [isSigningUp, setIsSigningUp] = useState(false);
@@ -61,8 +61,8 @@ function SignInForm({ auth, onError, onMessage }) {
                 />
             }
 
-            {!isSigningUp && <SignInButton auth={auth} formRef={authForm} onError={onError} />}
-            {isSigningUp && <SignUpButton auth={auth} formRef={authForm} onError={onError} />}
+            {!isSigningUp && <SignInButton auth={auth} formRef={authForm} onMessage={onMessage} />}
+            {isSigningUp && <SignUpButton auth={auth} formRef={authForm} onMessage={onMessage} />}
 
             <Grid container
                 sx={{
@@ -71,7 +71,7 @@ function SignInForm({ auth, onError, onMessage }) {
                 }}
             >
                 <Grid>
-                    <PasswordResetLink auth={auth} emailAddress={email} onError={onError} onMessage={onMessage} />
+                    <PasswordResetLink auth={auth} emailAddress={email} onMessage={onMessage} />
                 </Grid>
                 <Grid>
                     <Link href="#" variant="body2" onClick={toggleAccountAction}>{accountAction}</Link>

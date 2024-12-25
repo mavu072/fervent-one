@@ -1,12 +1,16 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-
+import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import ModeNightRoundedIcon from '@mui/icons-material/ModeNightRounded';
 
+/**
+ * ToggleColorMode.
+ * @param {object} props 
+ * @param {"light" | "dark"} props.mode 
+ * @param {Function} props.toggleColorMode
+ * @returns JSX Component
+ */
 function ToggleColorMode({ mode, toggleColorMode }) {
   return (
     <Box sx={{ maxWidth: '32px' }}>
@@ -26,10 +30,5 @@ function ToggleColorMode({ mode, toggleColorMode }) {
     </Box>
   );
 }
-
-// ToggleColorMode.propTypes = {
-//   mode: PropTypes.oneOf(['dark', 'light']).isRequired,
-//   toggleColorMode: PropTypes.func.isRequired,
-// };
 
 export default ToggleColorMode;

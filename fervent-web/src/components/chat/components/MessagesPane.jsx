@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import firebase from 'firebase/compat/app';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -8,6 +9,7 @@ import MessageInput from './MessageInput';
 import InlineLoader from '../../loader/InlineLoader';
 import SnackBarNotification from '../../notification/SnackBar';
 import LoadMoreButton from './LoadMoreButton';
+import MessageService from '../../../service/MessageService';
 import MessageFactory from '../../../factory/MessageFactory';
 import { getAssistantResponse } from '../../../service/AssistantResponseService';
 import { getServerTimestamp } from '../../../firebase/firebaseUtil';
@@ -18,9 +20,16 @@ import SectionLoader from '../../loader/SectionLoader';
 
 const messageFactory = new MessageFactory();
 
-export default function MessagesPane(props) {
-  const { user, messageService, messageLimit, onLoadOlder } = props;
-
+/**
+ * MessagesPane
+ * @param {object} props 
+ * @param {firebase.User} props.user
+ * @param {MessageService} props.messageService
+ * @param {number} props.messageLimit
+ * @param {Function} props.onLoadOlder
+ * @returns JSX Component
+ */
+function MessagesPane({ user, messageService, messageLimit, onLoadOlder }) {
   const query = messageService.getAll(messageLimit);
   const [messages, isMessagesloading, messagesError] = useCollection(query);
 
@@ -179,3 +188,5 @@ export default function MessagesPane(props) {
     </Paper>
   );
 }
+
+export default MessagesPane;

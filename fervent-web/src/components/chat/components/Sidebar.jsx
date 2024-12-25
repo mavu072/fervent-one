@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -10,7 +9,7 @@ import { listItemButtonClasses } from '@mui/material/ListItemButton';
 import { grey } from '@mui/material/colors';
 import { closeSidebar } from '../util/sidebarUtil';
 import { AppContext } from '../../context-provider/Context';
-import SelectPane from './SelectPane';
+import PaneSelector from './PaneSelector';
 import SignOutButton from '../../login/components/SignOutButton';
 import GoToLoginButton from '../../login/components/GoToLoginButton';
 import LogoSmall from '../../logo/LogoSmall';
@@ -95,12 +94,14 @@ function Sidebar() {
             '--ListItem-radius': '4px',
           }}
         >
-          <SelectPane />
+          <PaneSelector />
         </List>
       </Box>
       <Divider />
       {!user && <GoToLoginButton />}
-      {user && <SignOutButton auth={auth} />}
+      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', justifyContent: "flex-end", }} >
+        {user && <SignOutButton auth={auth} />}
+      </Box>
     </Paper>
   );
 }

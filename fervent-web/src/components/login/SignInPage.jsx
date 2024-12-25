@@ -7,32 +7,30 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import SnackBarNotification from '../notification/SnackBar';
 import Copyright from '../landing-page/components/Copyright';
-import PageLoader from '../loader/PageLoader';
 import GoogleSignInButton from './components/GoogleSignInButton';
 import PageTitle from './components/PageTitle';
 import { AppContext } from '../context-provider/Context';
 import SignInForm from './components/SignInForm';
 
 function SignInPage() {
-    const { auth, user, mode } = useContext(AppContext);
-
-    const navigate = useNavigate();
+    const { auth, authError, user, mode } = useContext(AppContext);
     const defaultTheme = createTheme({ palette: { mode } });
-    const [error, setError] = useState({ message: null, errorCount: 0 }); // Count to enable re-renders.
-    const [infoMsg, setInfoMsg] = useState({ message: null, count: 0 }); // Generic state for generic messages.
+    const navigate = useNavigate();
+
+    const [infoMsg, setInfoMsg] = useState({ message: null, count: 0 }); // Generic state for handling all messages.
 
     useEffect(() => {
-        if (user) navigate('/home');
-    }, [auth, user, navigate]);
+        if (user) {
+            onMessage("Logged in. Redirecting to home...");
+            setTimeout(() => {
+                navigate('/home');
+            }, 3000);
+        }
+    }, [user, navigate]);
 
-    function onError(newError) {
-        setError((prev) => {
-            return {
-                message: newError,
-                errorCount: prev.errorCount + 1,
-            }
-        });
-    }
+    useEffect(() => {
+        if (authError) console.log("Monitoring Auth Error:", authError);
+    }, [authError]);
 
     function onMessage(newMsg) {
         setInfoMsg((prev) => {
@@ -47,7 +45,6 @@ function SignInPage() {
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
-                {error.message && <SnackBarNotification key={error.errorCount} message={error.message} />}
                 {infoMsg.message && <SnackBarNotification key={infoMsg.count} message={infoMsg.message} />}
                 <Box
                     sx={{
@@ -58,9 +55,9 @@ function SignInPage() {
                     }}
                 >
                     <PageTitle />
-                    <GoogleSignInButton auth={auth} onError={onError} />
+                    <GoogleSignInButton auth={auth} onError={onMessage} />
                     <Typography>or</Typography>
-                    <SignInForm auth={auth} onError={onError} onMessage={onMessage} />
+                    <SignInForm auth={auth} onMessage={onMessage} />
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
