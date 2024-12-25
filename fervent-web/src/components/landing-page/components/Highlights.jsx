@@ -42,7 +42,7 @@ const items = [
     icon: <SecurityRounded />,
     title: 'Security',
     description:
-      'Privacy is a priority. We comply with PoPIA and protect your data',
+      'Privacy is a priority. We comply with PoPIA and protect your data.',
   },
 
   {

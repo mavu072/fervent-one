@@ -2,16 +2,16 @@ import { useContext } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { toggleSidebar } from '../util/sidebarUtil';
 import { appName, } from '../../../util/appNameUtil';
 import { AppContext } from '../../context-provider/Context';
+import MenuButton from './MenuButton';
+import AccountContextMenu from './AccountContextMenu';
 import ToggleColorMode from '../../theme/ToggleColorMode';
-import AccountAvatar from './AccountAvatar';
 
-export default function Header() {
-  const { user, mode, toggleColorMode } = useContext(AppContext);
+function Header() {
+  const { auth, user, mode, toggleColorMode } = useContext(AppContext);
+
   return (
     <Paper
       sx={{
@@ -25,7 +25,8 @@ export default function Header() {
         width: { xs: '100dvw', lg: 'calc(100dvw - var(--Sidebar-width))' },
         zIndex: 9995,
         p: 2,
-        gap: 1,
+        pr: 1.5, // Shifting to create room for context menu.
+        gap: .25, // Gap between children
         boxShadow: 'none',
         borderRadius: 0,
       }}
@@ -40,18 +41,12 @@ export default function Header() {
           },
         })}
       />
-      <IconButton onClick={() => toggleSidebar()} variant="outlined" color="neutral" size="sm"
-        sx={{
-          display: { xs: 'flex', lg: 'none' },
-        }}
-      >
-        <MenuRoundedIcon />
-      </IconButton>
-      <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap flex={1}>
-        {appName}
-      </Typography>
-      <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} sx={{ ml: 'auto' }} />
-      {user && <AccountAvatar user={user} />}
+      <MenuButton onClickHandler={toggleSidebar} />
+      <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap flex={1}>{appName}</Typography>
+      <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+      {user && <AccountContextMenu user={user} auth={auth} />}
     </Paper>
   );
 }
+
+export default Header;

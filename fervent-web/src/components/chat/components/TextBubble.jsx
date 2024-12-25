@@ -6,9 +6,15 @@ import Tooltip from '@mui/material/Tooltip';
 import Grow from "@mui/material/Grow";
 import { grey, lightBlue } from "@mui/material/colors";
 
-function TextBubble(props) {
-  const { isSent, content, arrivedAt } = props;
-
+/**
+ * TextBubble.
+ * @param {object} props
+ * @param {boolean} props.isSent
+ * @param {string} props.content
+ * @param {string} props.arrivedAt Date String
+ * @returns JSX Component
+ */
+function TextBubble({ isSent, content, arrivedAt }) {
   return (
     <Tooltip title={arrivedAt} placement={isSent ? "left" : "right"}>
       <Grow in>

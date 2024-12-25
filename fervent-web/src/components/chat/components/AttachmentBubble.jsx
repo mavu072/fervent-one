@@ -5,11 +5,19 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import Grow from "@mui/material/Grow";
-
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
 
-function AttachmentBubble(props) {
-    const { isSent, attachment, arrivedAt } = props;
+/**
+ * AttachmentBubble.
+ * @param {object} props
+ * @param {boolean} props.isSent
+ * @param {object} props.attachment
+ * @param {object} props.attachment.name
+ * @param {object} props.attachment.size
+ * @param {string} props.arrivedAt Date String
+ * @returns JSX Component
+ */
+function AttachmentBubble({ isSent, attachment, arrivedAt }) {
     return (
         <Tooltip title={arrivedAt} placement={isSent ? "left" : "right"}>
             <Grow in>

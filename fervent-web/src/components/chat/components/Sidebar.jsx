@@ -11,7 +11,6 @@ import { closeSidebar } from '../util/sidebarUtil';
 import { AppContext } from '../../context-provider/Context';
 import PaneSelector from './PaneSelector';
 import SignOutButton from '../../login/components/SignOutButton';
-import GoToLoginButton from '../../login/components/GoToLoginButton';
 import LogoSmall from '../../logo/LogoSmall';
 
 function Sidebar() {
@@ -97,12 +96,14 @@ function Sidebar() {
           <PaneSelector />
         </List>
       </Box>
-      <Divider />
-      {!user && <GoToLoginButton />}
-      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', justifyContent: "flex-end", }} >
-        {user && <SignOutButton auth={auth} />}
-      </Box>
-    </Paper>
+
+      {user && (
+        <>
+          <Divider />
+          <SignOutButton label={"Log out"} auth={auth} />
+        </>
+      )}
+    </Paper >
   );
 }
 

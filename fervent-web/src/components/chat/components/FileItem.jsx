@@ -7,8 +7,14 @@ import ClearIcon from '@mui/icons-material/Clear';
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
 import IconButton from "@mui/material/IconButton";
 
-function FileItem(props) {
-    const { file } = props;
+/**
+ * FileItem
+ * @param {object} props 
+ * @param {File} props.file
+ * @returns JSX Component
+ */
+function FileItem({ file }) {
+
     return (
         <Paper
             variant="outlined"

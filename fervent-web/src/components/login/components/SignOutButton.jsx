@@ -1,18 +1,25 @@
 import React from "react";
-import firebase from "firebase/compat/app";
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useNavigate } from 'react-router-dom';
+import firebase from "firebase/compat/app";
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
 /**
  * SignOutButton.
  * @param {object} props 
  * @param {firebase.auth.Auth} props.auth 
+ * @param {string} props.label (Optional) Button label.
+ * @param {Function} props.onClick (Optional) Additional onclick event handler.
  * @returns JSX Component
  */
-function SignOutButton({ auth }) {
+function SignOutButton({ auth, label = undefined, onClick = undefined }) {
     const navigate = useNavigate();
+
+    function handleClick(e) {
+        if (onClick) onClick(e);
+        signOutUser();
+    }
 
     function signOutUser() {
         auth.signOut()
@@ -26,17 +33,21 @@ function SignOutButton({ auth }) {
     }
 
     return (
-        <Tooltip title="Sign Out">
-            <IconButton
-                size="sm"
-                variant="plain"
-                color="neutral"
-                sx={{ justifySelf: 'flex-end' }}
-                onClick={signOutUser}
-            >
-                <LogoutRoundedIcon />
-            </IconButton>
-        </Tooltip>
+        <Button
+            type="button"
+            fullWidth
+            variant="text"
+            color="neutral"
+            size="small"
+            aria-label="button to sign out"
+            onClick={handleClick}
+            sx={{
+                textTransform: "capitalize",
+            }}
+        >
+            <LogoutRoundedIcon />
+            {label && <Typography>&nbsp;{label}</Typography>}
+        </Button>
     );
 }
 

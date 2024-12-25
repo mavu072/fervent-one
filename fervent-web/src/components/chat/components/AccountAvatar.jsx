@@ -1,17 +1,29 @@
 import React from "react";
+import firebase from "firebase/compat/app";
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import { stringAvatar } from "../../../util/avatarUtil";
 import { stringToColor } from "../../../util/colorUtil";
 
-function AccountAvatar(props) {
-  const { user, placement = "bottom", tooltipTitle = null } = props;
+/**
+ * AccountAvatar.
+ * @param {object} props 
+ * @param {firebase.User} props.user
+ * @param {string} props.placement
+ * @param {string | undefined} props.tooltipTitle
+ * @returns JSX Component
+ */
+function AccountAvatar({ user, placement = "bottom", tooltipTitle = undefined }) {
+  const username = user.displayName ? user.displayName : user.email;
+  const title = tooltipTitle ? tooltipTitle : username;
+  const avatarBgColor = stringToColor(username);
+
   return (
-    <Tooltip title={tooltipTitle ? tooltipTitle : user.displayName ? user.displayName : user.email} placement={placement}>
+    <Tooltip title={title} placement={placement}>
       <Avatar
         variant="outlined"
         size="sm"
-        {...stringAvatar(user.displayName ? user.displayName : user.email, stringToColor(user.displayName ? user.displayName : user.email))}
+        {...stringAvatar(username, avatarBgColor)}
       />
     </Tooltip>
   )

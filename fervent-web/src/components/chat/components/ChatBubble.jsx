@@ -7,8 +7,17 @@ import AttachmentBubble from './AttachmentBubble';
 import AccountAvatar from './AccountAvatar';
 import { appName } from '../../../util/appNameUtil';
 
-export default function ChatBubble(props) {
-  const { user, variant, content, attachment = undefined, arrivedAt } = props;
+/**
+ * ChatBubble.
+ * @param {object} props
+ * @param {firebase.User} props.user
+ * @param {"sent" | "received"} props.variant
+ * @param {string} props.content
+ * @param {object | undefined} props.attachment (Optional) File Attachment
+ * @param {string} props.arrivedAt Date String
+ * @returns JSX Component
+ */
+function ChatBubble({ user, variant, content, attachment = undefined, arrivedAt }) {
   const isSent = variant === 'sent';
 
   return (
@@ -34,3 +43,5 @@ export default function ChatBubble(props) {
     </Box>
   );
 }
+
+export default ChatBubble;
