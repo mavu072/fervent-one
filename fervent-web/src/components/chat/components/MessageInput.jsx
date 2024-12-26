@@ -2,23 +2,43 @@ import React, { useRef } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
 import TextareaAutosize from './TextareaAutosize';
 import UploadFile from './UploadFile';
 import SendMessageButton from './SendMessageButton';
-import FileItem from './FileItem';
+import FileItemList from './FileItemList';
 import { scrollbarStyle } from '../util/scrollbarUtil';
 
-export default function MessageInput(props) {
-    const { textAreaValue, setTextAreaValue, onSubmit, selectedFiles, setSelectedFiles } = props;
+/**
+ * MessageInput.
+ * @param {object} props 
+ * @param {string} props.textMessageInput Stored state of the message input.
+ * @param {Function} props.onChangeTextMessageInput Updater function for the saved state of the message input.
+ * @param {Array<File>} props.selectedFiles Stored state of the file input.
+ * @param {Function} props.onAddSelectedFiles Updater function for the saved state of the file input.
+ * @param {Function} props.onRemoveFile Removes a file from the saved state.
+ * @param {Function} props.onSubmit Submit action handler.
+ * @returns JSX Component
+ */
+function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFiles, onAddSelectedFiles, onRemoveFile, onSubmit, }) {
     const textAreaRef = useRef(null);
 
-    const handleClick = () => {
-        if (textAreaValue.trim() !== '') {
+    function handleChange(event) {
+        onChangeTextMessageInput(event.target.value);
+    }
+
+    function handleClick() {
+        if (textMessageInput.trim() !== '') {
             onSubmit();
-            setTextAreaValue('');
+            onChangeTextMessageInput('');
         }
     };
+
+    function handeKeyDown(event) { 
+        // Ctrl/Command + Enter sends message.
+        if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+            handleClick();
+        }
+    }
 
     return (
         <Box sx={{
@@ -30,21 +50,7 @@ export default function MessageInput(props) {
             pb: 1,
             pt: 1,
         }}>
-            <Stack
-                sx={{
-                    display: 'flex',
-                    flexGrow: 1,
-                    flexDirection: 'row',
-                    width: '100%',
-                    mb: 1,
-                    ...scrollbarStyle,
-                    overflowY: 'hidden',
-                }}
-            >
-                {selectedFiles && selectedFiles.map((file, index) => (
-                    <FileItem key={index} file={file} />
-                ))}
-            </Stack>
+            <FileItemList fileList={selectedFiles} onRemoveFile={onRemoveFile} />
             <Stack
                 sx={{
                     display: 'flex',
@@ -54,31 +60,18 @@ export default function MessageInput(props) {
                 }}
             >
                 <Stack sx={{ pb: 3 }}>
-                    <UploadFile setSelectedFiles={setSelectedFiles} />
+                    <UploadFile onAddSelectedFiles={onAddSelectedFiles} />
                 </Stack>
-
-                <FormControl
-                    sx={{
-                        flexGrow: 1,
-                        px: 1
-                    }}
-                >
+                <FormControl sx={{ flexGrow: 1, mb: 2.5, px: 1, }}>
                     <TextareaAutosize
                         placeholder="Hello, how I can help you today…"
                         aria-label="Message"
                         ref={textAreaRef}
-                        onChange={(e) => {
-                            setTextAreaValue(e.target.value);
-                        }}
-                        value={textAreaValue}
+                        onChange={handleChange}
+                        value={textMessageInput}
                         minRows={1}
                         maxRows={5}
-                        onKeyDown={(event) => {
-                            if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
-                                // Ctrl + Enter sends message.
-                                handleClick();
-                            }
-                        }}
+                        onKeyDown={handeKeyDown}
                         sx={{
                             flexGrow: 1,
                             border: "none",
@@ -90,15 +83,7 @@ export default function MessageInput(props) {
                             ...scrollbarStyle,
                         }}
                     />
-                    <FormHelperText
-                        sx={{
-                            textAlign: 'center',
-                        }}
-                    >
-                        Do not share any sensitive information. i.e. tax or bank details.
-                    </FormHelperText>
                 </FormControl>
-
                 <Stack sx={{ pb: 3 }}>
                     <SendMessageButton onSendMessage={handleClick} />
                 </Stack>
@@ -106,3 +91,5 @@ export default function MessageInput(props) {
         </Box>
     );
 }
+
+export default MessageInput;

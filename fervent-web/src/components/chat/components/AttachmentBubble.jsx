@@ -12,8 +12,8 @@ import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRound
  * @param {object} props
  * @param {boolean} props.isSent
  * @param {object} props.attachment
- * @param {object} props.attachment.name
- * @param {object} props.attachment.size
+ * @param {string} props.attachment.name
+ * @param {number} props.attachment.size
  * @param {string} props.arrivedAt Date String
  * @returns JSX Component
  */

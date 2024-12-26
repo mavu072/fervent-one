@@ -4,21 +4,25 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import ChatBubble from './ChatBubble';
 import MessageInput from './MessageInput';
 import InlineLoader from '../../loader/InlineLoader';
 import SnackBarNotification from '../../notification/SnackBar';
 import LoadMoreButton from './LoadMoreButton';
+import SectionLoader from '../../loader/SectionLoader';
+import AccountAvatar from './AccountAvatar';
 import MessageService from '../../../service/MessageService';
 import MessageFactory from '../../../factory/MessageFactory';
-import { getAssistantResponse } from '../../../service/AssistantResponseService';
+import { getAssistantResponse } from '../../../api/GetAssistantResponseApi';
 import { getServerTimestamp } from '../../../firebase/firebaseUtil';
 import { formatTime } from '../../../util/dateTimeUtil';
 import { scrollbarStyle } from '../util/scrollbarUtil';
 import { grey } from '@mui/material/colors';
-import SectionLoader from '../../loader/SectionLoader';
+import { appName } from '../../../util/appNameUtil';
 
 const messageFactory = new MessageFactory();
+const systemUser = { displayName: appName };
 
 /**
  * MessagesPane
@@ -33,7 +37,7 @@ function MessagesPane({ user, messageService, messageLimit, onLoadOlder }) {
   const query = messageService.getAll(messageLimit);
   const [messages, isMessagesloading, messagesError] = useCollection(query);
 
-  const [textAreaValue, setTextAreaValue] = useState('');
+  const [textMessageInput, setTextMessageInput] = useState('');
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
@@ -56,23 +60,38 @@ function MessagesPane({ user, messageService, messageLimit, onLoadOlder }) {
           content: content
         }
       })
-    })
+    });
   }, [messages]);
+
+  const onChangeTextMessageInput = (newInput) => {
+    setTextMessageInput(newInput);
+  }
+
+  const onAddSelectedFiles = (newFiles) => {
+    setSelectedFiles((prevFiles) => {
+      return [...prevFiles, ...newFiles];
+    });
+  }
+
+  const onRemoveFile = (fileId) => {
+    const updated = selectedFiles.filter((file, index) => index !== fileId);
+    setSelectedFiles(updated);
+  }
 
   const handleSubmit = () => {
     const userMsg = messageFactory.createMessage({
-      content: textAreaValue,
+      content: textMessageInput,
       userId: user.uid,
       role: "user",
       createdAt: getServerTimestamp(),
     });
 
     // Send message
-    messageService.saveMessage(userMsg)
+    messageService.save(userMsg)
       .then(() => {
         setIsTyping(true);
         // Await response
-        getAssistantResponse(textAreaValue, chatHistory)
+        getAssistantResponse(textMessageInput, chatHistory)
           .then(({ response, sources }) => {
             const assistantMsg = messageFactory.createMessage({
               content: response,
@@ -82,7 +101,7 @@ function MessagesPane({ user, messageService, messageLimit, onLoadOlder }) {
               createdAt: getServerTimestamp(),
             });
 
-            messageService.saveMessage(assistantMsg);
+            messageService.save(assistantMsg);
           })
           .catch(error => {
             console.error(error);
@@ -105,14 +124,14 @@ function MessagesPane({ user, messageService, messageLimit, onLoadOlder }) {
 
   return (
     <Paper
-      sx={(theme) => ({
+      sx={{
         height: { xs: 'calc(100dvh - var(--Header-height))', sm: '100dvh', lg: '100dvh' },
         width: { xs: '100dvw', lg: 'calc(100dvw - var(--Sidebar-width))' },
         display: 'flex',
         flexDirection: 'column',
         overflowY: 'hidden',
-        backgroundColor: theme.palette.mode === 'light' ? 'background.body' : 'background.body'
-      })}
+        backgroundColor: 'background.body',
+      }}
     >
       {errorMsg && <SnackBarNotification message={errorMsg} />}
       {messagesError && <SnackBarNotification message={messagesError.message} />}
@@ -128,62 +147,58 @@ function MessagesPane({ user, messageService, messageLimit, onLoadOlder }) {
         }}
       >
         {isMessagesloading && <SectionLoader />}
-        {!isMessagesloading && <Stack spacing={2} justifyContent="flex-end" >
-          <Stack
-            sx={{
-              display: 'flex',
-              flex: 1,
-              flexDirection: 'row',
-              pt: 4,
-              justifyContent: "center"
-            }}
-          >
-            {messages && <LoadMoreButton title={"Load older messages"} onLoadMore={onLoadOlder} />}
-          </Stack>
-          <div ref={messagesTopRef}></div>
+        {!isMessagesloading &&
+          <Stack spacing={2} justifyContent="flex-end" >
+            <div ref={messagesTopRef}></div>
+            <Stack display="flex" alignItems="center">
+              <LoadMoreButton title={"Load older messages"} onLoadMore={onLoadOlder} />
+            </Stack>
 
-          {messages && messages.docs.map((message, index) => {
-            const { id, content, createdAt, attachment, role } = message.data();
-            const isYou = role === 'user';
-            const arrivedAt = createdAt ? formatTime(createdAt.toDate()) : 'now';
-            return (
-              <Stack key={index} direction="row" spacing={2} flexDirection={isYou ? 'row-reverse' : 'row'}>
+            {messages && messages.docs.map((message, index) => {
+              const { id, content, createdAt, attachment, role } = message.data();
+              const isYou = role === 'user';
+              const arrivedAt = createdAt ? formatTime(createdAt.toDate()) : 'now';
+              return (
+                <Stack key={index} direction="row" spacing={2} flexDirection={isYou ? 'row-reverse' : 'row'}>
+                  <ChatBubble
+                    key={id}
+                    variant={isYou ? 'sent' : 'received'}
+                    content={content}
+                    attachment={attachment}
+                    arrivedAt={arrivedAt}
+                    sender={
+                      isYou ? <AccountAvatar user={user} tooltipTitle={"You"} placement={"left"} />
+                        : <AccountAvatar user={systemUser} placement={"right"} />
+                    }
+                  />
+                </Stack>
+              );
+            })}
+
+            {isTyping &&
+              (<Stack direction="row" spacing={2} flexDirection={'row'}>
                 <ChatBubble
-                  key={id}
-                  user={user}
-                  variant={isYou ? 'sent' : 'received'}
-                  content={content}
-                  attachment={attachment}
-                  arrivedAt={arrivedAt}
-                  role={role}
+                  variant="received"
+                  content={<InlineLoader />}
+                  attachment={null}
+                  arrivedAt="now"
+                  sender={<AccountAvatar user={systemUser} placement={"right"} />}
                 />
-              </Stack>
-            );
-          })}
-
-          {isTyping &&
-            <Paper
-              variant='soft'
-              sx={(theme) => ({
-                px: 0.75,
-                width: 'fit-content',
-                height: 'fit-content',
-                borderRadius: 'var(--Chat-Bubble-radius)',
-                backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[800],
-              })}
-            >
-              <InlineLoader />
-            </Paper>}
-
-          <div ref={messagesEndRef}></div>
-        </Stack>}
+              </Stack>)}
+            <div ref={messagesEndRef}></div>
+          </Stack>
+        }
       </Box>
+      <Stack display="flex" alignItems="center" textAlign="center" px={2} color={grey[600]} >
+        <Typography variant="caption">Do not share any sensitive information. i.e. tax or bank details.</Typography>
+      </Stack>
       <MessageInput
-        textAreaValue={textAreaValue}
-        setTextAreaValue={setTextAreaValue}
-        onSubmit={handleSubmit}
+        textMessageInput={textMessageInput}
+        onChangeTextMessageInput={onChangeTextMessageInput}
         selectedFiles={selectedFiles}
-        setSelectedFiles={setSelectedFiles}
+        onAddSelectedFiles={onAddSelectedFiles}
+        onRemoveFile={onRemoveFile}
+        onSubmit={handleSubmit}
       />
     </Paper>
   );

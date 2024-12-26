@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback, createContext } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-
-// Firebase App
 import FirebaseApp from '../../firebase/firebaseConfig';
 
 const app = FirebaseApp();

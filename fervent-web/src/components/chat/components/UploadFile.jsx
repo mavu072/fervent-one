@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
@@ -17,13 +17,16 @@ const HiddenFileInput = styled('input')({
     width: 1,
 });
 
-function UploadFile(props) {
-    const { setSelectedFiles } = props;
+/**
+ * UploadFile.
+ * @param {object} props 
+ * @param {Function} props.onAddSelectedFiles Updater function for the saved state of the file input.
+ * @returns JSX Component
+ */
+function UploadFile({ onAddSelectedFiles }) {
 
     const handleChange = (event) => {
-        setSelectedFiles((prevFiles) => {
-            return [...prevFiles, ...event.target.files];
-        });
+        onAddSelectedFiles(event.target.files);
     }
 
     return (

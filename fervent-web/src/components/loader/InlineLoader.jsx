@@ -6,7 +6,7 @@ function InlineLoader() {
         <div className='inline-loader'>
             <ThreeDots
                 visible={true}
-                height="40"
+                height="auto"
                 width="40"
                 color="#b1aeae"
                 radius="9"

@@ -10,7 +10,7 @@ import { grey, lightBlue } from "@mui/material/colors";
  * TextBubble.
  * @param {object} props
  * @param {boolean} props.isSent
- * @param {string} props.content
+ * @param {string | React.JSX.Element} props.content
  * @param {string} props.arrivedAt Date String
  * @returns JSX Component
  */
@@ -29,12 +29,7 @@ function TextBubble({ isSent, content, arrivedAt }) {
                 theme.palette.mode === 'light' ? grey[300] : grey[800],
             })}
           >
-            <Typography
-              level="body-sm"
-              sx={{
-                color: isSent ? 'white' : 'inherit',
-              }}
-            >
+            <Typography level="body-sm" sx={{ color: isSent ? 'white' : 'inherit', }}>
               {content}
             </Typography>
           </Paper>

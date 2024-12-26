@@ -6,8 +6,12 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-
 import bgImage from '../assets/supported-platforms.svg';
+import { appName } from '../../../util/appNameUtil';
+
+const parts = appName.split(" ");
+const firstPart = `${parts[0]} ${parts[1]}`;
+const secondPart = `${parts[2]}`;
 
 export default function Hero() {
   return (
@@ -38,7 +42,7 @@ export default function Hero() {
               fontSize: 'clamp(3.5rem, 10vw, 4rem)',
             }}
           >
-            AI Labour&nbsp;
+            {firstPart}&nbsp;
             <Typography
               component="span"
               variant="h1"
@@ -48,7 +52,7 @@ export default function Hero() {
                   theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
               }}
             >
-              Companion
+              {secondPart}
             </Typography>
           </Typography>
           <Typography
@@ -65,7 +69,7 @@ export default function Hero() {
             useFlexGap
             sx={{ pt: 1, width: { xs: '100%', sm: 'auto' } }}
           >
-            <Button variant="contained" color="primary" href="/home">
+            <Button variant="contained" size="medium" color="primary" href="/home">
               Get started
             </Button>
           </Stack>
