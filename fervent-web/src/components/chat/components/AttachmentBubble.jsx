@@ -27,8 +27,6 @@ function AttachmentBubble({ isSent, attachment, arrivedAt }) {
                         px: 1.75,
                         py: 1.25,
                         borderRadius: 'var(--Chat-Bubble-radius)',
-                        borderTopRightRadius: isSent ? 0 : 'var(--Chat-Bubble-radius)',
-                        borderTopLeftRadius: isSent ? 'var(--Chat-Bubble-radius)' : 0,
                         backgroundColor: 'background.body',
                     }}
                 >

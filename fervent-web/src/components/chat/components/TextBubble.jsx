@@ -15,6 +15,7 @@ import { grey, lightBlue } from "@mui/material/colors";
  * @returns JSX Component
  */
 function TextBubble({ isSent, content, arrivedAt }) {
+  const isContentText = typeof content === "string" ? true : false;
   return (
     <Tooltip title={arrivedAt} placement={isSent ? "left" : "right"}>
       <Grow in>
@@ -25,11 +26,15 @@ function TextBubble({ isSent, content, arrivedAt }) {
             sx={(theme) => ({
               p: 1.25,
               borderRadius: 'var(--Chat-Bubble-radius)',
-              backgroundColor: isSent ? lightBlue[900] :
+              backgroundColor: isSent ? lightBlue[700] :
                 theme.palette.mode === 'light' ? grey[300] : grey[800],
             })}
           >
-            <Typography level="body-sm" sx={{ color: isSent ? 'white' : 'inherit', }}>
+            <Typography
+              component={isContentText ? "p" : "div"}
+              level="body-sm"
+              sx={{ color: isSent ? 'white' : 'inherit', }}
+            >
               {content}
             </Typography>
           </Paper>
