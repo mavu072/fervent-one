@@ -20,9 +20,9 @@ function formatTime(date) {
         const minutes = date.getMinutes().toString().padStart(2, '0');
 
         if (isToday) {
-            return `${hours}:${minutes}`;
+            return `Today at ${hours}:${minutes}`;
         } else if (isYesterday) {
-            return `Yesterday ${hours}:${minutes}`;
+            return `Yesterday at ${hours}:${minutes}`;
         } else {
             const dt = date.getDate().toString().padStart(2, '0');
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
