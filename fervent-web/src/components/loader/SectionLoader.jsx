@@ -1,28 +1,12 @@
 import React from "react";
-import Stack from "@mui/material/Stack";
-import { Oval } from "react-loader-spinner";
+import Box from "@mui/material/Box";
+import LinearProgress from '@mui/material/LinearProgress';
 
 function SectionLoader() {
     return (
-        <Stack sx={{
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-        }}>
-            <Oval
-                visible={true}
-                height="40"
-                width="40"
-                color="darkgrey"
-                secondaryColor="lightgrey"
-                radius="0"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-            />
-        </Stack>
+        <Box sx={{ width: '100%' }}>
+            <LinearProgress />
+        </Box>
     );
 }
 

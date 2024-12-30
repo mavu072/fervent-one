@@ -1,20 +1,14 @@
 import MessageRepository from "../repository/MessageRepository";
+import BaseService from "./BaseService";
 
-class MessageService {
+class MessageService extends BaseService {
+
     /**
-     * 
+     * Message Service.
      * @param {MessageRepository} messageRepository 
      */
     constructor(messageRepository) {
-        this.messageRepository = messageRepository;
-    }
-
-    saveMessage = function (message) {
-        return this.messageRepository.saveMessage(message);
-    }
-
-    getAll = function (limit) {
-        return this.messageRepository.getAll(limit);
+        super(messageRepository);
     }
 }
 

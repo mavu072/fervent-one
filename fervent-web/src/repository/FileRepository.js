@@ -1,16 +1,16 @@
 import firebase from "firebase/compat/app";
 import BaseRepository from "./BaseRepository";
 
-class MessageRepository extends BaseRepository {
+class FileRepository extends BaseRepository {
 
     /**
-     * Message Repository.
+     * File Repository.
      * @param {firebase.app.App} app 
      * @param {string} messagesCollectionPath 
      */
-    constructor(app, messagesCollectionPath) {
-        super(app, messagesCollectionPath);
+    constructor(app, filesCollectionPath) {
+        super(app, filesCollectionPath)
     }
 }
 
-export default MessageRepository;
+export default FileRepository;

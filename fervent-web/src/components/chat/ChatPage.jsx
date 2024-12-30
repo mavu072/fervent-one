@@ -1,34 +1,40 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import MyMessages from './components/MyMessages';
-import { AppContext } from '../context-provider/Context';
-import MessageRepository from '../../repository/MessageRepository';
-import MessageService from '../../service/MessageService';
+import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
+import FolderRoundedIcon from '@mui/icons-material/FolderCopyRounded';
+import MyFiles from './components/MyFiles';
+import ServiceProvider from '../context-provider/ServiceContext';
+
+const paneList = [
+    { id: "messages", name: "Messages", icon: <QuestionAnswerRoundedIcon /> },
+    { id: "files", name: "My Files", icon: <FolderRoundedIcon /> },
+]
 
 /**
  * ChatPage.
  * @returns JSX Component
  */
 function ChatPage() {
-    const { user, app } = useContext(AppContext);
-    const messageRepository = new MessageRepository(app, user.uid);
-    const messageService = new MessageService(messageRepository);
+    const [selectedPane, setSelectedPane] = useState(paneList[0].id); // Choose first page by default.
 
-    // Todo: Add Control Toggle Selected Pane
+    function onChangeSelectedPane(targetPane) {
+        setSelectedPane(targetPane);
+    }
 
     return (
-        <Box sx={{
-            display: 'flex',
-            minHeight: '100dvh'
-        }}>
-            <Sidebar />
-            <Header />
-            <Box component="section" className="MainContent" sx={{ flex: 1 }}>
-                {user && <MyMessages user={user} messageService={messageService} />}
+        <ServiceProvider>
+            <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
+                <Sidebar paneList={paneList} selectedPane={selectedPane} onChangeSelectedPane={onChangeSelectedPane} />
+                <Header />
+                <Box component="section" className="MainContent" sx={{ flex: 1 }}>
+                    {selectedPane === paneList[0].id && <MyMessages />}
+                    {selectedPane === paneList[1].id && <MyFiles />}
+                </Box>
             </Box>
-        </Box>
+        </ServiceProvider>
     );
 }
 

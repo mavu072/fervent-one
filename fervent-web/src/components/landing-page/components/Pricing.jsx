@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -29,7 +29,7 @@ const tiers = [
 
 const currency = 'ZAR';
 
-export default function Pricing() {
+function Pricing() {
   return (
     <Container
       id="pricing"
@@ -160,13 +160,7 @@ export default function Pricing() {
                 ))}
               </CardContent>
               <CardActions>
-                <Button
-                  fullWidth
-                  variant={tier.buttonVariant}
-                  component="a"
-                  href="/home"
-                  target="_blank"
-                >
+                <Button fullWidth variant={tier.buttonVariant} component="a" href="/home" target="_blank">
                   {tier.buttonText}
                 </Button>
               </CardActions>
@@ -177,3 +171,5 @@ export default function Pricing() {
     </Container>
   );
 }
+
+export default Pricing;

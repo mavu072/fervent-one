@@ -3,33 +3,36 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import Grow from "@mui/material/Grow";
+import Link from '@mui/material/Link';
+import Divider from '@mui/material/Divider';
 import { grey, lightBlue } from "@mui/material/colors";
+import InternalLink from "./InternalLink";
 
 /**
  * TextBubble.
  * @param {object} props
  * @param {boolean} props.isSent
- * @param {string | React.JSX.Element} props.content
- * @param {string} props.arrivedAt Date String
+ * @param {string | React.JSX.Element | null} props.content
+ * @param {Array<{ title: string, link: string, type: string }> | null} props.sources
+ * @param {string} props.arrivedAt
  * @returns JSX Component
  */
-function TextBubble({ isSent, content, arrivedAt }) {
+function TextBubble({ isSent, content = null, sources = null, arrivedAt }) {
   const isContentText = typeof content === "string" ? true : false;
   return (
     <Tooltip title={arrivedAt} placement={isSent ? "left" : "right"}>
-      <Grow in>
-        <Box sx={{ position: 'relative' }}>
-          <Paper
-            color={isSent ? 'primary' : 'neutral'}
-            variant={isSent ? 'solid' : 'soft'}
-            sx={(theme) => ({
-              p: 1.25,
-              borderRadius: 'var(--Chat-Bubble-radius)',
-              backgroundColor: isSent ? lightBlue[700] :
-                theme.palette.mode === 'light' ? grey[300] : grey[800],
-            })}
-          >
+      <Box sx={{ position: 'relative' }}>
+        <Paper
+          color={isSent ? 'primary' : 'neutral'}
+          variant={isSent ? 'solid' : 'soft'}
+          sx={(theme) => ({
+            p: 1.25,
+            borderRadius: 'var(--Chat-Bubble-radius)',
+            backgroundColor: isSent ? lightBlue[700] :
+              theme.palette.mode === 'light' ? grey[300] : grey[800],
+          })}
+        >
+          {content && (
             <Typography
               component={isContentText ? "p" : "div"}
               level="body-sm"
@@ -37,9 +40,15 @@ function TextBubble({ isSent, content, arrivedAt }) {
             >
               {content}
             </Typography>
-          </Paper>
-        </Box>
-      </Grow>
+          )}
+          {content && sources && <Divider />}
+          {sources && sources.map((source, index) => (
+            source.type == "internal" ?
+              <InternalLink key={index} source={source} /> :
+              <Link key={index} href={source.link} target="_blank">{source.title}</Link>
+          ))}
+        </Paper>
+      </Box>
     </Tooltip>
   )
 }

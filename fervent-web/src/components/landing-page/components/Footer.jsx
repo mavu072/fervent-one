@@ -9,7 +9,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import Copyright from './Copyright';
 import { appName, gitRepo } from '../../../util/appNameUtil';
 import { logoStyle, logoLight, logoDark } from '../../../util/logoUtil';
-import { AppContext } from '../../context-provider/Context';
+import { AppContext } from '../../context-provider/AppContext';
 
 export default function Footer() {
   const { mode } = useContext(AppContext);

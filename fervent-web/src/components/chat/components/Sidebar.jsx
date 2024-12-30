@@ -8,12 +8,20 @@ import List from '@mui/material/List';
 import { listItemButtonClasses } from '@mui/material/ListItemButton';
 import { grey } from '@mui/material/colors';
 import { closeSidebar } from '../util/sidebarUtil';
-import { AppContext } from '../../context-provider/Context';
+import { AppContext } from '../../context-provider/AppContext';
 import PaneSelector from './PaneSelector';
 import SignOutButton from '../../login/components/SignOutButton';
 import LogoSmall from '../../logo/LogoSmall';
 
-function Sidebar() {
+/**
+ * Sidebar.
+ * @param {object} props
+ * @param {Array<object>} props.paneList List of panes.
+ * @param {*} props.selectedPane Stored state of the selected pane.
+ * @param {Function} props.onChangeSelectedPane Updater function for the state of the selected pane.
+ * @returns JSX Component
+ */
+function Sidebar({ selectedPane, onChangeSelectedPane, paneList }) {
   const { auth, user, mode } = useContext(AppContext);
 
   return (
@@ -93,7 +101,7 @@ function Sidebar() {
             '--ListItem-radius': '4px',
           }}
         >
-          <PaneSelector />
+          <PaneSelector selectedPane={selectedPane} onChangeSelectedPane={onChangeSelectedPane} paneList={paneList} />
         </List>
       </Box>
 

@@ -1,23 +1,18 @@
 import React, { useState, useEffect, useCallback, createContext } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import FirebaseApp from '../../firebase/firebaseConfig';
-
-const app = FirebaseApp();
-const auth = app.auth;
+import { getThemePreference, saveThemePreference } from '../theme/util/themeUtil';
 
 export const AppContext = createContext();
 
-const getThemePreference = () => {
-    const storedPreference = localStorage.getItem('mode');
-    return storedPreference ? storedPreference : 'light';
-}
-
 const AppProvider = ({ children }) => {
+    const app = FirebaseApp();
+    const auth = app.auth;
     const [user, isAuthLoading, authError] = useAuthState(auth);
     const [mode, setMode] = useState(getThemePreference());
 
     useEffect(() => {
-        localStorage.setItem('mode', mode);
+        saveThemePreference(mode);
     }, [mode]);
 
     const toggleColorMode = useCallback(() => {

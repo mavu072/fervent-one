@@ -1,17 +1,17 @@
-import React from "react";
-import firebase from "firebase/compat/app";
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import { getUserFriendlyErrorMessage } from "../../../firebase/firebaseErrorUtil";
+import { AppContext } from "../../context-provider/AppContext";
 
 /**
  * SignUpButton.
  * @param {object} props 
- * @param {firebase.auth.Auth} props.auth 
  * @param {React.MutableRefObject} props.formRef
  * @param {Function} props.onMessage
  * @returns JSX Component
  */
-function SignUpButton({ auth, formRef, onMessage }) {
+function SignUpButton({ formRef, onMessage }) {
+    const { auth } = useContext(AppContext);
 
     function handleSignUp() {
         const data = new FormData(formRef.current);

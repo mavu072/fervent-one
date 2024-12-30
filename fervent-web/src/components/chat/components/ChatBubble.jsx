@@ -6,20 +6,23 @@ import TextBubble from './TextBubble';
 import AttachmentBubble from './AttachmentBubble';
 
 /**
- * ChatBubble.
+ * ChatBubble. 
+ * @description A chat bubble can be used to render a text content, hyperlinks or file attachment.
  * @param {object} props
- * @param {"sent" | "received"} props.variant
- * @param {string | React.JSX.Element} props.content
- * @param {object | undefined} props.attachment (Optional) File Attachment.
- * @param {string} props.arrivedAt Date String
- * @param {React.JSX.Element | undefined} props.sender (Optional) Sender wrapped with a React component.
+ * @param {"sent" | "received"} props.variant Component variant.
+ * @param {string} props.id Message or Attachment Id.
+ * @param {string | React.JSX.Element | null} props.content (Optional) File Content.
+ * @param {object | null} props.attachment (Optional) File Attachment.
+ * @param {Array<object> | null} props.sources (Optional) List of sources.
+ * @param {string} props.arrivedAt Date.
+ * @param {React.JSX.Element | null} props.sender (Optional) Sender wrapped with a React component.
  * @returns JSX Component
  */
-function ChatBubble({ variant, content, attachment = undefined, arrivedAt, sender = undefined }) {
-  const isSent = variant === 'sent';
+function ChatBubble({ variant, id, content = null, sources = null, attachment = null, arrivedAt, sender = null }) {
+  const isSent = variant === 'sent'; // Controls placement of sender and background colors.
 
   return (
-    <Box sx={{ maxWidth: '60%', minWidth: 'auto' }}>
+    <Box sx={{ maxWidth: { xs: '80%', sm: '60%' }, minWidth: 'auto' }}>
       <GlobalStyles
         styles={{
           ':root': {
@@ -31,8 +34,8 @@ function ChatBubble({ variant, content, attachment = undefined, arrivedAt, sende
         {!isSent && sender}
 
         {attachment ?
-          <AttachmentBubble isSent={isSent} attachment={attachment} arrivedAt={arrivedAt} />
-          : <TextBubble isSent={isSent} content={content} arrivedAt={arrivedAt} />}
+          <AttachmentBubble key={id} isSent={isSent} attachment={attachment} arrivedAt={arrivedAt} />
+          : <TextBubble key={id} isSent={isSent} content={content} sources={sources} arrivedAt={arrivedAt} />}
         
         {isSent && sender}
       </Stack>

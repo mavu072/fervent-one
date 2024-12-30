@@ -1,20 +1,19 @@
-import React from "react";
-import firebase from "firebase/compat/app";
+import React, { useContext } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 // import Divider from "@mui/material/Divider";
 import AccountAvatar from './AccountAvatar';
 import SignOutButton from "../../login/components/SignOutButton";
+import { AppContext } from "../../context-provider/AppContext";
 
 /**
  * AccountContextMenu.
- * @param {object} props 
- * @param {firebase.User} props.user
- * @param {firebase.auth.Auth} props.auth
  * @returns JSX Component
  */
-function AccountContextMenu({ user, auth }) {
+function AccountContextMenu() {
+    const { user, } = useContext(AppContext);
+
     const [anchorElement, setAnchorElement] = React.useState(null);
     const open = Boolean(anchorElement);
 
@@ -52,7 +51,7 @@ function AccountContextMenu({ user, auth }) {
                 <MenuItem onClick={handleClose}>Settings</MenuItem>
                 <Divider /> */}
                 <MenuItem>
-                    <SignOutButton label={"Log out"} auth={auth} onClick={handleClose} />
+                    <SignOutButton label={"Log out"} onClick={handleClose} />
                 </MenuItem>
             </Menu>
         </div>

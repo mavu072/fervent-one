@@ -1,16 +1,16 @@
-import React from "react";
-import firebase from "firebase/compat/app";
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import { googleAuthProvider } from "../../../firebase/firebaseUtil";
+import { AppContext } from "../../context-provider/AppContext";
 
 /**
  * GoogleSignInButton.
  * @param {object} props
- * @param {firebase.auth.Auth} props.auth
  * @param {Function} props.onError
  * @returns JSX Component
  */
-function GoogleSignInButton({ auth, onError }) {
+function GoogleSignInButton({ onError }) {
+    const { auth } = useContext(AppContext);
 
     function handleSignInWithGoogle() {
         const provider = googleAuthProvider();

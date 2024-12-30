@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import firebase from "firebase/compat/app";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Link from '@mui/material/Link';
@@ -11,15 +10,15 @@ import SignUpButton from './SignUpButton';
 /**
  * SignInForm
  * @param {object} props
- * @param {firebase.auth.Auth} props.auth
  * @param {Function} props.onMessage
  * @returns JSX Component
  */
-function SignInForm({ auth, onMessage }) {
-    const authForm = useRef();
+function SignInForm({ onMessage }) {
     const [email, setEmail] = useState(null);
     const [isSigningUp, setIsSigningUp] = useState(false);
     const [accountAction, setAccountAction] = useState("Don't have an account? Sign Up");
+
+    const authFormRef = useRef();
 
     function toggleAccountAction() {
         setIsSigningUp((prev) => (prev === false ? true : false));
@@ -27,7 +26,7 @@ function SignInForm({ auth, onMessage }) {
     }
 
     return (
-        <Box component="form" ref={authForm} noValidate sx={{ mt: 1 }}>
+        <Box component="form" ref={authFormRef} noValidate sx={{ mt: 1 }}>
             <TextField
                 onChange={(e) => setEmail(e.target.value)}
                 margin="normal"
@@ -61,8 +60,8 @@ function SignInForm({ auth, onMessage }) {
                 />
             }
 
-            {!isSigningUp && <SignInButton auth={auth} formRef={authForm} onMessage={onMessage} />}
-            {isSigningUp && <SignUpButton auth={auth} formRef={authForm} onMessage={onMessage} />}
+            {!isSigningUp && <SignInButton formRef={authFormRef} onMessage={onMessage} />}
+            {isSigningUp && <SignUpButton formRef={authFormRef} onMessage={onMessage} />}
 
             <Grid container
                 sx={{
@@ -71,7 +70,7 @@ function SignInForm({ auth, onMessage }) {
                 }}
             >
                 <Grid>
-                    <PasswordResetLink auth={auth} emailAddress={email} onMessage={onMessage} />
+                    <PasswordResetLink emailAddress={email} onMessage={onMessage} />
                 </Grid>
                 <Grid>
                     <Link href="#" variant="body2" onClick={toggleAccountAction}>{accountAction}</Link>

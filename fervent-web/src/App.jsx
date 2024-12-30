@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { AppContext } from './components/context-provider/Context';
+import { AppContext } from './components/context-provider/AppContext';
 import ChatPage from './components/chat/ChatPage';
 import SnackBarNotification from './components/notification/SnackBar';
 import PageLoader from './components/loader/PageLoader';

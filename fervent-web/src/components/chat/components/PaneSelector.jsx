@@ -4,20 +4,31 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
-import FolderRoundedIcon from '@mui/icons-material/FolderCopyRounded';
 
-const panes = [
-  { name: "Messages", icon: <QuestionAnswerRoundedIcon /> }, 
-  { name: "My Files", icon: <FolderRoundedIcon />  },
-]
 
-function PaneSelector() {
+/**
+ * PaneSelector.
+ * @param {object} props
+ * @param {*} props.selectedPane Stored state of the selected pane.
+ * @param {Function} props.onChangeSelectedPane Updater function for the state of the selected pane. 
+ * @param {Array<object>} props.paneList List of panes.
+ * @returns JSX Component
+ */
+function PaneSelector({ selectedPane, onChangeSelectedPane, paneList }) {
+
+  function handleClick(paneId) {
+    onChangeSelectedPane(paneId);
+  }
+
   return (
     <Stack>
-      {panes.map((pane, index) =>
+      {paneList.map((pane, index) =>
         <ListItem key={index}>
-          <ListItemButton sx={{ borderRadius: 'var(--ListItem-radius)' }} selected={index == 0}>
+          <ListItemButton
+            sx={{ borderRadius: 'var(--ListItem-radius)' }}
+            selected={pane.id == selectedPane}
+            onClick={() => { handleClick(pane.id) }}
+          >
             {pane.icon}
             <ListItemText>
               <Typography level="title-sm" sx={{ whiteSpace: 'nowrap' }}>
@@ -27,7 +38,7 @@ function PaneSelector() {
           </ListItemButton>
         </ListItem>
       )}
-    </Stack>
+    </Stack >
   )
 }
 

@@ -9,11 +9,12 @@ import SnackBarNotification from '../notification/SnackBar';
 import Copyright from '../landing-page/components/Copyright';
 import GoogleSignInButton from './components/GoogleSignInButton';
 import PageTitle from './components/PageTitle';
-import { AppContext } from '../context-provider/Context';
+import { AppContext } from '../context-provider/AppContext';
 import SignInForm from './components/SignInForm';
 
 function SignInPage() {
-    const { auth, authError, user, mode } = useContext(AppContext);
+    const { authError, user, mode } = useContext(AppContext);
+    
     const defaultTheme = createTheme({ palette: { mode } });
     const navigate = useNavigate();
 
@@ -55,9 +56,9 @@ function SignInPage() {
                     }}
                 >
                     <PageTitle />
-                    <GoogleSignInButton auth={auth} onError={onMessage} />
+                    <GoogleSignInButton onError={onMessage} />
                     <Typography>or</Typography>
-                    <SignInForm auth={auth} onMessage={onMessage} />
+                    <SignInForm onMessage={onMessage} />
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>

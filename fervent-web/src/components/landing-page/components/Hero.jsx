@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { alpha } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -36,7 +36,7 @@ export default function Hero() {
             variant="h1"
             sx={{
               display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
+              flexDirection: { xs: 'column', lg: 'row' },
               alignSelf: 'center',
               textAlign: 'center',
               fontSize: 'clamp(3.5rem, 10vw, 4rem)',
@@ -69,7 +69,7 @@ export default function Hero() {
             useFlexGap
             sx={{ pt: 1, width: { xs: '100%', sm: 'auto' } }}
           >
-            <Button variant="contained" size="medium" color="primary" href="/home">
+            <Button variant="contained" size="medium" color="primary" href="/home" target='_blank'>
               Get started
             </Button>
           </Stack>

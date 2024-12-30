@@ -1,17 +1,18 @@
-import { useContext } from 'react';
+import React from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { toggleSidebar } from '../util/sidebarUtil';
-import { appName, } from '../../../util/appNameUtil';
-import { AppContext } from '../../context-provider/Context';
+import { appName } from '../../../util/appNameUtil';
 import MenuButton from './MenuButton';
 import AccountContextMenu from './AccountContextMenu';
 import ToggleColorMode from '../../theme/ToggleColorMode';
 
+/**
+ * Header.
+ * @returns JSX Component
+ */
 function Header() {
-  const { auth, user, mode, toggleColorMode } = useContext(AppContext);
-
   return (
     <Paper
       sx={{
@@ -43,8 +44,8 @@ function Header() {
       />
       <MenuButton onClickHandler={toggleSidebar} />
       <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap flex={1}>{appName}</Typography>
-      <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-      {user && <AccountContextMenu user={user} auth={auth} />}
+      <ToggleColorMode />
+      <AccountContextMenu />
     </Paper>
   );
 }

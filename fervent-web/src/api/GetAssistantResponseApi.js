@@ -1,54 +1,43 @@
+import apiClient from "./apiClient";
+
 const BASE_URL = import.meta.env.VITE_ASSISTANT_API_URL;
 
 /**
  * Sends a request to the Assistant API with the user message.
- * Then returns the API response.
- * @param {string} userMsg User query
- * @param {Array<object>} chatHistory Previous messages list
+ * @param {string} userMessage New user message.
+ * @param {Array<object>} chatHistory Previous messages.
  * @returns Response
  */
-const getAssistantResponse = async (userMsg, chatHistory = []) => {
-    let result = null;
+const getAssistantResponse = async (userMessage, chatHistory = []) => {
+    if (!userMessage) {
+        throw new Error("User message is required");
+    }
 
-    const apiEndpoint = `${BASE_URL}/llm/chat`;
-    const reqPayload = {
+    const config = {
+        url: `${BASE_URL}/llm/chat`,
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-            message: userMsg,
-            "prev_messages": chatHistory
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            message: userMessage,
+            'prev_messages': chatHistory
+        }),
     };
 
-    // Send API Request
-    await fetch(apiEndpoint, reqPayload)
-        .then(async (response) => {
-            const responseJson = await response.json();
-            // Check response
-            if (response.ok) {
-                // Handle response
-                let response = responseJson.response.content;
-                let sources = null;
-                if (responseJson.sources) {
-                    sources = responseJson.sources;
-                }
-                result = { response, sources }
-            } else {
-                // Handle error response
-                if (responseJson.error) {
-                    console.log(responseJson.error);
-                } else {
-                    throw new Error(response.statusText);
-                }
-            }
-        }).catch(error => {
-            console.log(error);
-            result = { response: "Your message could not be processed." }
-        });
+    try {
+        const response = await apiClient(config);
+        const data = await response.json();
 
-    return result;
+        if (response.ok) {
+            // Handle OK response
+            return { response: data.response.content, sources: data.sources, };
+        } else {
+            // Handle error response
+            throw new Error(data.error ? data.error : response.statusText);
+        }
+    } catch (error) {
+        console.log("Assistant API Error", error);
+        return { response: "Your message could not be processed." };
+    }
 }
 
 

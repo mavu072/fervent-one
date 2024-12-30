@@ -1,17 +1,17 @@
-import React from "react";
-import firebase from "firebase/compat/app";
+import React, { useContext } from "react";
 import Link from "@mui/material/Link";
 import { getUserFriendlyErrorMessage } from "../../../firebase/firebaseErrorUtil";
+import { AppContext } from "../../context-provider/AppContext";
 
 /**
  * PasswordResetLink.
  * @param {object} props
- * @param {firebase.auth.Auth} props.auth
  * @param {string} props.emailAddress
  * @param {Function} props.onMessage
  * @returns JSX Component
  */
-function PasswordResetLink({ auth, emailAddress, onMessage }) {
+function PasswordResetLink({ emailAddress, onMessage }) {
+    const { auth } = useContext(AppContext);
 
     function handlePasswordResetRequest() {
         if (!emailAddress) {

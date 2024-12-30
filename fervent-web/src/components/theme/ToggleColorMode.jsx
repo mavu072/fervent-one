@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import ModeNightRoundedIcon from '@mui/icons-material/ModeNightRounded';
+import { AppContext } from '../context-provider/AppContext';
 
 /**
  * ToggleColorMode.
- * @param {object} props 
- * @param {"light" | "dark"} props.mode 
- * @param {Function} props.toggleColorMode
+ * @param {object} props
  * @returns JSX Component
  */
-function ToggleColorMode({ mode, toggleColorMode }) {
+function ToggleColorMode({ }) {
+    const { mode, toggleColorMode } = useContext(AppContext);
+
   return (
     <Box sx={{ maxWidth: '32px' }}>
       <Button

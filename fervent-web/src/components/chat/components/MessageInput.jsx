@@ -16,10 +16,11 @@ import { scrollbarStyle } from '../util/scrollbarUtil';
  * @param {Array<File>} props.selectedFiles Stored state of the file input.
  * @param {Function} props.onAddSelectedFiles Updater function for the saved state of the file input.
  * @param {Function} props.onRemoveFile Removes a file from the saved state.
+ *  @param {Function} props.onRemoveAllFiles Removes all files from the saved state.
  * @param {Function} props.onSubmit Submit action handler.
  * @returns JSX Component
  */
-function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFiles, onAddSelectedFiles, onRemoveFile, onSubmit, }) {
+function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFiles, onAddSelectedFiles, onRemoveFile, onRemoveAllFiles, onSubmit, }) {
     const textAreaRef = useRef(null);
 
     function handleChange(event) {
@@ -30,6 +31,7 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
         if (textMessageInput.trim() !== '') {
             onSubmit();
             onChangeTextMessageInput('');
+            onRemoveAllFiles();
         }
     };
 

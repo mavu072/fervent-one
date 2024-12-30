@@ -1,43 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react';
-import firebase from 'firebase/compat/app';
+import React, { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import MessagesPane from './MessagesPane';
-import MessageService from '../../../service/MessageService';
-
-const INITIAL_MESSAGE_LIMIT = 10;
 
 /**
  * MyMessages.
- * @param {object} props 
- * @param {firebase.User} props.user
- * @param {MessageService} props.messageService
  * @returns JSX component
  */
-function MyMessages({ user, messageService }) {
-  const [messageLimit, setMessageLimit] = useState(INITIAL_MESSAGE_LIMIT);
-
-  const onLoadOlder = () => {
-    setMessageLimit((prevLimit) => {
-      return prevLimit + 10;
-    });
-  }
-
+function MyMessages() {
   return (
     <Paper
       sx={{
         flex: 1,
         width: '100%',
         mx: 'auto',
-        pt: { xs: 'var(--Header-height)', sm: 0 },
-        borderRadius: '0',
+        pt: 'var(--Header-height)',
+        borderRadius: 0,
       }}
     >
-      <MessagesPane
-        user={user}
-        messageService={messageService}
-        messageLimit={messageLimit}
-        onLoadOlder={onLoadOlder}
-      />
+      <MessagesPane />
     </Paper>
   );
 }

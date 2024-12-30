@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import firebase from "firebase/compat/app";
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import { AppContext } from "../../context-provider/AppContext";
 
 /**
  * SignOutButton.
- * @param {object} props 
- * @param {firebase.auth.Auth} props.auth 
+ * @param {object} props  
  * @param {string} props.label (Optional) Button label.
  * @param {Function} props.onClick (Optional) Additional onclick event handler.
  * @returns JSX Component
  */
-function SignOutButton({ auth, label = undefined, onClick = undefined }) {
+function SignOutButton({ label = undefined, onClick = undefined }) {
+    const { auth } = useContext(AppContext);
+
     const navigate = useNavigate();
 
     function handleClick(e) {
