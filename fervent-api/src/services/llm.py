@@ -4,8 +4,8 @@ from langchain_openai import ChatOpenAI
 from langchain.chains import ( create_retrieval_chain, create_history_aware_retriever )
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
-from services.vector_db import query_chromadb, get_chromadb_retriever
-from utils.llm_prompt_utils import PROMPT_TEMPLATE, CONTEXTUALISE_CHAT_HISTORY_PROMPT
+from src.services.vector_db import get_chromadb_retriever
+from src.utils.llm_prompt_utils import PROMPT_TEMPLATE, CONTEXTUALISE_CHAT_HISTORY_PROMPT
 
 import os
 from dotenv import load_dotenv

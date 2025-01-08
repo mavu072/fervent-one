@@ -1,4 +1,6 @@
-censored_categories = ["PERSON"]
+from  src.utils.ner_entity_category_utils import ner_entity_categories
+
+censored_categories = ner_entity_categories
 
 def censor_named_entities(entities: (str, str), text: str):
     """Censors named entities within a string."""

@@ -1,6 +1,6 @@
 from typing import List
 
-from models.message import Message
+from src.models.message import Message
 
 def convert_message_list_to_pairs(msg_list: List[Message]):
     pairs = []

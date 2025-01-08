@@ -2,7 +2,7 @@ from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 
-from utils.file_utils import create_directory_if_not_exists
+from src.utils.file_utils import create_directory_if_not_exists
 
 import os
 from dotenv import load_dotenv

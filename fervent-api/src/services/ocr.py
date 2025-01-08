@@ -1,37 +1,49 @@
-from fastapi import UploadFile
-from PIL import Image
+from typing import BinaryIO, TextIO
+
+from PIL import Image, ImageFile
 from pdf2image import convert_from_bytes
 
-import os
-import io
+from src.services.disk_storage import mkdir_if_not_exists, rm_file_if_exists, write_to_file
+
 import pytesseract
 import threading
+import io
 
-from dotenv import load_dotenv
 
-load_dotenv()
+def ocr_image_to_text(images: list, filename: str):
+    """Start a thread to run images through OCR and write the text content to a file."""
 
-DOCUMENT_DIR = os.getenv("DOCUMENT_DIR")
-docs_dir = DOCUMENT_DIR
-
-def ocr_image_to_text(images, filename: str):
-    """Start a thread to run images through OCR engine."""
-
-    thread = threading.Thread(target=read_images_to_text, args=(images, filename,), name=f"Reading {filename}")
+    thread = threading.Thread(target=extract_file_and_write_to_disk, args=(images, filename), name=f"Reading {filename}")
     thread.start()
 
-    print(f">>> Starting thread: {thread.getName()}")
+    print(f">>> Starting thread: {thread.name}")
 
 
-async def convert_pdf_to_image(file: UploadFile):
-    """Converts pages of a PDF file into images."""
+def extract_file_and_write_to_disk(file_pages: list, filename: str):
+    """Extracts file text contents and writes them to disk in a text file."""
+
+    print(f">>> Starting to read file: {filename}")
+
+    mkdir_if_not_exists()
+    rm_file_if_exists(filename)
+
+    file_content_pages = read_images_to_text(images=file_pages)
+
+    for page in file_content_pages:
+        write_to_file(filename=filename, content=page)
+
+    print(f">>> Completed reading file: {filename}, pages: {len(file_pages)}")
+
+
+def convert_pdf_to_image(file: BinaryIO | TextIO, mime_type: str):
+    """Converts PDF pages to images. If file is an image, it wraps it in a list."""
 
     if not file:
         raise Exception(f"{str(file)} is not a valid file.")
 
-    contents = await file.read()
+    contents = file.read()
 
-    if file.content_type == "application/pdf":
+    if mime_type == "application/pdf" or mime_type == "text/plain":
         images = convert_from_bytes(contents)
     else:
         images = [Image.open(io.BytesIO(contents))]
@@ -39,71 +51,18 @@ async def convert_pdf_to_image(file: UploadFile):
     return images
 
 
-def read_images_to_text(images, filename: str):
+def read_images_to_text(images: list):
     """Uses OCR engine to read text from image files."""
 
     if not images:
         raise Exception(f"{str(images)} is not a valid input.")
-
-    mkdir_if_not_exists()
-    rm_file_if_exists(filename)
 
     pages = []
 
     for image in images:
         page = pytesseract.image_to_string(image)
         pages.append(page)
-        write_to_file(filename, page)
 
-    print(f">>> Completed reading file: {filename}, pages: {len(pages)} ")
     return pages
 
 
-def write_to_file(filename: str, content: str):
-    """Writes content to a file and creates the file if it does not exist."""
-
-    fpath = f"{docs_dir}/{filename}.txt"
-
-    file = open(fpath, "a")
-    file.write(content)
-    file.close()
-
-
-def read_from_file(filename):
-    """Reads content from a file, if it exists."""
-
-    fpath = f"{docs_dir}/{filename}.txt"
-
-    if os.path.exists(fpath):
-        file = open(fpath)
-        content = file.read()
-    else:
-        raise Exception(f"{filename} file does not exist")
-        
-    return content
-
-
-def find_all_files():
-    """Lists all files in the document directory."""
-
-    mkdir_if_not_exists()
-    
-    return os.listdir(docs_dir)
-
-
-def rm_file_if_exists(filename):
-    """Deletes a file from document directory, if it exists."""
-
-    fpath = f"{docs_dir}/{filename}.txt"
-
-    if os.path.exists(fpath):
-        os.remove(fpath)
-        print(f">>> Deleted file: {fpath}")
-
-
-def mkdir_if_not_exists():
-    """Creates a document directory, if it does not exist."""
-
-    if not os.path.exists(docs_dir):
-        os.mkdir(docs_dir)
-        print(f">>> Created directory: {docs_dir}")

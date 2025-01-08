@@ -11,3 +11,5 @@ pillow
 pdf2image
 pytesseract
 spacy
+pytest
+pytest_asyncio

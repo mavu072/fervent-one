@@ -1,6 +1,6 @@
 # Fervent API
 
-Fervent API is REST service that exposes endpoints for interacting with these services:
+Fervent API is RESTful API that exposes endpoints for interacting with these services:
 - inferencing language models (LLMs) to generate responses, 
 - retrieval augmented generation (RAG) to generate responses informed by documents, 
 - optical character recognition (OCR) to read PDF files and,
@@ -19,26 +19,26 @@ To set up a virtual env, do the following:
 
 - Install `virtualenv` and create `venv` directory:
 
-```zsh
+```commandline
 pip install virtualenv
 virtualenv venv
 ```
 
 - Activate `venv` in Windows with:
 
-```powershell
+```commandline
 venv\Scripts\activate
 ```
 
 - Activate `venv` in Mac or Linux with:
 
-```
+```zsh
 source venv/bin/activate
 ```
 
 - Deactivate `venv` with:
 
-```
+```commandline
 deactivate
 ```
 
@@ -52,7 +52,8 @@ Download and install [Tesseract](https://tesseract-ocr.github.io/tessdoc/Install
 Add your installation to your PATH variables.
 
 To test if Tesseract is installed correctly, run:
-```zsh
+
+```commandline
 tesseract
 ```
 
@@ -63,7 +64,8 @@ Before installing the dependencies, you must install [Poppler](https://pdf2image
 - **Spacy** is required.
 
 Download spacy and models.
-```zsh
+
+```commandline
 pip install -U pip setuptools wheel
 pip install -U spacy
 python -m spacy download en_core_web_sm
@@ -77,7 +79,7 @@ You will need an OpenAI API key. Create one on the [OpenAI Platform](https://pla
 
 1. Install dependencies.
 
-```zsh
+```commandline
 pip install -r requirements.txt
 ```
 
@@ -89,27 +91,52 @@ Create an `.env file` and add the environment variables.
 OPENAI_API_KEY = "xxxxxxxx"
 CHROMA_DIR = "__chroma__"
 DOCUMENT_DIR = "__local__"
-ALLOWED_ORIGIN = "*" # Insecure: Allows all origins, not for production
+ALLOWED_ORIGIN = "*" # Add allowed origin. Hint: This should be where your frontend is running.
 ```
 
 3. Run application.
 
-```zsh
+```commandline
 python -m uvicorn main:app --reload
 ```
 or
-```zsh
+```commandline
 uvicorn main:app --reload
 ```
 
-To make the application available on your local network, use:
+#### Logging
+When you run the application with uvicorn, all the logs in the console/terminal are default uvicorn logs.
+These logs do not contain timestamps and information from other processes. To access more verbose logs, 
+you must override uvicorn logs as follows:
+
+```commandline
+ uvicorn main:app --reload --log-config=log_conf.yaml
 ```
---host 0.0.0.0 # Your IP Address
+
+The log configurations are defined in the `log_conf.yaml` file.
+
+#### Deploy on your Private Network 
+To deploy the application on your private or home network, use the flag:
+
+```commandline
+uvicorn main:app  --host 0.0.0.0
 ```
-Default: '127.0.0.1'.
+
+Using `0.0.0.0` is the equivalent of `127.0.0.1`.
 
 4. Test your application.
 
-Once your application is running. Visit `http://127.0.0.1:8000/`. To see the API documentation. Visit `http://127.0.0.1:8000/docs#/`.
+Once your application is running. Visit `http://127.0.0.1:8000/`. 
+To see the API documentation. Visit `http://127.0.0.1:8000/docs#/`.
 
 ---
+
+## Making your first request
+
+Before you can query the vector database or start talking to the language models.
+You will need to complete a few more steps.
+
+1. Upload files to vector database.
+1. Initialize the vector database with the files.
+
+Done! Now, you can start querying the database and talk to the models. 

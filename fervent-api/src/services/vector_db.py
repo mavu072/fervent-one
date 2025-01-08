@@ -2,8 +2,8 @@ from langchain_chroma import Chroma
 from langchain.schema import Document
 from langchain_openai import OpenAIEmbeddings
 
-from services.document_loader import load_document_dir, split_documents_to_chunks
-from utils.file_utils import create_directory_if_not_exists
+from src.services.document_loader import load_document_dir, split_documents_to_chunks
+from src.utils.file_utils import create_directory_if_not_exists
 
 import os
 from dotenv import load_dotenv
