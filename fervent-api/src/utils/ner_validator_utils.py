@@ -1,14 +1,13 @@
-from  src.utils.ner_entity_category_utils import ner_entity_categories
+from src.utils.ner_entity_category_utils import entity_categories
 
-censored_categories = ner_entity_categories
 
-def censor_named_entities(entities: (str, str), text: str):
+def censor_named_entities(entities: tuple[str, str], text: str):
     """Censors named entities within a string."""
 
     censored = text
 
     for entity, category in entities:
-        if category in censored_categories:
+        if category in entity_categories:
             censored = censored.replace(entity, f"[{category}]")
 
     return censored

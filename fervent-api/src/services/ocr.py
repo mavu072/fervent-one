@@ -1,9 +1,8 @@
 from typing import BinaryIO, TextIO
-
-from PIL import Image, ImageFile
+from PIL import Image
 from pdf2image import convert_from_bytes
 
-from src.services.disk_storage import mkdir_if_not_exists, rm_file_if_exists, write_to_file
+from src.services.disk_storage import mkdir_if_not_exists, rm_file_if_exists, write_to_file, get_path_to_file
 
 import pytesseract
 import threading
@@ -30,7 +29,8 @@ def extract_file_and_write_to_disk(file_pages: list, filename: str):
     file_content_pages = read_images_to_text(images=file_pages)
 
     for page in file_content_pages:
-        write_to_file(filename=filename, content=page)
+        filepath = get_path_to_file(filename)
+        write_to_file(filepath=filepath, content=page)
 
     print(f">>> Completed reading file: {filename}, pages: {len(file_pages)}")
 

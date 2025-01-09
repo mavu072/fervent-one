@@ -191,5 +191,4 @@ dist-ssr
 *.sw?
 
 # Runtime directories and files
-__chroma__/
-__local__/
+tmp/

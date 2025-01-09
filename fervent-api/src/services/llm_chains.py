@@ -11,7 +11,7 @@ def run_retrieval_chain(query_text:str):
     print(f">>>>> Query: {query_text}")
     results = query_chromadb(query_text)
 
-    print(f">>>>> Results: {results}")
+    # print(f">>>>> Results: {results}")
     if results is None:
         raise Exception(ERR_NO_MATCH_FOUND)
     
@@ -19,7 +19,7 @@ def run_retrieval_chain(query_text:str):
     print(f">>>>> Context match: {context_text}")
 
     prompt = create_llm_prompt(context_text, query_text)
-    print(f">>>>> Prompt: {prompt}")
+    print(f">>>>> System Prompt: {prompt}")
 
     response = get_llm_prompt_response(prompt)
     print(f">>>>> Response: {response.content}")
