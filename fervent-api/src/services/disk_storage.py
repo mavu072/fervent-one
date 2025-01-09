@@ -26,26 +26,27 @@ def get_path_to_file(filename: str):
     return fpath
 
 
-def write_to_file(filename: str, content: str):
+def is_file_exists(filepath: str):
+    """Determines if file exists."""
+
+    return os.path.exists(filepath)
+
+
+def write_to_file(filepath: str, content: str):
     """Writes content to a file and creates the file if it does not exist."""
 
-    fpath = get_path_to_file(filename)
-
-    file = open(fpath, "a")
+    file = open(filepath, "a")
     file.write(content)
     file.close()
 
 
-def read_from_file(filename: str):
+def read_from_file(filepath: str):
     """Reads content from a file, if it exists."""
 
-    fpath = get_path_to_file(filename)
-
-    if os.path.exists(fpath):
-        file = open(fpath)
+    if is_file_exists(filepath):
+        file = open(filepath)
         content = file.read()
-    else:
-        raise Exception(f"{filename} file does not exist")
+        file.close()
 
     return content
 
@@ -58,11 +59,15 @@ def find_all_files():
     return os.listdir(docs_dir)
 
 
-def rm_file_if_exists(filename: str):
+def rm_file_if_exists(filepath: str):
     """Deletes a file from local document directory, if it exists."""
 
-    fpath = get_path_to_file(filename)
+    deleted = False
 
-    if os.path.exists(fpath):
-        os.remove(fpath)
-        print(f">>> Deleted file: {fpath}")
+    if is_file_exists(filepath):
+        os.remove(filepath)
+        deleted = True
+        
+        print(f">>> Deleted file: {filepath}")
+
+    return deleted

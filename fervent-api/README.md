@@ -26,8 +26,14 @@ virtualenv venv
 
 - Activate `venv` in Windows with:
 
+In Powershell:
 ```commandline
 venv\Scripts\activate
+```
+
+In CMD:
+```commandline
+venv\Scripts\activate.bat
 ```
 
 - Activate `venv` in Mac or Linux with:
@@ -89,8 +95,8 @@ Create an `.env file` and add the environment variables.
 
 ```env
 OPENAI_API_KEY = "xxxxxxxx"
-CHROMA_DIR = "__chroma__"
-DOCUMENT_DIR = "__local__"
+CHROMA_DIR = "tmp/chroma" # Chroma directory. Your vector store is saved here.
+DOCUMENT_DIR = "tmp/sys_files" # Document directory. Your system files are saved here.
 ALLOWED_ORIGIN = "*" # Add allowed origin. Hint: This should be where your frontend is running.
 ```
 
