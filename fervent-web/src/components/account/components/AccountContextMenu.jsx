@@ -35,7 +35,7 @@ function AccountContextMenu() {
                 onClick={handleClick}
                 size="small"
             >
-                <AccountAvatar user={user} tooltipTitle={"Open Menu"} />
+                <AccountAvatar user={user} />
             </IconButton>
             <Menu
                 id="basic-menu"

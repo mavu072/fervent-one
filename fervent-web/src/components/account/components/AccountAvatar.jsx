@@ -15,7 +15,7 @@ import { stringToColor } from "../../../util/colorUtil";
  */
 function AccountAvatar({ user, placement = "bottom", tooltipTitle = undefined }) {
   const username = user.displayName ? user.displayName : user.email;
-  const title = tooltipTitle ? tooltipTitle : username;
+  const title = tooltipTitle ? tooltipTitle : "";
   const avatarBgColor = stringToColor(username);
 
   return (

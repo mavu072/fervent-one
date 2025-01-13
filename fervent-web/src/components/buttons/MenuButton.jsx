@@ -15,9 +15,6 @@ function MenuButton({ onClickHandler }) {
             variant="outlined"
             color="neutral"
             size="sm"
-            sx={{
-                display: { xs: 'flex', lg: 'none' },
-            }}
         >
             <MenuRoundedIcon />
         </IconButton>

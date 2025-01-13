@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -9,43 +7,30 @@ import SnackBarNotification from '../notification/SnackBar';
 import Copyright from '../landing-page/components/Copyright';
 import GoogleSignInButton from './components/GoogleSignInButton';
 import PageTitle from './components/PageTitle';
-import { AppContext } from '../context-provider/AppContext';
 import SignInForm from './components/SignInForm';
+import { AppContext } from '../context-provider/AppContext';
 
+/**
+ * SignInPage.
+ * @returns JSX Component.
+ */
 function SignInPage() {
-    const { authError, user, mode } = useContext(AppContext);
-    
-    const defaultTheme = createTheme({ palette: { mode } });
-    const navigate = useNavigate();
+    const { user, infoMsg, onInfoMessage } = useContext(AppContext);
 
-    const [infoMsg, setInfoMsg] = useState({ message: null, count: 0 }); // Generic state for handling all messages.
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (user) {
-            onMessage("Logged in. Redirecting to home...");
+            onInfoMessage("Logged in. Redirecting to home...");
             setTimeout(() => {
                 navigate('/home');
             }, 3000);
         }
-    }, [user, navigate]);
-
-    useEffect(() => {
-        if (authError) console.log("Monitoring Auth Error:", authError);
-    }, [authError]);
-
-    function onMessage(newMsg) {
-        setInfoMsg((prev) => {
-            return {
-                message: newMsg,
-                count: prev.count + 1,
-            }
-        });
-    }
+    }, [user, navigate, onInfoMessage]);
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        <React.Fragment>
             <Container component="main" maxWidth="xs">
-                <CssBaseline />
                 {infoMsg.message && <SnackBarNotification key={infoMsg.count} message={infoMsg.message} />}
                 <Box
                     sx={{
@@ -56,13 +41,15 @@ function SignInPage() {
                     }}
                 >
                     <PageTitle />
-                    <GoogleSignInButton onError={onMessage} />
+                    <GoogleSignInButton onError={onInfoMessage} />
                     <Typography>or</Typography>
-                    <SignInForm onMessage={onMessage} />
+                    <SignInForm onMessage={onInfoMessage} />
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
+                <Box sx={{ mt: 4 }}>
+                    <Copyright />
+                </Box>
             </Container>
-        </ThemeProvider>
+        </React.Fragment>
     );
 }
 

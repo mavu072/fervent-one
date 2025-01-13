@@ -6,7 +6,7 @@ import TextareaAutosize from './TextareaAutosize';
 import UploadFile from './UploadFile';
 import SendMessageButton from './SendMessageButton';
 import FileItemList from './FileItemList';
-import { scrollbarStyle } from '../util/scrollbarUtil';
+import { scrollbarStyle } from '../../ui/scrollbarUtil';
 
 /**
  * MessageInput.

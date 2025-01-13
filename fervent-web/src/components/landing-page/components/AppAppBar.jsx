@@ -13,10 +13,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from '../../theme/ToggleColorMode';
 import LogoSmall from '../../logo/LogoSmall';
 import GoToLoginButton from '../../login/components/GoToLoginButton';
-import { AppContext } from '../../context-provider/AppContext';
+import { ThemeContext } from '../../context-provider/ThemeContext';
 
 function AppAppBar() {
-  const { mode, toggleColorMode } = useContext(AppContext);
+  const { mode } = useContext(ThemeContext);
 
   const [open, setOpen] = useState(false);
 
@@ -125,7 +125,7 @@ function AppAppBar() {
                 alignItems: 'center',
               }}
             >
-              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+              <ToggleColorMode />
               <GoToLoginButton title={"Sign In"} />
             </Box>
             <Box sx={{ display: { sm: '', md: 'none' } }}>
@@ -155,7 +155,7 @@ function AppAppBar() {
                       flexGrow: 1,
                     }}
                   >
-                    <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+                    <ToggleColorMode />
                   </Box>
                   <MenuItem onClick={() => scrollToSection('features')}>
                     Features

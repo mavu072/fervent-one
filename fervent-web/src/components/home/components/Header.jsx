@@ -1,11 +1,12 @@
 import React from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { toggleSidebar } from '../util/sidebarUtil';
 import { appName } from '../../../util/appNameUtil';
-import MenuButton from './MenuButton';
-import AccountContextMenu from './AccountContextMenu';
+import MenuButton from '../../buttons/MenuButton';
+import AccountContextMenu from '../../account/components/AccountContextMenu';
 import ToggleColorMode from '../../theme/ToggleColorMode';
 
 /**
@@ -42,7 +43,15 @@ function Header() {
           },
         })}
       />
-      <MenuButton onClickHandler={toggleSidebar} />
+      <Stack
+        sx={{
+          display: { xs: 'flex', lg: 'none' },
+          m: 0,
+          p: 0,
+        }}
+      >
+        <MenuButton onClickHandler={toggleSidebar} />
+      </Stack>
       <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap flex={1}>{appName}</Typography>
       <ToggleColorMode />
       <AccountContextMenu />

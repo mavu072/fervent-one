@@ -1,3 +1,5 @@
+import { TYPE_COMPLIANCE_REPORT } from "../constants/reportConstants";
+
 function ReportFactory() {
     
     /**
@@ -8,6 +10,7 @@ function ReportFactory() {
      */
     this.createComplianceReportFromPayload = function (report) {
         return {
+            type: TYPE_COMPLIANCE_REPORT,
             overallComplianceRating: report.overall_compliance_rating,
             nonCompliantSections: report.non_compliant_sections.map(item => {
                 return {

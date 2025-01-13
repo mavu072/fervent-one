@@ -6,6 +6,7 @@ import ReportRepository from "../../repository/ReportRepository";
 import MessageService from "../../service/MessageService";
 import FileService from "../../service/FileService";
 import ReportService from "../../service/ReportService";
+import MessageResponderService from "../../service/MessageResponderService";
 
 export const ServiceContext = createContext();
 
@@ -21,8 +22,9 @@ const ServiceProvider = ({ children }) => {
     const messageService = new MessageService(messageRepository);
     const fileService = new FileService(fileRepository);
     const reportService = new ReportService(reportRepository);
+    const messageResponderService = new MessageResponderService({ userId, messageService, fileService, reportService });
 
-    const contextValue = { messageService, fileService, reportService };
+    const contextValue = { messageService, fileService, reportService, messageResponderService };
 
     return <ServiceContext.Provider value={contextValue}>
         {children}

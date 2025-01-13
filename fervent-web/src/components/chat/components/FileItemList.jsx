@@ -1,7 +1,7 @@
 import React from "react";
 import Stack from '@mui/material/Stack';
 import FileItem from './FileItem';
-import { scrollbarStyle } from '../util/scrollbarUtil';
+import { scrollbarStyle } from '../../ui/scrollbarUtil';
 
 /**
  * FileItemList.

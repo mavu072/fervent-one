@@ -1,9 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppAppBar from './components/AppAppBar';
 import Hero from './components/Hero';
 import Highlights from './components/Highlights';
@@ -14,10 +12,8 @@ import Footer from './components/Footer';
 import { AppContext } from '../context-provider/AppContext';
 
 function LandingPage() {
-  const { user, mode } = useContext(AppContext);
+  const { user } = useContext(AppContext);
   const navigate = useNavigate();
-
-  const defaultTheme = createTheme({ palette: { mode } });
 
   useEffect(() => {
     if (user) {
@@ -26,8 +22,7 @@ function LandingPage() {
   }, [user, navigate]);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
+    <React.Fragment>
       <AppAppBar />
       <Hero />
       <Box sx={{ bgcolor: 'background.default' }}>
@@ -41,7 +36,7 @@ function LandingPage() {
         <Divider />
         <Footer />
       </Box>
-    </ThemeProvider>
+    </React.Fragment>
   );
 }
 

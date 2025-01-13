@@ -1,37 +1,41 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useCollection } from "react-firebase-hooks/firestore";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Pagination from '@mui/material/Pagination';
-import { scrollbarStyle } from "../util/scrollbarUtil";
-import { ServiceContext } from "../../context-provider/ServiceContext";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { formatTime } from "../../../util/dateTimeUtil";
-import SectionLoader from "../../loader/SectionLoader";
-import FolderItem from "./FolderItem";
+import SectionLoader from "../loader/SectionLoader";
+import FolderItem from "./components/FolderItem";
+import { ServiceContext } from "../context-provider/ServiceContext";
+import { scrollbarStyle } from "../ui/scrollbarUtil";
+import { formatTime } from "../../util/dateTimeUtil";
+import { DEF_FILE_LIMIT } from "../../constants/fileConstants";
 
-const DEF_FILE_LIMIT = 10;
-
+/**
+ * FilesPane.
+ * @returns JSX Component
+ */
 function FilesPane() {
     const { fileService } = useContext(ServiceContext);
 
     const [fileLimit, setFileLimit] = useState(DEF_FILE_LIMIT);
-    const [query, setQuery] = useState(fileService.getAll(DEF_FILE_LIMIT));
+    const [query, setQuery] = useState(fileService.getAll(fileLimit, "desc"));
     const [files, isFilesloading, filesError] = useCollection(query);
 
-    // TODO Add custom pagination.
-    const [lastVisible, setLastVisible] = useState(null);
-    const [total, setTotal] = useState(1);
+    // TODO Add Pagination.
+    // const [lastVisible, setLastVisible] = useState(null);
+    // const [total, setTotal] = useState(1);
 
-    useEffect(() => {
-        if (files) {
-            setLastVisible(files.docs[files.size - 1]);
-        }
-    }, [files]);
-
+    // Effect: Save Last Visible Doc for starting Pagination.
     // useEffect(() => {
-    //     setQuery(fileService.getAllWithinRange(lastVisible, fileLimit));
+    //     if (files) {
+    //         setLastVisible(files.docs[files.size - 1]);
+    //     }
+    // }, [files]);
+
+    // Effect: Custom Pagination.
+    // useEffect(() => {
+    //     setQuery(fileService.getAllWithinRange(lastVisible, fileLimit, "desc"));
     // }, [fileLimit]);
 
     return (
@@ -49,13 +53,13 @@ function FilesPane() {
             <Box
                 sx={{
                     display: 'flex',
-                    flexDirection: 'column',
                     flex: 1,
                     minHeight: 0,
                     px: 2,
                     pt: 2,
                     pb: 3,
                     ...scrollbarStyle,
+                    flexDirection: 'column',
                 }}
             >
                 <Stack spacing={2}>

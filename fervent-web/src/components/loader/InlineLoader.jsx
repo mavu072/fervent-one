@@ -5,7 +5,7 @@ function InlineLoader() {
     return (
         <ThreeDots
             visible={true}
-            height="auto"
+            height="10"
             width="40"
             color="#b1aeae"
             radius="9"

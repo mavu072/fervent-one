@@ -4,25 +4,22 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
 import { listItemButtonClasses } from '@mui/material/ListItemButton';
 import { grey } from '@mui/material/colors';
 import { closeSidebar } from '../util/sidebarUtil';
 import { AppContext } from '../../context-provider/AppContext';
+import { ThemeContext } from '../../context-provider/ThemeContext';
 import PaneSelector from './PaneSelector';
 import SignOutButton from '../../login/components/SignOutButton';
 import LogoSmall from '../../logo/LogoSmall';
 
 /**
  * Sidebar.
- * @param {object} props
- * @param {Array<object>} props.paneList List of panes.
- * @param {*} props.selectedPane Stored state of the selected pane.
- * @param {Function} props.onChangeSelectedPane Updater function for the state of the selected pane.
  * @returns JSX Component
  */
-function Sidebar({ selectedPane, onChangeSelectedPane, paneList }) {
-  const { auth, user, mode } = useContext(AppContext);
+function Sidebar() {
+  const { auth, user } = useContext(AppContext);
+  const { mode } = useContext(ThemeContext);
 
   return (
     <Paper
@@ -50,9 +47,9 @@ function Sidebar({ selectedPane, onChangeSelectedPane, paneList }) {
       <GlobalStyles
         styles={(theme) => ({
           ':root': {
-            '--Sidebar-width': '240px',
+            '--Sidebar-width': '280px',
             [theme.breakpoints.up('lg')]: {
-              '--Sidebar-width': '240px',
+              '--Sidebar-width': '300px',
             },
           },
         })}
@@ -93,23 +90,14 @@ function Sidebar({ selectedPane, onChangeSelectedPane, paneList }) {
           },
         }}
       >
-        <List
-          size="sm"
-          sx={{
-            gap: 1,
-            '--List-nestedInsetStart': '30px',
-            '--ListItem-radius': '4px',
-          }}
-        >
-          <PaneSelector selectedPane={selectedPane} onChangeSelectedPane={onChangeSelectedPane} paneList={paneList} />
-        </List>
+        <PaneSelector onClick={closeSidebar} />
       </Box>
 
       {user && (
-        <>
+        <React.Fragment>
           <Divider />
           <SignOutButton label={"Log out"} auth={auth} />
-        </>
+        </React.Fragment>
       )}
     </Paper >
   );
