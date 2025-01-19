@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
  * A hook that adds event listeners to elements and cleans them up when the component unmounts. 
  * @param {string} type Event type
  * @param {Function} handler Event handler
- * @param {HTMLElement} element Target element
+ * @param {Element} element Target element
  */
 function useEventListener(type, handler, element) {
     const savedHandler = useRef(); // Creating a ref to store the event handler.
