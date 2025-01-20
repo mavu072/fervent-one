@@ -26,11 +26,27 @@ function MainContent() {
                 }}
             >
                 <Routes>
-                    <Route path="/" index element={<MessagesPane />} />
-                    <Route path={MESSAGES_PATH} element={<MessagesPane />} />
-                    <Route path={FILES_PATH} element={<FilesPane />} />
-                    <Route path={COMPLIANCE_CHECKER_PATH} element={<ComplianceCheckerPane />} />
-                    <Route path="*" element={<ErrorPageNotFound />} />
+                    <Route
+                        path="/"
+                        index
+                        element={<MessagesPane />}
+                    />
+                    <Route
+                        path={MESSAGES_PATH}
+                        element={<MessagesPane />}
+                    />
+                    <Route
+                        path={FILES_PATH}
+                        element={<FilesPane />}
+                    />
+                    <Route
+                        path={COMPLIANCE_CHECKER_PATH}
+                        element={<ComplianceCheckerPane />}
+                    />
+                    <Route
+                        path="*"
+                        element={<ErrorPageNotFound />}
+                    />
                 </Routes>
             </Paper>
         </Box>

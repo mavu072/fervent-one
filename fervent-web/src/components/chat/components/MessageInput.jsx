@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import TextareaAutosize from './TextareaAutosize';
-import UploadFileButton from '../../buttons/UploadFileButton'
+import UploadFileButton from '../../buttons/UploadFileButton';
 import SendMessageButton from './SendMessageButton';
 import FileInputList from './FileInputList';
 import { scrollbarStyle } from '../../ui/scrollbarUtil';

@@ -1,7 +1,9 @@
 import React from "react";
-import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import AttachFileIcon from '@mui/icons-material/AttachFileRounded';
 import { styled } from "@mui/material/";
 
@@ -18,21 +20,55 @@ const HiddenFileInput = styled('input')({
 });
 
 /**
- * UploadFile.
- * @param {object} props 
+ * UploadFileButton.
+ * @param {object} props Props
+ * @param {string} props.title Button title. Default is `Upload file`.
  * @param {Function} props.onAddSelectedFiles Updater function for the saved state of the file input.
  * @param {string} props.accept Comma seperated file types e.g. ".jpg,.jpeg,.png,.pdf". Defaults to all.
  * @param {boolean} props.multiple Allow multiple files. Defaults to false.
  * @returns JSX Component
  */
-function UploadFile({ onAddSelectedFiles, accept = "*", multiple = false }) {
+export function UploadFileButton({ title = "Upload file", onAddSelectedFiles, accept = "*", multiple = false }) {
 
     const handleChange = (event) => {
         onAddSelectedFiles(event.target.files);
     }
 
     return (
-        <Stack>
+        <Button
+            color="primary"
+            variant="contained"
+            size="small"
+            type="button"
+            component="label"
+        >
+            <Typography textTransform={"none"}>{title}</Typography>
+            <HiddenFileInput
+                type="file"
+                accept={accept} // Accepts images and PDFs
+                multiple={multiple}
+                onChange={handleChange}
+            />
+        </Button>
+    );
+}
+
+/**
+ * UploadFileIconButton.
+ * @param {object} props Props
+ * @param {Function} props.onAddSelectedFiles Updater function for the saved state of the file input.
+ * @param {string} props.accept Comma seperated file types e.g. ".jpg,.jpeg,.png,.pdf". Defaults to all.
+ * @param {boolean} props.multiple Allow multiple files. Defaults to false.
+ * @returns JSX Component
+ */
+function UploadFileIconButton({ onAddSelectedFiles, accept = "*", multiple = false }) {
+
+    const handleChange = (event) => {
+        onAddSelectedFiles(event.target.files);
+    }
+
+    return (
+        <Box>
             <Tooltip title="Upload file">
                 <IconButton
                     component="label"
@@ -49,8 +85,8 @@ function UploadFile({ onAddSelectedFiles, accept = "*", multiple = false }) {
                     />
                 </IconButton>
             </Tooltip>
-        </Stack>
+        </Box>
     );
 }
 
-export default UploadFile;
+export default UploadFileIconButton;
