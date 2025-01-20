@@ -9,11 +9,10 @@ import { stringToColor } from "../../util/colorUtil";
  * AccountAvatar.
  * @param {object} props 
  * @param {firebase.User} props.user
- * @param {string} props.placement
  * @param {string | undefined} props.tooltipTitle
  * @returns JSX Component
  */
-function AccountAvatar({ user, placement = "bottom", tooltipTitle = undefined }) {
+function AccountAvatar({ user, tooltipTitle = undefined, placement = "bottom", variant = "outlined", size = "sm" }) {
   const username = user.displayName ? user.displayName : user.email;
   const title = tooltipTitle ? tooltipTitle : "";
   const avatarBgColor = stringToColor(username);
@@ -21,8 +20,8 @@ function AccountAvatar({ user, placement = "bottom", tooltipTitle = undefined })
   return (
     <Tooltip title={title} placement={placement}>
       <Avatar
-        variant="outlined"
-        size="sm"
+        variant={variant}
+        size={size}
         {...stringAvatar(username, avatarBgColor)}
       />
     </Tooltip>
