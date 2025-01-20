@@ -9,29 +9,25 @@ import MessageInput from './components/MessageInput';
 import InlineLoader from '../loader/InlineLoader';
 import SectionLoader from '../loader/SectionLoader';
 import SnackBarNotification from '../notification/SnackBar';
-import LoadMoreButton from './components/LoadMoreButton';
-import AccountAvatar from '../account/components/AccountAvatar';
+import LoadMoreButton from '../buttons/LoadMoreButton';
+import AccountAvatar from '../account/AccountAvatar';
 import { formatTime } from '../../util/dateTimeUtil';
 import { scrollbarStyle } from '../ui/scrollbarUtil';
 import { grey } from '@mui/material/colors';
 import { appName } from '../../util/appNameUtil';
 import { AppContext } from '../context-provider/AppContext';
 import { ServiceContext } from '../context-provider/ServiceContext';
-import { DEF_MESSAGE_LIMIT } from '../../constants/messageConstants';
-import { scrollToBottom } from '../ui/scrollUtil';
+import { DEF_MESSAGE_LIMIT, FILE_SIZE_LIMIT, LIMIT_INCREMENT_VALUE } from '../../constants/messageConstants';
+import { scrollTo } from '../ui/scrollUtil';
 
 const systemUser = { displayName: appName };
-const complianceReportQueries = [
-  "Please do a quick legal compliance check on this file.",
-  "Are these documents compliant with the law?"
-];
 
 /**
  * MessagesPane.
  * @returns JSX Component
  */
 function MessagesPane() {
-  const { user } = useContext(AppContext);
+  const { user, infoMsg, onInfoMessage } = useContext(AppContext);
   const { messageResponderService: messageResponder, messageService } = useContext(ServiceContext);
 
   const [messageLimit, setMessageLimit] = useState(DEF_MESSAGE_LIMIT);
@@ -39,25 +35,23 @@ function MessagesPane() {
   const [messages, isMessagesloading, messagesError] = useCollection(query);
 
   const [textMessageInput, setTextMessageInput] = useState("");
-  const [previousTextMessageInput, setPreviousTextMessageInput] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [scrollTopPosition, setScrollTopPosition] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null); // TODO Move to Context.
-
-  const messagesContainerRef = useRef(null);
+  
   const messagesEndRef = useRef(null);
   const messagesTopRef = useRef(null);
 
-  // Effect: Update `messages` query when loading more messages.
   useEffect(() => {
+    // Effect: Update `messages` query when loading more messages.
     setQuery(messageService.getAll(messageLimit));
   }, [messageLimit]);
 
-  // Effect: Update chat history state, when `messages` get updated.
   useEffect(() => {
-    scrollToBottom(messagesEndRef);
+    // Effect: Scrolling, when `messages` get updated.
+    scrollTo(messagesEndRef); // Scroll to bottom
+
+    // Effect: Update chat history state, when `messages` get updated.
     setChatHistory(() => {
       return messages?.docs.map(msg => {
         const { content, role } = msg.data();
@@ -69,48 +63,19 @@ function MessagesPane() {
     });
   }, [messages]);
 
-  // Effect: Force-set a compliance query when a file is uploaded. Peforming custom quering on files, may be implemented in the future.
-  useEffect(() => {
-    if (selectedFiles.length > 0) {
-      if (!complianceReportQueries.includes(textMessageInput)) {
-        setPreviousTextMessageInput(textMessageInput); // Save previous input.
-        // Set compliance query.
-        if (selectedFiles.length == 1) {
-          setTextMessageInput(complianceReportQueries[0]);
-        } else {
-          setTextMessageInput(complianceReportQueries[1]);
-        }
-      }
-    } else {
-      // Reverse to previous input when the files are removed.
-      if (complianceReportQueries.includes(textMessageInput)) {
-        setTextMessageInput(previousTextMessageInput);
-      }
-    }
-  }, [selectedFiles, textMessageInput, previousTextMessageInput])
-
-  // Effect: Show messages error, when it occurs.
   useState(() => {
+    // Effect: Show messages error, when it occurs.
     if (messagesError) {
-      setErrorMsg(messagesError.message);
+      onInfoMessage(messagesError?.message || "Firebase Error");
     }
   }, [messagesError]);
-
-
-  /**
-  * Sets or updates scroll top position state.
-  * @param {React.SyntheticEvent} event 
-  */
-  const handleScroll = (event) => {
-    setScrollTopPosition(event.currentTarget.scrollTop);
-  }
 
   /**
    * Sets or updates message limit state.
    */
   const handleLoadOlder = () => {
     setMessageLimit((prevLimit) => {
-      return prevLimit + 10;
+      return prevLimit + LIMIT_INCREMENT_VALUE;
     });
   };
 
@@ -127,23 +92,27 @@ function MessagesPane() {
    * @param {FileList} fileList
    */
   const handleAddSelectedFiles = (fileList) => {
-    const newFiles = [];
-    const maxSize = 20000000; // 20 MB In Bytes. TODO: Add to constants. 
+    const maxSize = FILE_SIZE_LIMIT; // In Bytes.
     const addedFiles = Array.from(fileList); // Convert list to array.
-    const isThereFilesTooLarge = addedFiles.some(file => file.size > maxSize);
     const existingFiles = selectedFiles.map(file => file.name);
+    let uniqueNewFiles = addedFiles.filter(fl => !existingFiles.includes(fl.name)); // Filter duplicate files.
 
-    // Filter large files.
-    if (isThereFilesTooLarge) {
-      const acceptableFiles = addedFiles.filter(file => file.size < maxSize);
-      newFiles.push(...acceptableFiles);
-      setErrorMsg(`Files larger than 20 MB are not allowed.`);
-    } else {
-      newFiles.push(...addedFiles);
+    // File total.
+    let totalFileSize = 0;
+
+    // Count file total.
+    uniqueNewFiles.forEach(file => {
+      totalFileSize = totalFileSize + file.size;
+    });
+    selectedFiles.forEach(file => {
+      totalFileSize = totalFileSize + file.size;
+    });
+
+    // Show error, if required.
+    if (totalFileSize > maxSize) {
+      onInfoMessage("The amount of files you upload must not exceed 2 MB in total.");
+      uniqueNewFiles = [];
     }
-
-    // Filter duplicate files.
-    const uniqueNewFiles = newFiles.filter(fl => !existingFiles.includes(fl.name));
 
     setSelectedFiles((prevFiles) => {
       return [...prevFiles, ...uniqueNewFiles];
@@ -183,13 +152,10 @@ function MessagesPane() {
         // Save file messages and files.
         const savedMsgsAndFiles = await messageResponder.saveHumanFiles(uploadedFiles)
         console.log("Saved messages and files:", savedMsgsAndFiles);
-        // Will need attachment Ids to link to Report later.
 
         // Get assisant response to text with files.
         const savedResp = await messageResponder.getAndSaveSystemResponseWithFiles(uploadedFiles);
         console.log("Assistant response:", savedResp);
-
-        
       } else {
         // Get assisant response to text.
         const savedResp = await messageResponder.getAndSaveSystemResponse(newUserMsg, chatHistory);
@@ -197,8 +163,7 @@ function MessagesPane() {
       }
 
     } catch (error) {
-      console.error(error);
-      setErrorMsg(error.message);
+      onInfoMessage(error?.message || "Messaging Error");
     } finally {
       setIsTyping(false); // Stop typing effect.
     }
@@ -217,10 +182,8 @@ function MessagesPane() {
       }}
     >
       {isMessagesloading && <SectionLoader />}
-      {errorMsg && <SnackBarNotification message={errorMsg} />}
+      {infoMsg.message && <SnackBarNotification key={infoMsg.count} message={infoMsg.message} />}
       <Box
-        ref={messagesContainerRef}
-        onScroll={handleScroll}
         sx={{
           display: 'flex',
           flex: 1,

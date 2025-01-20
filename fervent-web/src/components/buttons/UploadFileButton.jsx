@@ -21,9 +21,11 @@ const HiddenFileInput = styled('input')({
  * UploadFile.
  * @param {object} props 
  * @param {Function} props.onAddSelectedFiles Updater function for the saved state of the file input.
+ * @param {string} props.accept Comma seperated file types e.g. ".jpg,.jpeg,.png,.pdf". Defaults to all.
+ * @param {boolean} props.multiple Allow multiple files. Defaults to false.
  * @returns JSX Component
  */
-function UploadFile({ onAddSelectedFiles }) {
+function UploadFile({ onAddSelectedFiles, accept = "*", multiple = false }) {
 
     const handleChange = (event) => {
         onAddSelectedFiles(event.target.files);
@@ -41,8 +43,8 @@ function UploadFile({ onAddSelectedFiles }) {
                     <AttachFileIcon />
                     <HiddenFileInput
                         type="file"
-                        accept=".jpg,.jpeg,.png,.pdf" // Accepts images and PDFs
-                        multiple={true}
+                        accept={accept} // Accepts images and PDFs
+                        multiple={multiple}
                         onChange={handleChange}
                     />
                 </IconButton>

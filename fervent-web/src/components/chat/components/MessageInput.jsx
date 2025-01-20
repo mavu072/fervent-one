@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import TextareaAutosize from './TextareaAutosize';
-import UploadFile from './UploadFile';
+import UploadFileButton from '../../buttons/UploadFileButton'
 import SendMessageButton from './SendMessageButton';
-import FileItemList from './FileItemList';
+import FileInputList from './FileInputList';
 import { scrollbarStyle } from '../../ui/scrollbarUtil';
 
 /**
@@ -52,7 +52,7 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
             pb: 1,
             pt: 1,
         }}>
-            <FileItemList fileList={selectedFiles} onRemoveFile={onRemoveFile} />
+            <FileInputList fileList={selectedFiles} onRemoveFile={onRemoveFile} />
             <Stack
                 sx={{
                     display: 'flex',
@@ -62,11 +62,11 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
                 }}
             >
                 <Stack sx={{ pb: 3 }}>
-                    <UploadFile onAddSelectedFiles={onAddSelectedFiles} />
+                    <UploadFileButton onAddSelectedFiles={onAddSelectedFiles} accept=".jpg,.jpeg,.png,.pdf" multiple />
                 </Stack>
                 <FormControl sx={{ flexGrow: 1, mb: 2.5, px: 1, }}>
                     <TextareaAutosize
-                        placeholder="Hello, how I can help you today…"
+                        placeholder="Hi, how I can help you today?"
                         aria-label="Message"
                         ref={textAreaRef}
                         onChange={handleChange}

@@ -11,3 +11,6 @@ export const OPEN_INTERNAL = "internal"; // If set, a source will be opened inte
 
 // Default message limit.
 export const DEF_MESSAGE_LIMIT = 10;
+export const LIMIT_INCREMENT_VALUE = 10;
+
+export const FILE_SIZE_LIMIT = 2000000; // 2 MB.

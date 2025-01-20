@@ -9,14 +9,14 @@ import IconButton from "@mui/material/IconButton";
 import { Grow } from "@mui/material";
 
 /**
- * FileItem
+ * FileInput.
  * @param {object} props 
  * @param {string | number} props.fileId
  * @param {File} props.file
  * @param {Function} props.onRemoveFile
  * @returns JSX Component
  */
-function FileItem({ fileId, file, onRemoveFile }) {
+function FileInput({ fileId, file, onRemoveFile }) {
 
     function handleClick() {
         onRemoveFile(fileId);
@@ -49,4 +49,4 @@ function FileItem({ fileId, file, onRemoveFile }) {
     );
 }
 
-export default FileItem;
+export default FileInput;

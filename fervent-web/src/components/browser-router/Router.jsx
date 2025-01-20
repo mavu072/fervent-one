@@ -22,6 +22,7 @@ const Router = createBrowserRouter([
     {
         path: '/home/*', // '*' To accommodate the nested routes.
         element: <App />,
+        errorElement: <ErrorPage />
     },
     // {
     //     path: '/privacy',

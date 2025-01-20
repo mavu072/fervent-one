@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { toggleSidebar } from '../util/sidebarUtil';
 import { appName } from '../../../util/appNameUtil';
 import MenuButton from '../../buttons/MenuButton';
-import AccountContextMenu from '../../account/components/AccountContextMenu';
+import AccountContextMenu from '../../account/AccountContextMenu';
 import ToggleColorMode from '../../theme/ToggleColorMode';
 
 /**

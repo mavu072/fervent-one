@@ -1,16 +1,16 @@
 import React from "react";
 import Stack from '@mui/material/Stack';
-import FileItem from './FileItem';
+import FileInput from './FileInput';
 import { scrollbarStyle } from '../../ui/scrollbarUtil';
 
 /**
- * FileItemList.
+ * FileInputList.
  * @param {object} props
  * @param {Array<File>} props.fileList Stored state of the files.
  * @param {Function} props.onRemoveFile
  * @returns JSX Component
  */
-function FileItemList({ fileList, onRemoveFile }) {
+function FileInputList({ fileList, onRemoveFile }) {
     return (
         <Stack
             gap={1}
@@ -25,15 +25,15 @@ function FileItemList({ fileList, onRemoveFile }) {
             }}
         >
             {fileList && fileList.map((file, index) => (
-                <FileItem 
-                key={index} 
-                fileId={index}
-                file={file} 
-                onRemoveFile={onRemoveFile}
+                <FileInput
+                    key={index}
+                    fileId={index}
+                    file={file}
+                    onRemoveFile={onRemoveFile}
                 />
             ))}
         </Stack>
     );
 }
 
-export default FileItemList;
+export default FileInputList;
