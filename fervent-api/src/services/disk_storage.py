@@ -1,13 +1,9 @@
-from dotenv import load_dotenv
-
 from src.utils.file_utils import create_directory_if_not_exists
+from src.config.constants import DOCUMENT_DIR
 
-import os
 
-load_dotenv()
-
-DOCUMENT_DIR = os.getenv("DOCUMENT_DIR")
 docs_dir = DOCUMENT_DIR
+
 
 def mkdir_if_not_exists():
     """Creates the local document directory for storing files, if it does not exist."""

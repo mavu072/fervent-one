@@ -4,16 +4,14 @@ from langchain_openai import OpenAIEmbeddings
 
 from src.services.document_loader import load_document_dir, split_documents_to_chunks
 from src.utils.file_utils import create_directory_if_not_exists
+from src.config.constants import CHROMA_DIR, DOCUMENT_DIR
 
 import os
-import shutil
 from dotenv import load_dotenv
 
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-CHROMA_DIR = os.getenv("CHROMA_DIR")
-DOCUMENT_DIR = os.getenv("DOCUMENT_DIR")
 
 
 def create_vector_store_from_documents(documents: list[Document]):

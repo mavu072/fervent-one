@@ -95,8 +95,6 @@ Create an `.env file` and add the environment variables.
 
 ```env
 OPENAI_API_KEY = "xxxxxxxx"
-CHROMA_DIR = "tmp/chroma" # Chroma directory. Your vector store is saved here.
-DOCUMENT_DIR = "tmp/sys_files" # Document directory. Your system files are saved here.
 ALLOWED_ORIGIN = "*" # Add allowed origin. Hint: This should be where your frontend is running.
 ```
 
@@ -125,7 +123,7 @@ The log configurations are defined in the `log_conf.yaml` file.
 To deploy the application on your private or home network, use the flag:
 
 ```commandline
-uvicorn main:app  --host 0.0.0.0
+uvicorn main:app --host 0.0.0.0
 ```
 
 Using `0.0.0.0` is the equivalent of `127.0.0.1`.
@@ -135,7 +133,6 @@ Using `0.0.0.0` is the equivalent of `127.0.0.1`.
 Once your application is running. Visit `http://127.0.0.1:8000/`. 
 To see the API documentation. Visit `http://127.0.0.1:8000/docs#/`.
 
----
 
 ## Making your first request
 
@@ -146,3 +143,20 @@ You will need to complete a few more steps.
 1. Initialize the vector database with the files.
 
 Done! Now, you can start querying the database and talk to the models. 
+
+
+## Unit testing
+
+Unit tests have been configured and are runnable with `pytest`. To run unit tests, use the command:
+
+```commandline
+python -m pytest
+```
+
+You can also run tests on a single file, by using the command:
+
+```commandline
+python -m pytest tests/config/test_constants.py
+```
+
+---
