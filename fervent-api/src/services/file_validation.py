@@ -1,5 +1,6 @@
 from typing import BinaryIO, TextIO
 
+
 def validate_uploaded_file(filename: str, file: BinaryIO | TextIO, size: int, mime_type: str):
     """Validates an uploaded file."""
 

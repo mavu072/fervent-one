@@ -17,6 +17,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 llm = ChatOpenAI()
 retriever = get_chromadb_retriever()
 
+
 def create_llm_prompt(context_text:str, query_text:str):
     """Creates the LLM prompt from a prompt template."""
 

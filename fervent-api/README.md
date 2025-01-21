@@ -136,13 +136,14 @@ To see the API documentation. Visit `http://127.0.0.1:8000/docs#/`.
 
 ## Making your first request
 
-Before you can query the vector database or start talking to the language models.
+Before you can query the vector database or start talking to the models.
 You will need to complete a few more steps.
 
-1. Upload files to vector database.
-1. Initialize the vector database with the files.
+- Using the swagger interactive API docs or Postman:
+    1. Upload files to local storage. To get you started, some files have been placed in the [samples](./sample-files/uploads) folder.
+    2. Initialize the vector database. A vector store will be initialized with the files in the local storage.
 
-Done! Now, you can start querying the database and talk to the models. 
+Done! Now, you can start querying the database and talking to the models. 
 
 
 ## Unit testing
