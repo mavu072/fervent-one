@@ -28,7 +28,7 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
     }
 
     function handleClick() {
-        if (textMessageInput.trim() !== '') {
+        if (textMessageInput.trim() !== '' || selectedFiles?.length > 0) {
             onSubmit();
             onChangeTextMessageInput('');
             onRemoveAllFiles();

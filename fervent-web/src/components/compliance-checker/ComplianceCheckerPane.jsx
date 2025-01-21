@@ -3,7 +3,6 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import SnackBarNotification from '../notification/SnackBar';
 import Issues from "./components/Issues";
 import DropFileZone from "../drag-and-drop/DropFileZone";
 import PDFViewer from "../pdf-viewer/PDFViewer";
@@ -18,7 +17,7 @@ import { exampleComplianceReport } from "../../api/examples/complianceReportExam
  * @returns JSX Component.
  */
 function ComplianceCheckerPane() {
-    const { user, infoMsg, onInfoMessage } = useContext(AppContext);
+    const { onInfoMessage } = useContext(AppContext);
     const [file, setFile] = useState();
     const [title, setTitle] = useState("");
     const [fileBuffer, setFileBuffer] = useState();
@@ -69,8 +68,6 @@ function ComplianceCheckerPane() {
                 borderRadius: 0,
             }}
         >
-            {/* {analysing && <SectionLoader />} */}
-            {infoMsg.message && <SnackBarNotification key={infoMsg.count} message={infoMsg.message} />}
             <Box
                 sx={{
                     display: 'flex',

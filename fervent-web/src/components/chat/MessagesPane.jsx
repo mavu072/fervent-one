@@ -8,7 +8,6 @@ import ChatBubble from './components/ChatBubble';
 import MessageInput from './components/MessageInput';
 import InlineLoader from '../loader/InlineLoader';
 import SectionLoader from '../loader/SectionLoader';
-import SnackBarNotification from '../notification/SnackBar';
 import LoadMoreButton from '../buttons/LoadMoreButton';
 import AccountAvatar from '../account/AccountAvatar';
 import { formatTime } from '../../util/dateTimeUtil';
@@ -27,7 +26,7 @@ const systemUser = { displayName: appName };
  * @returns JSX Component
  */
 function MessagesPane() {
-  const { user, infoMsg, onInfoMessage } = useContext(AppContext);
+  const { user, onInfoMessage } = useContext(AppContext);
   const { messageResponderService: messageResponder, messageService } = useContext(ServiceContext);
 
   const [messageLimit, setMessageLimit] = useState(DEF_MESSAGE_LIMIT);
@@ -38,7 +37,7 @@ function MessagesPane() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-  
+
   const messagesEndRef = useRef(null);
   const messagesTopRef = useRef(null);
 
@@ -145,7 +144,9 @@ function MessagesPane() {
       const uploadedFiles = [...selectedFiles];
 
       // Save user message and start typing effect.
-      await messageResponder.saveHumanMessage(newUserMsg);
+      if (newUserMsg.trim() !== '') {
+        await messageResponder.saveHumanMessage(newUserMsg);
+      }
       setIsTyping(true);
 
       if (uploadedFiles.length > 0) {
@@ -182,7 +183,6 @@ function MessagesPane() {
       }}
     >
       {isMessagesloading && <SectionLoader />}
-      {infoMsg.message && <SnackBarNotification key={infoMsg.count} message={infoMsg.message} />}
       <Box
         sx={{
           display: 'flex',

@@ -25,7 +25,7 @@ class MessageResponderService {
         // Factory classes.
         this.messageFactory = new MessageFactory();
         this.fileFactory = new FileFactory();
-        this.reportFactory =  new ReportFactory();
+        this.reportFactory = new ReportFactory();
         // Service classes.
         this.messageService = messageService;
         this.fileService = fileService;
@@ -127,35 +127,21 @@ class MessageResponderService {
 
         // 1. Send all uploaded files as one list. 
         console.log("Sending files to API...");
+        // const { response, sources } = await getAssistantResponseWithFiles(userMsg, chatHistory, uploadedFiles);
         await setTimeout(() => { }, 1000); // simulate API call.
 
-        // 2. The API will read all as single input and return a single processing result.
-        const filesResponse = exampleComplianceReport;  // Use example data to mock response.
-
-        // 3. Save the result as a report.
-        const fileReport = this.reportFactory.createComplianceReportFromPayload(filesResponse);
-        const savedReport = await this.reportService.save(fileReport);
-        console.log("Saved report", savedReport);
-
-        // 4. Later, will link the report to all the files uploaded in this action.
-        const reportId = savedReport.id;
-
-        // 5. The report will contain a list of all document analysed and the content found on them.
-        // 6. A Report link will be saved as an assistant message. When clicking the link, the Id will be used to fetch the report data.
-        assistantReponses.push({ content: `Your ${uploadedFiles.length > 1 ? "files have" : "file has"} been processed.` });
-        assistantReponses.push({
-            sources: [{ title: TITLE_COMPLIANCE_REPORT_LINK, link: `/${reportId}`, type: OPEN_INTERNAL }],
-        });
-        console.log("Your files have been processed.");
+        // 2. Get assistant responses.
+        const assistantReponse = { content: `Your ${uploadedFiles.length > 1 ? "files have" : "file has"} been processed.` };
+        assistantReponses.push(assistantReponse);
 
         // Create assistant messages.
         const assistantMsgs = assistantReponses.map(({ content, sources }) => {
-            return this.messageFactory.createMessage({ 
-                content, 
-                sources, 
-                userId: this.userId, 
-                role: ASSISTANT, 
-                createdAt: getServerTimestamp() 
+            return this.messageFactory.createMessage({
+                content,
+                sources,
+                userId: this.userId,
+                role: ASSISTANT,
+                createdAt: getServerTimestamp()
             });
         });
 
