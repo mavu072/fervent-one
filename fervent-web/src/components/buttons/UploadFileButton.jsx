@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Box from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
@@ -29,9 +29,17 @@ const HiddenFileInput = styled('input')({
  * @returns JSX Component
  */
 export function UploadFileButton({ title = "Upload file", onAddSelectedFiles, accept = "*", multiple = false }) {
+    const inputRef = useRef();
+
+    const resetInput = () => {
+        if (inputRef.current) {
+            inputRef.current.value = "";
+        }
+    }
 
     const handleChange = (event) => {
         onAddSelectedFiles(event.target.files);
+        resetInput();
     }
 
     return (
@@ -44,6 +52,7 @@ export function UploadFileButton({ title = "Upload file", onAddSelectedFiles, ac
         >
             <Typography textTransform={"none"}>{title}</Typography>
             <HiddenFileInput
+                ref={inputRef}
                 type="file"
                 accept={accept} // Accepts images and PDFs
                 multiple={multiple}
@@ -62,9 +71,17 @@ export function UploadFileButton({ title = "Upload file", onAddSelectedFiles, ac
  * @returns JSX Component
  */
 function UploadFileIconButton({ onAddSelectedFiles, accept = "*", multiple = false }) {
+    const inputRef = useRef();
+
+    const resetInput = () => {
+        if (inputRef.current) {
+            inputRef.current.value = "";
+        }
+    }
 
     const handleChange = (event) => {
         onAddSelectedFiles(event.target.files);
+        resetInput();
     }
 
     return (
@@ -78,6 +95,7 @@ function UploadFileIconButton({ onAddSelectedFiles, accept = "*", multiple = fal
                 >
                     <AttachFileIcon />
                     <HiddenFileInput
+                        ref={inputRef}
                         type="file"
                         accept={accept} // Accepts images and PDFs
                         multiple={multiple}
