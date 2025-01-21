@@ -5,7 +5,7 @@ from langchain.chains import ( create_retrieval_chain, create_history_aware_retr
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
 from src.services.vector_db import get_chromadb_retriever
-from src.utils.llm_prompt_utils import PROMPT_TEMPLATE, CONTEXTUALISE_CHAT_HISTORY_PROMPT
+from src.config.prompt_templates import PROMPT_TEMPLATE, CONTEXTUALISE_CHAT_HISTORY_PROMPT
 
 import os
 from dotenv import load_dotenv
