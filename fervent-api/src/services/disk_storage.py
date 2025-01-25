@@ -1,6 +1,8 @@
 from src.utils.file_utils import create_directory_if_not_exists
 from src.config.constants import DOCUMENT_DIR
 
+import os
+
 
 docs_dir = DOCUMENT_DIR
 
