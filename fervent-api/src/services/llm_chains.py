@@ -18,10 +18,7 @@ def run_retrieval_chain(query_text:str):
     context_text = join_similarity_search_results(results)
     print(f">>>>> Context match: {context_text}")
 
-    prompt = create_llm_prompt(context_text, query_text)
-    print(f">>>>> System Prompt: {prompt}")
-
-    response = get_llm_prompt_response(prompt)
+    response = get_llm_prompt_response(query_text, context_text)
     print(f">>>>> Response: {response.content}")
     print(f">>>>> Response metadata: {response.response_metadata}")
 
@@ -46,3 +43,9 @@ def run_conversational_chain(user_message:str, message_history:list):
 
     # Todo add sources and metadata
     return { "content": response, "message_history": result['chat_history'] }
+
+
+def run_conversational_chain_with_files(user_message: str, message_history: list, files):
+    """ """
+
+    return

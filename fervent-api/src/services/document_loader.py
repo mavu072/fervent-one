@@ -2,8 +2,6 @@ from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 
-import os
-
 
 def load_document_dir(document_dir: str):
     """Loads all text documents from the on-disk document directory."""

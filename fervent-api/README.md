@@ -154,10 +154,20 @@ Unit tests have been configured and are runnable with `pytest`. To run unit test
 python -m pytest
 ```
 
+#### Running single test files
+
 You can also run tests on a single file, by using the command:
 
 ```commandline
 python -m pytest tests/config/test_constants.py
+```
+
+#### Print output to console
+
+When running tests, you may want to print output to the console. Use `-s` to allow prints to show on the console:
+
+```commandline
+python -m pytest -s
 ```
 
 ---

@@ -1,6 +1,6 @@
 from fastapi.responses import JSONResponse
 
-from src.models.message import Message
+from src.models.chat_message import ChatMessage
 from src.services.ner import find_named_entities
 from src.services.llm_chains import run_retrieval_chain, run_conversational_chain
 from src.utils.message_utils import format_chat_history, censor_name_entities_in_message_list
@@ -12,7 +12,7 @@ entity_categories = [PERSON] # Censored entities for this LLM module.
 
 
 def send_message_to_assistant_with_retrieval_chain(query: str):
-    """Send a message or query to the LLM with no message history context."""
+    """Send a message or query to the LLM and get a response."""
     try:
         entity_list = find_named_entities(query, entity_categories)
         censored_query = censor_named_entities(entity_list, query)
@@ -34,8 +34,8 @@ def send_message_to_assistant_with_retrieval_chain(query: str):
         )
     
 
-def send_message_to_assistant_with_conversational_chain(message: str, prev_messages: list[Message]):
-    """Send a message to the LLM with conversational history to create a history aware response."""
+def send_message_to_assistant_with_conversational_chain(message: str, prev_messages: list[ChatMessage]):
+    """Send a message to the LLM with conversational history to get a history aware response."""
     try:
         entity_list = find_named_entities(message, entity_categories)
         censored_message = censor_named_entities(entity_list, message)
