@@ -1,5 +1,5 @@
 from src.services.llm import get_llm_prompt_response, get_llm_conversational_response
-from src.services.llm import create_llm_prompt, get_content_sources
+from src.services.llm import get_content_sources
 from src.services.vector_db import query_chromadb
 from src.utils.vector_db_utils import join_similarity_search_results
 from src.utils.exception_utils import ERR_NO_MATCH_FOUND
