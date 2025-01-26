@@ -2,8 +2,8 @@ from langchain_chroma import Chroma
 from langchain.schema import Document
 from langchain_openai import OpenAIEmbeddings
 
-from src.services.document_loader import load_document_dir, split_documents_to_chunks
-from src.utils.file_utils import create_directory_if_not_exists
+from src.services.document_loader import load_directory, split_documents_to_chunks
+from src.services.disk_storage import mkdir_if_not_exists
 from src.config.constants import CHROMA_DIR, DOCUMENT_DIR
 
 import os
@@ -56,15 +56,15 @@ def query_chromadb(query: str):
 def init_chromadb():
     """Initializes Chroma database and loads documents in the local disk storage into the vector database."""
 
-    create_directory_if_not_exists(DOCUMENT_DIR)
+    mkdir_if_not_exists(DOCUMENT_DIR)
     
-    documents = load_document_dir(DOCUMENT_DIR)
+    documents = load_directory(DOCUMENT_DIR)
     print(f">>> Loaded {len(documents)} documents from directory: {DOCUMENT_DIR}.")
 
     chunks = split_documents_to_chunks(documents)
     print(f">>> Split {len(documents)} documents into {len(chunks)} chunks.")
 
-    create_directory_if_not_exists(CHROMA_DIR)
+    mkdir_if_not_exists(CHROMA_DIR)
     Chroma.delete_collection(get_chroma_client())
 
     create_vector_store_from_documents(chunks)

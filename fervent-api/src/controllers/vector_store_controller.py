@@ -1,6 +1,6 @@
 from fastapi.responses import JSONResponse
 
-from src.services.vector_db import init_chromadb, query_chromadb
+from src.services.vector_store import init_chromadb, query_chromadb
 
 import traceback
 

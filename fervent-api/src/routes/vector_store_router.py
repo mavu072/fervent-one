@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from src.utils.api_tags_utils import API_TAGS
-from src.controllers.vector_db_controller import initialize_chroma_database, similarity_search_on_chroma
+from src.controllers.vector_store_controller import initialize_chroma_database, similarity_search_on_chroma
 
 
 router = APIRouter()
