@@ -1,5 +1,4 @@
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.schema import Document
 from langchain_openai import ChatOpenAI
 from langchain.chains import ( create_retrieval_chain, create_history_aware_retriever )
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -62,10 +61,3 @@ def get_llm_conversational_response(query_message: str, message_history: list):
 
     return response
 
-
-def get_content_sources(results: list[tuple[Document, float]]):
-    """Returns a list of paragraphs used as sources for the response."""
-
-    sources = [[f'Source: {doc.metadata.get("source", None)}, Quoted text: {doc.page_content}'] for doc, _score in results]
-
-    return sources

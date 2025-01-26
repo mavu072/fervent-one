@@ -5,6 +5,8 @@ nlp = spacy.load("en_core_web_sm")
 
 
 def find_named_entities(text: str, ner_categories: list[str]):
+    """Finds named entities in the text."""
+
     entity_list = []
     doc = nlp(text)
 
