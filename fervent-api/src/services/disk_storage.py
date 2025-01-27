@@ -1,4 +1,3 @@
-from src.utils.file_utils import create_directory_if_not_exists
 from src.config.constants import DOCUMENT_DIR
 
 import os
@@ -7,10 +6,18 @@ import os
 docs_dir = DOCUMENT_DIR
 
 
-def mkdir_if_not_exists():
+def mk_doc_dir_if_not_exists():
     """Creates the local document directory for storing files, if it does not exist."""
 
-    create_directory_if_not_exists(docs_dir)
+    mkdir_if_not_exists(docs_dir)
+
+
+def find_all_files():
+    """Lists all files in the document directory."""
+
+    mk_doc_dir_if_not_exists()
+
+    return os.listdir(docs_dir)
 
 
 def get_path_to_file(filename: str):
@@ -49,16 +56,8 @@ def read_from_file(filepath: str):
     return content
 
 
-def find_all_files():
-    """Lists all files in the document directory."""
-
-    mkdir_if_not_exists()
-
-    return os.listdir(docs_dir)
-
-
 def rm_file_if_exists(filepath: str):
-    """Deletes a file from local document directory, if it exists."""
+    """Deletes a file, if it exists."""
 
     deleted = False
 
@@ -69,3 +68,10 @@ def rm_file_if_exists(filepath: str):
         print(f">>> Deleted file: {filepath}")
 
     return deleted
+
+
+def mkdir_if_not_exists(directory: str):
+    """Creates a directory, if it does not exist."""
+
+    if not os.path.exists(directory):
+        os.mkdir(directory)

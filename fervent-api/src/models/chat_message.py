@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 from enum import Enum
+from fastapi import UploadFile
 
 
 class Role(str, Enum):
@@ -16,3 +17,5 @@ class ChatMessage(BaseModel):
 class Chat(BaseModel):
     new_message: str
     prev_messages: List[ChatMessage]
+    new_files: List[UploadFile] | None
+    uniqueIdentifier: str | None # For identifying a conversation with its previously uploaded files.

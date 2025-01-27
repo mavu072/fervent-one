@@ -3,7 +3,7 @@ from langchain_openai import ChatOpenAI
 from langchain.chains import ( create_retrieval_chain, create_history_aware_retriever )
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
-from src.services.vector_db import get_chromadb_retriever
+from src.services.vectorstores.chroma import get_chromadb_retriever
 from src.config.prompt_templates import QA_PROMPT_TEMPLATE, CONTEXTUALISE_CHAT_HISTORY_PROMPT, SYSTEM_INSTRUCTION_PROMPT_V2 as SYSTEM_INSTRUCTION_PROMPT
 
 import os

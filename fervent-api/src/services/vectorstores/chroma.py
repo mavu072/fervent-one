@@ -33,7 +33,7 @@ def get_chroma_client():
 
 
 def get_chromadb_retriever():
-    """Get Chroma database as a retriever interface."""
+    """Get Chroma vector store (database) as a retriever interface."""
 
     db = get_chroma_client()
     retriever = db.as_retriever(search_type="similarity", search_kwargs={"k":3})
@@ -42,7 +42,7 @@ def get_chromadb_retriever():
 
 
 def query_chromadb(query: str):
-    """Queries Chroma database."""
+    """Queries Chroma vector store (database)."""
 
     db = get_chroma_client()
     docs = db.similarity_search_with_relevance_scores(query, k=3)
@@ -54,7 +54,9 @@ def query_chromadb(query: str):
 
 
 def init_chromadb():
-    """Initializes Chroma database and loads documents in the local disk storage into the vector database."""
+    """Initializes a default Chroma vector store (database),
+      and loads documents in the local disk storage into the vector store.
+    """
 
     mkdir_if_not_exists(DOCUMENT_DIR)
     

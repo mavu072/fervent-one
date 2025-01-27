@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.routes.vector_db_router import router as vector_db_router
+from src.routes.vectorstore_router import router as vectorstore_router
 from src.routes.disk_storage_router import router as disk_storage_router
 from src.routes.ocr_extraction_router import router as ocr_extraction_router
 from src.routes.ner_entity_router import router as ner_entity_router
@@ -40,7 +40,7 @@ app.add_middleware(
 )
 
 # Include routes.
-app.include_router(vector_db_router)
+app.include_router(vectorstore_router)
 app.include_router(disk_storage_router)
 app.include_router(ocr_extraction_router)
 app.include_router(ner_entity_router)
