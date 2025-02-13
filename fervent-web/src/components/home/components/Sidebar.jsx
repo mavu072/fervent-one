@@ -7,7 +7,7 @@ import { listItemButtonClasses } from '@mui/material/ListItemButton';
 import { grey } from '@mui/material/colors';
 import { closeSidebar } from '../util/sidebarUtil';
 import { ThemeContext } from '../../context-provider/ThemeContext';
-import PaneSelector from './PaneSelector';
+import PaneNavigation from './PaneNavigation';
 import AppLogoIcon from '../../logo/AppLogo';
 
 /**
@@ -86,7 +86,7 @@ function Sidebar() {
           },
         }}
       >
-        <PaneSelector onClick={closeSidebar} />
+        <PaneNavigation onClick={closeSidebar} />
       </Box>
     </Paper >
   );

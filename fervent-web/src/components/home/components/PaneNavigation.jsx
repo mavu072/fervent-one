@@ -8,11 +8,11 @@ import Typography from '@mui/material/Typography';
 import { PaneNavigationContext } from "../../context-provider/PaneNavigationContext";
 
 /**
- * PaneSelector.
+ * PaneNavigation.
  * @description Switch between panes.
  * @returns JSX Component
  */
-function PaneSelector({ onClick = undefined }) {
+function PaneNavigation({ onClick = undefined }) {
   const { selectedPane, onSwitchPane, paneList } = useContext(PaneNavigationContext);
  
   function handleClick(panePath) {
@@ -69,4 +69,4 @@ function PaneSelector({ onClick = undefined }) {
   )
 }
 
-export default PaneSelector;
+export default PaneNavigation;
