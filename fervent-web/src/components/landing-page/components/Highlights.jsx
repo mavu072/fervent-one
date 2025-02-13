@@ -83,7 +83,7 @@ export default function Highlights() {
             Why Choose {appName}?
           </Typography>
           <Typography variant="body1" sx={{ color: 'grey.400' }}>
-          Discover the Benefits of {appName}.
+            Discover the Benefits of {appName}.
           </Typography>
         </Box>
         <Grid container spacing={2.5}>

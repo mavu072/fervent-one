@@ -7,9 +7,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Copyright from './Copyright';
-import { appName, gitRepo } from '../../../util/appNameUtil';
-import { logoStyle, logoLight, logoDark } from '../../../util/logoUtil';
+import { gitRepo } from '../../../util/appNameUtil';
 import { ThemeContext } from '../../context-provider/ThemeContext';
+import { AppLogoHorizontal } from '../../logo/AppLogo';
 
 function Footer() {
   const { mode } = useContext(ThemeContext);
@@ -21,7 +21,7 @@ function Footer() {
         flexDirection: 'column',
         alignItems: 'center',
         gap: { xs: 4, sm: 8 },
-        py: { xs: 8, sm: 10 },
+        py: { xs: 5, sm: 10 },
         textAlign: { sm: 'center', md: 'left' },
       }}
     >
@@ -41,16 +41,13 @@ function Footer() {
             minWidth: { xs: '100%', sm: '60%' },
           }}
         >
-          <Box sx={{ width: { xs: '100%', sm: '60%' } }}>
-            <Box sx={{ 
-              ml: { xs: '5px' }
-              }}>
-              <img
-                src={mode === 'light' ? logoLight : logoDark}
-                style={logoStyle}
-                alt={appName}
-              />
-            </Box>
+          <Box flex={1}
+            sx={{
+              display: "flex",
+              justifyContent: { xs: "center", md: "left" },
+            }}
+          >
+            <AppLogoHorizontal mode={mode} />
           </Box>
         </Box>
         <Box
@@ -118,7 +115,7 @@ function Footer() {
           borderColor: 'divider',
         }}
       >
-        <div>
+        <Box>
           <Link color="text.secondary" href="/privacy">
             Privacy Policy
           </Link>
@@ -129,7 +126,7 @@ function Footer() {
             Terms of Service
           </Link>
           <Copyright />
-        </div>
+        </Box>
         <Stack
           direction="row"
           justifyContent="left"

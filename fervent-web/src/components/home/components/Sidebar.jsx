@@ -3,22 +3,18 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
 import { listItemButtonClasses } from '@mui/material/ListItemButton';
 import { grey } from '@mui/material/colors';
 import { closeSidebar } from '../util/sidebarUtil';
-import { AppContext } from '../../context-provider/AppContext';
 import { ThemeContext } from '../../context-provider/ThemeContext';
 import PaneSelector from './PaneSelector';
-import SignOutButton from '../../login/components/SignOutButton';
-import LogoSmall from '../../logo/LogoSmall';
+import AppLogoIcon from '../../logo/AppLogo';
 
 /**
  * Sidebar.
  * @returns JSX Component
  */
 function Sidebar() {
-  const { auth, user } = useContext(AppContext);
   const { mode } = useContext(ThemeContext);
 
   return (
@@ -75,7 +71,7 @@ function Sidebar() {
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
         <Stack sx={{ alignItems: 'left', flexGrow: 1 }}>
-          <LogoSmall mode={mode} />
+          <AppLogoIcon mode={mode} />
         </Stack>
       </Box>
       <Box
@@ -92,13 +88,6 @@ function Sidebar() {
       >
         <PaneSelector onClick={closeSidebar} />
       </Box>
-
-      {user && (
-        <React.Fragment>
-          <Divider />
-          <SignOutButton label={"Log out"} auth={auth} />
-        </React.Fragment>
-      )}
     </Paper >
   );
 }

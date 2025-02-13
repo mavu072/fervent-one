@@ -1,8 +1,8 @@
 import React from "react";
-import { logoShortStyle, logoShortLight, logoShortDark } from '../../util/logoUtil';
+import { logoShortStyle, logoShortLight, logoShortDark, logoLight, logoDark, logoStyle } from '../../util/logoUtil';
 import { appName } from '../../util/appNameUtil';
 
-function LogoSmall({ mode }) {
+function AppLogoIcon({ mode }) {
     return (
         <img
             src={mode === 'light' ? logoShortLight : logoShortDark}
@@ -12,4 +12,14 @@ function LogoSmall({ mode }) {
     );
 }
 
-export default LogoSmall;
+export function AppLogoHorizontal({ mode }) {
+    return (
+        <img
+            src={mode === 'light' ? logoLight : logoDark}
+            style={logoStyle}
+            alt={appName}
+        />
+    );
+}
+
+export default AppLogoIcon;

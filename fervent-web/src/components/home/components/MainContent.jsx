@@ -3,10 +3,9 @@ import { Route, Routes } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import MessagesPane from "../../chat/MessagesPane";
-import FilesPane from "../../files/FilesPane";
 import ComplianceCheckerPane from "../../compliance-checker/ComplianceCheckerPane";
 import { ErrorPageNotFound } from "../../error/RouteErrors";
-import { MESSAGES_PATH, FILES_PATH, COMPLIANCE_CHECKER_PATH } from "../../context-provider/PaneNavigationContext";
+import { COMPLIANCE_CHECKER_PATH } from "../../context-provider/PaneNavigationContext";
 import { AppContext } from "../../context-provider/AppContext";
 import SnackBarNotification from "../../notification/SnackBar";
 
@@ -35,14 +34,6 @@ function MainContent() {
                         path="/"
                         index
                         element={<MessagesPane />}
-                    />
-                    <Route
-                        path={MESSAGES_PATH}
-                        element={<MessagesPane />}
-                    />
-                    <Route
-                        path={FILES_PATH}
-                        element={<FilesPane />}
                     />
                     <Route
                         path={COMPLIANCE_CHECKER_PATH}

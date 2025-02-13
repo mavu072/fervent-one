@@ -18,6 +18,7 @@ const errorComponentStyle = {
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "column",
+  textAlign: "center",
 };
 
 export function ErrorPageNotFound() {

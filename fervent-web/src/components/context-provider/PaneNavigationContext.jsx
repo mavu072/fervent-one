@@ -5,8 +5,7 @@ import DocumentScannerIcon from '@mui/icons-material/DocumentScannerRounded';
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const ROOT_PATH = "/home";
-export const MESSAGES_PATH = "/messages";
-export const FILES_PATH = "/files";
+export const MESSAGES_PATH = "/";
 export const COMPLIANCE_CHECKER_PATH = "/compliance-checker";
 
 export const PaneNavigationContext = createContext();
@@ -14,7 +13,6 @@ export const PaneNavigationContext = createContext();
 function PaneNavigationProvider({ children }) {
     const paneList = [
         { path: MESSAGES_PATH, title: "My Messages", icon: <QuestionAnswerIcon /> },
-        { path: FILES_PATH, title: "File Archive", icon: <FolderIcon /> },
         { path: COMPLIANCE_CHECKER_PATH, title: "Compliance Checker", icon: <DocumentScannerIcon /> },
     ];
 
@@ -23,7 +21,7 @@ function PaneNavigationProvider({ children }) {
     const defaultPath = paneList[0].path; // Choose message pane by default.
     const currentPath = location.pathname.replace(ROOT_PATH, ""); // Get current active path.
     
-    const [selectedPane, setSelectedPane] = useState((!currentPath || currentPath === "/" ) ? defaultPath : currentPath);
+    const [selectedPane, setSelectedPane] = useState((!currentPath || currentPath === "/" ) ? defaultPath : currentPath); // Set default path.
 
     const onSwitchPane = useCallback((targetPane) => {
         setSelectedPane(targetPane);
