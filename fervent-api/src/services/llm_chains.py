@@ -1,7 +1,14 @@
-from src.services.llm import get_llm_prompt_response, get_llm_conversational_response
+from src.services.llm import (
+    get_llm_prompt_response, 
+    get_llm_conversational_response,
+    get_llm_analysis_response
+)
 from src.services.vectorstores.chroma import query_chromadb
+from src.services.document_loader import load_pdf_document, split_documents_to_chunks
 from src.utils.vectorstores.vectorstore_utils import join_similarity_search_results, get_content_sources
 from src.utils.exception_utils import ERR_NO_MATCH_FOUND
+
+from typing import BinaryIO, TextIO
 
 
 def run_retrieval_chain(query_text:str):
@@ -48,5 +55,21 @@ def run_conversational_chain(user_message:str, message_history:list):
 
 def run_conversational_chain_with_files(user_message: str, message_history: list, files):
     """ """
+    # TODO Implement
 
     return
+
+
+async def run_analysis_chain(filepath: str):
+    """Runs an analysis chain to create responses to an uploaded file."""
+
+    # Load Document.
+    doc_pages = await load_pdf_document(filepath)
+
+    # Split Pages into smaller chunks for analysis.
+    doc_chunks = split_documents_to_chunks(doc_pages)
+
+    # Analyse Pages.
+    response = get_llm_analysis_response(doc_chunks)
+
+    return response

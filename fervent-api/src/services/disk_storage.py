@@ -6,16 +6,16 @@ import os
 docs_dir = DOCUMENT_DIR
 
 
-def mk_doc_dir_if_not_exists():
+def mk_doc_dir():
     """Creates the local document directory for storing files, if it does not exist."""
 
-    mkdir_if_not_exists(docs_dir)
+    mkdir(docs_dir)
 
 
 def find_all_files():
     """Lists all files in the document directory."""
 
-    mk_doc_dir_if_not_exists()
+    mk_doc_dir()
 
     return os.listdir(docs_dir)
 
@@ -56,7 +56,7 @@ def read_from_file(filepath: str):
     return content
 
 
-def rm_file_if_exists(filepath: str):
+def rm_file(filepath: str):
     """Deletes a file, if it exists."""
 
     deleted = False
@@ -64,14 +64,21 @@ def rm_file_if_exists(filepath: str):
     if is_file_exists(filepath):
         os.remove(filepath)
         deleted = True
-        
-        print(f">>> Deleted file: {filepath}")
 
     return deleted
 
 
-def mkdir_if_not_exists(directory: str):
+def mkdir(directory: str):
     """Creates a directory, if it does not exist."""
 
     if not os.path.exists(directory):
         os.mkdir(directory)
+
+
+
+def mkdirtree(dirpath: str):
+    """Creates directories recursively, if they do not exist."""
+
+    if not os.path.exists(dirpath):
+        os.makedirs(dirpath)
+

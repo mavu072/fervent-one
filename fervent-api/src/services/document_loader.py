@@ -12,7 +12,7 @@ def load_directory(dir_path: str):
     return documents
 
 
-async def load_pdf(pdf_path: str):
+async def load_pdf_document(pdf_path: str):
     """Loads a PDF document."""
 
     loader = PyPDFLoader(file_path=pdf_path)

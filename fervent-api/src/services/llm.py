@@ -2,9 +2,19 @@ from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI
 from langchain.chains import ( create_retrieval_chain, create_history_aware_retriever )
 from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.schema import Document
 
-from src.services.vectorstores.chroma import get_chromadb_retriever
-from src.config.prompt_templates import QA_PROMPT_TEMPLATE, CONTEXTUALISE_CHAT_HISTORY_PROMPT, SYSTEM_INSTRUCTION_PROMPT_V2 as SYSTEM_INSTRUCTION_PROMPT
+from src.models.error import Error
+from src.services.vectorstores.chroma import get_chromadb_retriever, query_chromadb
+from src.config.prompt_templates import (
+    QA_PROMPT_TEMPLATE, 
+    CONTEXTUALISE_CHAT_HISTORY_PROMPT, 
+    SYSTEM_INSTRUCTION_PROMPT_V2 as SYSTEM_INSTRUCTION_PROMPT, 
+    COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE
+)
+from src.utils.model_utils import parse_compliance_analysis
+from src.utils.vectorstores.vectorstore_utils import join_similarity_search_results
+from src.utils.exception_utils import ERR_ANALYSIS_FAILED
 
 import os
 from dotenv import load_dotenv
@@ -61,3 +71,37 @@ def get_llm_conversational_response(query_message: str, message_history: list):
 
     return response
 
+
+def get_llm_analysis_response(articles: list[Document]):
+    """Creates an analysis response for articles within a document. Article refers to clauses/sections in a document."""
+
+    response = {}
+    prompt_template = ChatPromptTemplate.from_template(COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE)
+
+    for i in range(len(articles)):
+        # Select article.
+        article = articles[i]
+        article_text = article.page_content
+        article_response = { "text": article_text }
+
+        # Vector search: Query vectorstore for relevent legal context.
+        search_result_docs = query_chromadb(article_text)
+        if search_result_docs is None:
+            # Pass error.
+            article_response["error"] = Error(message=ERR_ANALYSIS_FAILED)
+        else:
+            # Format search result.
+            legal_context = join_similarity_search_results(search_result_docs)
+
+            # Do analysis
+            prompt = prompt_template.format(article_context=article_text, legal_context=legal_context) 
+            ai_response = llm.invoke(prompt)
+
+            # Parse response
+            analysis_result = parse_compliance_analysis(ai_response.content)
+            article_response["compliance_analysis"] = analysis_result
+
+        # Add result.
+        response[f"article{i}"] = article_response
+
+    return response

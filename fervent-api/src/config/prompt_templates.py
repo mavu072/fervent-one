@@ -35,7 +35,7 @@ CUSTOM_FILE_QA_PROMPT_TEMPLATE = """Answer the following question based only on 
 Question: {input}
 """
 
-COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE = """
+COMPLIANCE_REPORT_PROMPT_TEMPLATE = """
 Objective: Analyze the provided employment contract, offer letter, or any other employment-related legal agreement for compliance with South African employment laws.
 Identify non-compliant sections, provide explanations with references to relevant laws, and suggest compliant alternatives.
 
@@ -57,6 +57,43 @@ Compliance Report Structure:
     suggested_alternative: object
         - text: string
         - link: string
+- compliant_sections: array of objects
+    - section_title: string
+    - compliant_text: string
+    - positive_note: string
+"""
+
+COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE = """
+Objective: Analyze the provided article from an employment contract, offer letter, or any other employment-related legal agreement for compliance with South African employment laws.
+- Identify any non-compliant sections, explain why they are non-compliant with references to relevant laws, and provide a revised, compliant version of the non-compliant section.  
+- Identify compliant sections and provide a brief positive note where applicable.
+- Provide only the compliance analysis in JSON format with the provided structure.
+
+Context:
+- The following legal framework should be used for the analysis:
+
+<context>
+{legal_context}
+</context>
+
+Input:
+- The article to be analyzed:
+
+<article>
+{article_context}
+</article>
+
+Output:
+- Compliance Analysis (JSON):
+
+- non_compliant_sections: array of objects
+    - section_title: string
+    - non_compliant_text: string
+    - explanation: string
+    - reference: object
+        - text: string
+    suggested_alternative: object
+        - text: string
 - compliant_sections: array of objects
     - section_title: string
     - compliant_text: string

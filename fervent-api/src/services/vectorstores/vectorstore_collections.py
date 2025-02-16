@@ -5,7 +5,7 @@ from chromadb.config import Settings
 from chromadb.errors import InvalidCollectionException
 
 from src.services.document_loader import load_directory, split_documents_to_chunks
-from src.services.disk_storage import mkdir_if_not_exists
+from src.services.disk_storage import mkdir
 from src.config.constants import CHROMA_DIR
 
 import os

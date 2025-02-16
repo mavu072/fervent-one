@@ -1,7 +1,7 @@
 from fastapi.responses import JSONResponse
 from typing import BinaryIO, TextIO
 
-from src.services.disk_storage import get_path_to_file, read_from_file, write_to_file, rm_file_if_exists, find_all_files, is_file_exists
+from src.services.disk_storage import get_path_to_file, read_from_file, write_to_file, rm_file, find_all_files, is_file_exists
 from src.services.ocr import convert_pdf_to_image, ocr_image_to_text
 from src.services.file_validation import validate_uploaded_file
 
@@ -81,7 +81,7 @@ def delete_file_from_disk(filename: str):
         if not is_file_exists(filepath):
             raise ValueError("File does not exist.")
 
-        deleted = rm_file_if_exists(filepath)
+        deleted = rm_file(filepath)
 
         return JSONResponse(
             status_code=200, 

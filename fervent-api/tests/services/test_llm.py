@@ -1,6 +1,12 @@
 from langchain_core.messages.ai import AIMessage
 from langchain.schema import Document
-from src.services.llm import get_llm_prompt_response, get_llm_conversational_response
+from src.models.compliance_analysis import ComplianceAnalysis
+from src.models.error import Error
+from src.services.llm import (
+    get_llm_prompt_response,
+    get_llm_conversational_response,
+    get_llm_analysis_response,
+)
 
 
 def test_get_llm_prompt_response():
@@ -72,4 +78,20 @@ def test_history_and_context_memory():
 
     assert type(result["answer"]) is str
     assert result["answer"].find(subject) is not -1
-    
+
+
+def test_get_llm_analysis_response():
+    article0 = Document("""1. Termination
+                     The Employer may terminate this agreement at any time without notice or reason.""")
+    article1 = Document("""2. Compensation.
+                     The Employer agrees to pay the Employee a salary of 2000 rands per month.""")
+    article2 = Document("Foo Bar") # Hallucination test.
+
+    articles =  [article0, article1, article2]
+
+    response = get_llm_analysis_response(articles=articles)
+
+    assert type(response) is dict
+    assert type(response["article0"]["compliance_analysis"]) is ComplianceAnalysis
+    assert type(response["article1"]["compliance_analysis"]) is ComplianceAnalysis
+    assert type(response["article2"]["error"]) is Error
