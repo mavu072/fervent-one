@@ -1,6 +1,4 @@
-
-"""
-Handling user files.
+### Handling user files.
 
 1. User sends messages + history + file.
 2. File is saved to temp folder.
@@ -19,4 +17,3 @@ Checks: Only query the private collection, if it exists,
 
 Note: Do not create a new route, rather add to existing conversational route,
 with a different handler when the arguments contain files.
-"""

@@ -1,11 +1,11 @@
 from typing import List
 
-from src.models.chat_message import ChatMessage
+from src.models.chat import Message
 from src.services.ner import find_named_entities
 from src.utils.ner_validator_utils import censor_named_entities
 
 
-def convert_message_list_to_pairs(msg_list: List[ChatMessage]):
+def convert_message_list_to_pairs(msg_list: List[Message]):
     """Converts a message list into a list of question-answer pairs and return as a list of tuples."""
 
     pairs = []
@@ -19,7 +19,7 @@ def convert_message_list_to_pairs(msg_list: List[ChatMessage]):
     return pairs
 
 
-def format_chat_history(msg_list: List[ChatMessage]):
+def format_chat_history(msg_list: List[Message]):
     """Formats a message list and return as a list of tuples."""
 
     chat_history = []

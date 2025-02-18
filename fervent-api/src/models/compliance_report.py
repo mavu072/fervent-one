@@ -1,13 +1,16 @@
 from pydantic import BaseModel, HttpUrl
 from typing import List, Optional
 
+
 class Reference(BaseModel):
     text: str
     link: str
 
+
 class SuggestedAlternative(BaseModel):
     text: str
     link: str
+
 
 class NonCompliantSection(BaseModel):
     section_title: str
@@ -16,15 +19,18 @@ class NonCompliantSection(BaseModel):
     reference: Reference
     suggested_alternative: SuggestedAlternative
 
+
 class CompliantSection(BaseModel):
     section_title: str
     compliant_text: str
     positive_note: str
 
+
 class ComplianceReport(BaseModel):
     overall_compliance_rating: int
     non_compliant_sections: List[NonCompliantSection]
     compliant_sections: List[CompliantSection]
+
 
 # Example usage:
 example_data = {

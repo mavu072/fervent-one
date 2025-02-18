@@ -2,7 +2,7 @@ from fastapi.responses import JSONResponse
 from typing import BinaryIO
 
 from src.config.constants import UPLOADS_DIR
-from src.models.chat_message import ChatMessage
+from src.models.chat import Message
 from src.services.ner import find_named_entities
 from src.services.llm_chains import run_retrieval_chain, run_conversational_chain, run_analysis_chain
 from src.services.disk_storage import mkdirtree, rm_file
@@ -39,7 +39,7 @@ def send_message_to_assistant_with_retrieval_chain(query: str):
         )
     
 
-def send_message_to_assistant_with_conversational_chain(uuid: str | None, message: str, prev_messages: list[ChatMessage]):
+def send_message_to_assistant_with_conversational_chain(uuid: str | None, message: str, prev_messages: list[Message]):
     """Send a message to the LLM with conversational history to get a history aware response."""
     try:
         entity_list = find_named_entities(message, entity_categories)

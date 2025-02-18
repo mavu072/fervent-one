@@ -1,11 +1,14 @@
 from pydantic import BaseModel
 from typing import List
 
+
 class Reference(BaseModel):
     text: str
 
+
 class SuggestedAlternative(BaseModel):
     text: str
+
 
 class NonCompliantSection(BaseModel):
     section_title: str
@@ -14,6 +17,7 @@ class NonCompliantSection(BaseModel):
     reference: Reference
     suggested_alternative: SuggestedAlternative
 
+
 class CompliantSection(BaseModel):
     section_title: str
     """String text."""
@@ -21,6 +25,7 @@ class CompliantSection(BaseModel):
     """String text"""
     positive_note: str
     """String text"""
+
 
 class ComplianceAnalysis(BaseModel):
     """Compliance Analysis class.
