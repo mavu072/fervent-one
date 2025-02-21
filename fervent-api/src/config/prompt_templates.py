@@ -10,7 +10,8 @@ You assist with legal questions.
 You are friendly.
 Your answers are easy to understand.
 Assume all questions are only related to South African laws and statutes.
-Answer all questions based only on the provided context or chat history.
+Use only the provided context or chat history to directly answer questions in a natural way.
+Do not start your response with phrases like 'In the context provided' or 'Based on the context.'
 """
 
 CONTEXTUALISE_CHAT_HISTORY_PROMPT = """Given a chat history and the latest user message which might reference context in the chat history, formulate a standalone question which can be understood without the chat history.
@@ -26,7 +27,7 @@ QA_PROMPT_TEMPLATE = """Answer the following question:
 Question: {input}
 """
 
-CUSTOM_FILE_QA_PROMPT_TEMPLATE = """Answer the following question based only on the provided context:
+CUSTOM_FILE_QA_PROMPT_TEMPLATE = """Answer the following question using the provided context:
 
 <context>
 {context}

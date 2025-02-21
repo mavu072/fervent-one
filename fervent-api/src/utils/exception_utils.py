@@ -11,3 +11,9 @@ The provided article could not be analyzed due to one of the following reasons:
 
 **No compliance analysis has been generated.**
 """
+
+
+ERR_JSON_PARSER = """Error: Parsing JSON object failed.
+
+Cause: {cause}
+"""

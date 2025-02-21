@@ -101,9 +101,17 @@ ALLOWED_ORIGIN = "*" # Add allowed origin. Hint: This should be where your front
 3. Run application.
 
 ```commandline
-python -m uvicorn main:app --reload
+python -m uvicorn main:app
 ```
 or
+```commandline
+uvicorn main:app
+```
+
+#### Hot Reloading
+Hot-reloading refreshes the server when you save changes to the application files, without re-starting the server.
+To enable hot-reloading, start the server with the command:
+
 ```commandline
 uvicorn main:app --reload
 ```
@@ -114,7 +122,7 @@ These logs do not contain timestamps and information from other processes. To ac
 you must override uvicorn logs as follows:
 
 ```commandline
- uvicorn main:app --reload --log-config=log_conf.yaml
+ uvicorn main:app --log-config=log_conf.yaml
 ```
 
 The log configurations are defined in the `log_conf.yaml` file.
