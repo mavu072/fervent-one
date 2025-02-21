@@ -9,8 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

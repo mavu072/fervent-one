@@ -2,20 +2,18 @@ import MessageService from "./MessageService";
 import FileService from "./FileService";
 import MessageFactory from "../factory/MessageFactory";
 import FileFactory from "../factory/FileFactory";
-import { ASSISTANT, OPEN_INTERNAL, USER } from "../constants/messageConstants";
+import { ASSISTANT, USER } from "../constants/messageConstants";
 import { getServerTimestamp } from "../firebase/firebaseUtil";
 import { getAssistantResponse } from "../api/GetAssistantResponseApi";
-import { exampleComplianceReport } from "../api/examples/complianceReportExample";
 import ReportService from "./ReportService";
 import ReportFactory from "../factory/ReportFactory";
-import { TITLE_COMPLIANCE_REPORT_LINK } from "../constants/reportConstants";
 
 class MessageResponderService {
 
     /**
      * Abstract class for handling new user messages and files.
      * @param {object} params Required values and service classes.
-     * @param {*} params.userId
+     * @param {string} params.userId
      * @param {MessageService} params.messageService
      * @param {FileService} params.fileService
      * @param {ReportService} params.reportService 
@@ -92,12 +90,13 @@ class MessageResponderService {
 
     /**
      * Makes an API request to get assistant response and saves it.
+     * @param {string} userId 
      * @param {string} userMsg 
      * @param {Array} chatHistory 
      * @returns
      */
-    async getAndSaveSystemResponse(userMsg, chatHistory) {
-        const { response, sources } = await getAssistantResponse(userMsg, chatHistory);
+    async getAndSaveSystemResponse(userId, userMsg, chatHistory) {
+        const { response, sources } = await getAssistantResponse(userId, userMsg, chatHistory);
         const assistantReponse = { content: response, sources };
 
         // Create assistant message.
@@ -127,10 +126,11 @@ class MessageResponderService {
 
         // 1. Send all uploaded files as one list. 
         console.log("Sending files to API...");
+        // 2. Send user message.
         // const { response, sources } = await getAssistantResponseWithFiles(userMsg, chatHistory, uploadedFiles);
         await setTimeout(() => { }, 1000); // simulate API call.
 
-        // 2. Get assistant responses.
+        // 3. Get assistant responses.
         const assistantReponse = { content: `Your ${uploadedFiles.length > 1 ? "files have" : "file has"} been processed.` };
         assistantReponses.push(assistantReponse);
 
