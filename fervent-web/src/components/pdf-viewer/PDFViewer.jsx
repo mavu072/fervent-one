@@ -54,8 +54,8 @@ function PDFViewer({ fileSource, maxWidth = 800 }) {
     }
 
     return (
-        <>
-            <Stack className="PDF-body" flex={1}>
+        <Stack flex={1}>
+            <Stack className="PDF-body" width="100%">
                 <Stack className="PDF-Page-controls"
                     sx={{
                         display: "flex",
@@ -92,10 +92,10 @@ function PDFViewer({ fileSource, maxWidth = 800 }) {
                 </Box>
             </Stack>
 
-            <Typography className="PDF-footer" py={1.5}>
+            <Typography className="PDF-footer" py={1}>
                 Page {pageNumber ? pageNumber : '--'} of {numPages}.
             </Typography>
-        </>
+        </Stack>
     );
 }
 

@@ -10,13 +10,15 @@ import { ServiceContext } from "../context-provider/ServiceContext";
 import { scrollbarStyle } from "../ui/scrollbarUtil";
 import { formatTime } from "../../util/dateTimeUtil";
 import { DEF_FILE_LIMIT } from "../../constants/fileConstants";
+import FileService from "../../service/FileService";
 
 /**
  * FilesPane.
  * @returns JSX Component
  */
 function FilesPane() {
-    const { fileService } = useContext(ServiceContext);
+    const { fileRepository } = useContext(ServiceContext);
+    const fileService = new FileService(fileRepository);
 
     const [fileLimit, setFileLimit] = useState(DEF_FILE_LIMIT);
     const [query, setQuery] = useState(fileService.getAll(fileLimit, "desc"));

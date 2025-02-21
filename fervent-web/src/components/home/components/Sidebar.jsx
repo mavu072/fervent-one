@@ -45,7 +45,7 @@ function Sidebar() {
           ':root': {
             '--Sidebar-width': '280px',
             [theme.breakpoints.up('lg')]: {
-              '--Sidebar-width': '300px',
+              '--Sidebar-width': '280px',
             },
           },
         })}

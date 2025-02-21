@@ -19,7 +19,7 @@ import { grey, lightBlue } from "@mui/material/colors";
 function TextBubble({ isSent, content = null, sources = null, arrivedAt }) {
   const isContentText = typeof content === "string" ? true : false;
   return (
-    <Tooltip title={arrivedAt} placement={isSent ? "left" : "right"}>
+    <Tooltip title={arrivedAt} placement={isSent ? "top" : "top"}>
       <Box sx={{ position: 'relative' }}>
         <Paper
           color={isSent ? 'primary' : 'neutral'}

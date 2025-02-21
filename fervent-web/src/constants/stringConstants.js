@@ -1,0 +1,2 @@
+export const DISCLAIMER_EXPERIMENTAL_AI = "Generative AI is experimental and can make mistakes.";
+export const WARNING_HIDE_SENSITIVE_INFO = "Do not share any sensitive information. i.e. tax or bank details.";

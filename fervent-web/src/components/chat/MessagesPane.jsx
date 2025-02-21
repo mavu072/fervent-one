@@ -12,12 +12,17 @@ import LoadMoreButton from '../buttons/LoadMoreButton';
 import AccountAvatar from '../account/AccountAvatar';
 import { formatTime } from '../../util/dateTimeUtil';
 import { scrollbarStyle } from '../ui/scrollbarUtil';
-import { grey } from '@mui/material/colors';
 import { appName } from '../../util/appNameUtil';
+import { scrollTo } from '../ui/scrollUtil';
 import { AppContext } from '../context-provider/AppContext';
 import { ServiceContext } from '../context-provider/ServiceContext';
 import { DEF_MESSAGE_LIMIT, FILE_SIZE_LIMIT, LIMIT_INCREMENT_VALUE } from '../../constants/messageConstants';
-import { scrollTo } from '../ui/scrollUtil';
+import { DISCLAIMER_EXPERIMENTAL_AI, WARNING_HIDE_SENSITIVE_INFO } from '../../constants/stringConstants';
+import MessageService from '../../service/MessageService';
+import FileService from '../../service/FileService';
+import ReportService from '../../service/ReportService';
+import MessageResponderService from '../../service/MessageResponderService';
+
 
 const systemUser = { displayName: appName };
 
@@ -27,7 +32,14 @@ const systemUser = { displayName: appName };
  */
 function MessagesPane() {
   const { user, onInfoMessage } = useContext(AppContext);
-  const { messageResponderService: messageResponder, messageService } = useContext(ServiceContext);
+  const { messageRepository, fileRepository, reportRepository } = useContext(ServiceContext);
+  const messageService = new MessageService(messageRepository);
+  const messageResponder = new MessageResponderService({
+    userId: user.uid,
+    messageService,
+    fileService: new FileService(fileRepository),
+    reportService: new ReportService(reportRepository)
+  });
 
   const [messageLimit, setMessageLimit] = useState(DEF_MESSAGE_LIMIT);
   const [query, setQuery] = useState(messageService.getAll(messageLimit));
@@ -55,7 +67,7 @@ function MessagesPane() {
       return messages?.docs.map(msg => {
         const { content, role } = msg.data();
         return {
-          role: role === "user" ? "human" : "system",
+          role: role === "user" ? "human" : "ai",
           content: content,
         }
       }).filter(msg => msg.content);
@@ -139,6 +151,7 @@ function MessagesPane() {
    */
   const handleSubmit = async () => {
     try {
+      const userId = user.email; // Use email as unique id in requests.
       // Store in local variables. The global vars are cleared when submission is triggered.
       const newUserMsg = textMessageInput;
       const uploadedFiles = [...selectedFiles];
@@ -151,16 +164,13 @@ function MessagesPane() {
 
       if (uploadedFiles.length > 0) {
         // Save file messages and files.
-        const savedMsgsAndFiles = await messageResponder.saveHumanFiles(uploadedFiles)
-        console.log("Saved messages and files:", savedMsgsAndFiles);
+        const savedMsgsAndFiles = await messageResponder.saveHumanFiles(uploadedFiles);
 
         // Get assisant response to text with files.
         const savedResp = await messageResponder.getAndSaveSystemResponseWithFiles(uploadedFiles);
-        console.log("Assistant response:", savedResp);
       } else {
         // Get assisant response to text.
-        const savedResp = await messageResponder.getAndSaveSystemResponse(newUserMsg, chatHistory);
-        console.log("Assistant message:", savedResp);
+        const savedResp = await messageResponder.getAndSaveSystemResponse(userId, newUserMsg, chatHistory);
       }
 
     } catch (error) {
@@ -198,9 +208,11 @@ function MessagesPane() {
           <Stack spacing={2} justifyContent="flex-end" >
             <div ref={messagesTopRef}></div>
 
-            <Stack display="flex" alignItems="center">
-              <LoadMoreButton title={"Load older messages"} onLoadMore={handleLoadOlder} />
-            </Stack>
+            {messages && messages.size > 0 &&
+              <Stack display="flex" alignItems="center">
+                <LoadMoreButton title={"Load older messages"} onLoadMore={handleLoadOlder} />
+              </Stack>
+            }
 
             {messages && messages.docs.map((message, index) => {
               const { id, content, sources, attachment, role, createdAt } = message.data();
@@ -238,12 +250,13 @@ function MessagesPane() {
 
             <div ref={messagesEndRef}></div>
 
-            <Stack display="flex" alignItems="center" textAlign="center" px={2} color={grey[600]} >
-              <Typography variant="caption">Do not share any sensitive information. i.e. tax or bank details.</Typography>
+            <Stack display="flex" alignItems="center" textAlign="center" px={2} color={"text.secondary"} >
+              <Typography variant="caption">{DISCLAIMER_EXPERIMENTAL_AI}</Typography>
             </Stack>
           </Stack>
         }
       </Box>
+
       <MessageInput
         textMessageInput={textMessageInput}
         onChangeTextMessageInput={handleChangeTextMessageInput}
@@ -253,6 +266,12 @@ function MessagesPane() {
         onRemoveAllFiles={handleRemoveAllFiles}
         onSubmit={handleSubmit}
       />
+
+      <Stack pb={1}>
+        <Typography variant="caption" sx={{ color: 'text.secondary', textAlign: "center", px: 1 }}>
+          {WARNING_HIDE_SENSITIVE_INFO}
+        </Typography>
+      </Stack>
     </Paper>
   );
 }

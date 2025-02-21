@@ -10,7 +10,8 @@ import { UploadFileButton } from "../buttons/UploadFileButton";
  * @param {object} props 
  * @returns JSX Component
  */
-function DropFileZone({ files, setFiles, accept }) {
+function DropFileZone({ setFiles, accept }) {
+    // TODO Add hover effect when dragging file over drop zone.
 
     /**
      * Handle drop event.
@@ -37,7 +38,6 @@ function DropFileZone({ files, setFiles, accept }) {
             onDrop={handleDrop}
             onDragOver={(event) => event.preventDefault()}
             sx={{
-                flex: 1,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -45,7 +45,10 @@ function DropFileZone({ files, setFiles, accept }) {
                 borderStyle: "dotted",
                 borderRadius: "8px",
                 textAlign: "center",
-                p: 2,
+                p: 4,
+                mt: 1,
+                width: '100%',
+                height: '100%',
             }}
         >
             <FileUploadIcon />

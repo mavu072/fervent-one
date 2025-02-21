@@ -13,18 +13,13 @@ export const ServiceContext = createContext();
 const ServiceProvider = ({ children }) => {
     const { user, app } = useContext(AppContext);
 
-    // Services.
+    // Required context by Services.
     const userId = user.uid;
     const messageRepository = new MessageRepository(app, `users/${userId}/messages`);
     const fileRepository = new FileRepository(app, `users/${userId}/files`);
     const reportRepository = new ReportRepository(app, `users/${userId}/reports`);
 
-    const messageService = new MessageService(messageRepository);
-    const fileService = new FileService(fileRepository);
-    const reportService = new ReportService(reportRepository);
-    const messageResponderService = new MessageResponderService({ userId, messageService, fileService, reportService });
-
-    const contextValue = { messageService, fileService, reportService, messageResponderService };
+    const contextValue = { messageRepository, fileRepository, reportRepository };
 
     return <ServiceContext.Provider value={contextValue}>
         {children}

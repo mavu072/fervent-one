@@ -61,10 +61,10 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
                     width: '100%',
                 }}
             >
-                <Stack sx={{ pb: 3 }}>
+                <Stack>
                     <UploadFileButton onAddSelectedFiles={onAddSelectedFiles} accept=".jpg,.jpeg,.png,.pdf" multiple />
                 </Stack>
-                <FormControl sx={{ flexGrow: 1, mb: 2.5, px: 1, }}>
+                <FormControl sx={{ flexGrow: 1, px: 1, }}>
                     <TextareaAutosize
                         placeholder="Hi, how I can help you today?"
                         aria-label="Message"
@@ -86,7 +86,7 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
                         }}
                     />
                 </FormControl>
-                <Stack sx={{ pb: 3 }}>
+                <Stack>
                     <SendMessageButton onSendMessage={handleClick} />
                 </Stack>
             </Stack>

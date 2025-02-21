@@ -3,26 +3,26 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Chip from '@mui/material/Chip';
 import SectionLoader from "../../loader/SectionLoader";
-import NonCompliantCard from "./NonCompliantCard";
+import CompliantCard from "./CompliantCard";
 
 /**
- * Issues.
+ * Insights.
  * @param {object} obj 
- * @param {Array<object>} obj.issues Possible issues.
+ * @param {Array<object>} obj.insights Positive insights.
  * @param {boolean} obj.loading Loading.
  * @returns JSX Component
  */
-function Issues({ issues, loading = false }) {
+function Insights({ insights, loading = false }) {
     return (
         <Stack flex={1} gap={1}>
             <Typography gutterBottom variant="h7" component="div" fontWeight={600}>
-                <Chip label={issues?.length || 0} sx={{ bgcolor: "warning.main", color: "white" }} /> All issues
+                <Chip label={insights?.length || 0} sx={{ bgcolor: "secondary.main", color: "white" }} /> All insights
             </Typography>
 
             {loading && <SectionLoader />}
-            {issues && issues.map((issue, index) => <NonCompliantCard key={index} id={index} details={issue} />)}
+            {insights && insights.map((insight, index) => <CompliantCard key={index} id={index} details={insight} />)}
         </Stack>
     );
 }
 
-export default Issues;
+export default Insights;
