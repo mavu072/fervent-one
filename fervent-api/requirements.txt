@@ -13,3 +13,4 @@ pytesseract
 spacy
 pytest
 pytest_asyncio
+pypdf

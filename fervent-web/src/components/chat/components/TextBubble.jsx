@@ -6,7 +6,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Link from '@mui/material/Link';
 import Divider from '@mui/material/Divider';
 import { grey, lightBlue } from "@mui/material/colors";
-import InternalLink from "./InternalLink";
 
 /**
  * TextBubble.
@@ -20,7 +19,7 @@ import InternalLink from "./InternalLink";
 function TextBubble({ isSent, content = null, sources = null, arrivedAt }) {
   const isContentText = typeof content === "string" ? true : false;
   return (
-    <Tooltip title={arrivedAt} placement={isSent ? "left" : "right"}>
+    <Tooltip title={arrivedAt} placement={isSent ? "top" : "top"}>
       <Box sx={{ position: 'relative' }}>
         <Paper
           color={isSent ? 'primary' : 'neutral'}
@@ -43,8 +42,6 @@ function TextBubble({ isSent, content = null, sources = null, arrivedAt }) {
           )}
           {content && sources && <Divider />}
           {sources && sources.map((source, index) => (
-            source.type == "internal" ?
-              <InternalLink key={index} source={source} /> :
               <Link key={index} href={source.link} target="_blank">{source.title}</Link>
           ))}
         </Paper>

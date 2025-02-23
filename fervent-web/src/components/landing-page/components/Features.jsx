@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import DocumentScannerIcon from '@mui/icons-material/DocumentScannerRounded';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import imgMobile from '../assets/chat-mobile.svg';
 import imgLaptop from '../assets/chat-laptop.svg';
@@ -25,7 +25,7 @@ const items = [
     imageDark: `url("${imgMobile}")`,
   },
   {
-    icon: <TextSnippetIcon />,
+    icon: <DocumentScannerIcon />,
     title: 'Upload legal documents',
     description:
       'Upload your employment agreements, offer letters, or any other legal documents to ensure they comply with South African laws. Our AI provides a compliance rating and highlights any non-compliant sections, along with suggested changes to bring them in line with legal standards.',

@@ -1,17 +1,27 @@
-from langchain_community.document_loaders import DirectoryLoader
+from langchain_community.document_loaders import DirectoryLoader, PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 
-import os
 
+def load_directory(dir_path: str):
+    """Loads all text documents from an on-disk directory."""
 
-def load_document_dir(document_dir: str):
-    """Loads all text documents from the on-disk document directory."""
-
-    loader = DirectoryLoader(path=document_dir, glob="*.txt")
+    loader = DirectoryLoader(path=dir_path, glob="*.txt")
     documents = loader.load()
 
     return documents
+
+
+async def load_pdf_document(pdf_path: str):
+    """Loads a PDF document."""
+
+    loader = PyPDFLoader(file_path=pdf_path)
+    pages = []
+
+    async for page in loader.alazy_load():
+        pages.append(page)
+
+    return pages
 
 
 def split_documents_to_chunks(documents:list[Document]):

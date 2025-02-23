@@ -2,7 +2,7 @@ from typing import BinaryIO, TextIO
 from PIL import Image
 from pdf2image import convert_from_bytes
 
-from src.services.disk_storage import mkdir_if_not_exists, rm_file_if_exists, write_to_file, get_path_to_file
+from src.services.disk_storage import mk_doc_dir, rm_file, write_to_file, get_path_to_file
 
 import pytesseract
 import threading
@@ -10,8 +10,15 @@ import io
 
 
 def ocr_image_to_text(images: list, filename: str):
-    """Start a thread to run images through OCR and write the text content to a file."""
+    """Starts a thread to run images through OCR and write the text content to a file."""
 
+    # Ensure the document directory exists.
+    mk_doc_dir()
+
+    # Delete existing file.
+    rm_file(filename)
+
+    # Start OCR thread.
     thread = threading.Thread(target=extract_file_and_write_to_disk, args=(images, filename), name=f"Reading {filename}")
     thread.start()
 
@@ -22,9 +29,6 @@ def extract_file_and_write_to_disk(file_pages: list, filename: str):
     """Extracts file text contents and writes them to disk in a text file."""
 
     print(f">>> Starting to read file: {filename}")
-
-    mkdir_if_not_exists()
-    rm_file_if_exists(filename)
 
     file_content_pages = read_images_to_text(images=file_pages)
 

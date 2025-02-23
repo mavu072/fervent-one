@@ -11,14 +11,14 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from '../../theme/ToggleColorMode';
-import LogoSmall from '../../logo/LogoSmall';
+import AppLogoIcon, { AppLogoHorizontal } from '../../logo/AppLogo';
 import GoToLoginButton from '../../login/components/GoToLoginButton';
-import { AppContext } from '../../context-provider/AppContext';
+import { ThemeContext } from '../../context-provider/ThemeContext';
 
 function AppAppBar() {
-  const { mode, toggleColorMode } = useContext(AppContext);
-
+  const { mode } = useContext(ThemeContext);
   const [open, setOpen] = useState(false);
+  const menuBtnWidth = '30px';
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -73,15 +73,16 @@ function AppAppBar() {
                 flexGrow: 1,
                 display: 'flex',
                 alignItems: 'center',
-                ml: '-18px',
                 px: 0,
               }}
             >
-              <Stack sx={{
-                marginLeft: '10px',
-                marginRight: '5px',
-              }}>
-                <LogoSmall mode={mode} />
+              <Stack className="AppBar-Logo" flex={1}>
+                 <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: '-5px',  mr: '5px', }}>
+                  <AppLogoIcon mode={mode} />
+                 </Box>
+                 <Box sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: "center", alignItems: "center", ml: menuBtnWidth, }}>
+                  <AppLogoHorizontal mode={mode} />
+                 </Box>
               </Stack>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem
@@ -125,7 +126,7 @@ function AppAppBar() {
                 alignItems: 'center',
               }}
             >
-              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+              <ToggleColorMode />
               <GoToLoginButton title={"Sign In"} />
             </Box>
             <Box sx={{ display: { sm: '', md: 'none' } }}>
@@ -134,7 +135,7 @@ function AppAppBar() {
                 color="primary"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
-                sx={{ minWidth: '30px', p: '4px' }}
+                sx={{ minWidth: menuBtnWidth, p: '4px' }}
               >
                 <MenuIcon />
               </Button>
@@ -155,7 +156,7 @@ function AppAppBar() {
                       flexGrow: 1,
                     }}
                   >
-                    <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+                    <ToggleColorMode />
                   </Box>
                   <MenuItem onClick={() => scrollToSection('features')}>
                     Features

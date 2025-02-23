@@ -3,10 +3,10 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import TextareaAutosize from './TextareaAutosize';
-import UploadFile from './UploadFile';
+import UploadFileButton from '../../buttons/UploadFileButton';
 import SendMessageButton from './SendMessageButton';
-import FileItemList from './FileItemList';
-import { scrollbarStyle } from '../util/scrollbarUtil';
+import FileInputList from './FileInputList';
+import { scrollbarStyle } from '../../ui/scrollbarUtil';
 
 /**
  * MessageInput.
@@ -28,7 +28,7 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
     }
 
     function handleClick() {
-        if (textMessageInput.trim() !== '') {
+        if (textMessageInput.trim() !== '' || selectedFiles?.length > 0) {
             onSubmit();
             onChangeTextMessageInput('');
             onRemoveAllFiles();
@@ -52,7 +52,7 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
             pb: 1,
             pt: 1,
         }}>
-            <FileItemList fileList={selectedFiles} onRemoveFile={onRemoveFile} />
+            <FileInputList fileList={selectedFiles} onRemoveFile={onRemoveFile} />
             <Stack
                 sx={{
                     display: 'flex',
@@ -61,12 +61,12 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
                     width: '100%',
                 }}
             >
-                <Stack sx={{ pb: 3 }}>
-                    <UploadFile onAddSelectedFiles={onAddSelectedFiles} />
+                <Stack>
+                    <UploadFileButton onAddSelectedFiles={onAddSelectedFiles} accept=".jpg,.jpeg,.png,.pdf" multiple />
                 </Stack>
-                <FormControl sx={{ flexGrow: 1, mb: 2.5, px: 1, }}>
+                <FormControl sx={{ flexGrow: 1, px: 1, }}>
                     <TextareaAutosize
-                        placeholder="Hello, how I can help you today…"
+                        placeholder="Hi, how I can help you today?"
                         aria-label="Message"
                         ref={textAreaRef}
                         onChange={handleChange}
@@ -86,7 +86,7 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
                         }}
                     />
                 </FormControl>
-                <Stack sx={{ pb: 3 }}>
+                <Stack>
                     <SendMessageButton onSendMessage={handleClick} />
                 </Stack>
             </Stack>

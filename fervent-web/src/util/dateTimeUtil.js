@@ -1,6 +1,3 @@
-/**
- * Utility functions
- */
 
 /**
  * Accepts a Date object and returns the time as Hh:mm.

@@ -42,21 +42,23 @@ class BaseService {
 
     /**
      * GetAll method.
-     * @param {number} limit
+     * @param {number} limit The maximum number of the number of documents returned.
+     * @param {string} [sort="asc"] The sort direction. Accepts 'asc' or 'desc'.
      * @returns Query
      */
-    getAll(limit) {
-        return this.repository.getAll(limit);
+    getAll(limit, sort = "asc") {
+        return this.repository.getAll(limit, sort);
     }
 
     /**
      * getAllWithinRange method.
-     * @param {*} startAfter
-     * @param {number} limit
+     * @param {*} startAfter The start after document.
+     * @param {number} limit The maximum number of the number of documents returned.
+     * @param {string} [sort="asc"] The sort direction. Accepts 'asc' or 'desc'.
      * @returns Query
      */
-    getAllWithinRange(startAfter, limit) {
-        return this.repository.getAllWithinRange(startAfter, limit);
+    getAllWithinRange(startAfter, limit, sort = "asc") {
+        return this.repository.getAllWithinRange(startAfter, limit, sort);
     }
 }
 

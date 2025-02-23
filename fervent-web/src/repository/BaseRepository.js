@@ -60,6 +60,7 @@ class BaseRepository {
     /**
      * Creates and returns a new Query.
      * @param {number} limit The maximum number of the number of documents returned.
+     * @param {string} [sort="asc"] The sort direction. Accepts 'asc' or 'desc'.
      * 
      * See {@link firebase.firestore.CollectionReference.orderBy}.
      * 
@@ -67,8 +68,8 @@ class BaseRepository {
      * 
      * @return The created Query.
      */
-    getAll = function (limit) {
-        const query = this.collectionRef.orderBy('createdAt', 'asc')
+    getAll = function (limit, sort = 'asc') {
+        const query = this.collectionRef.orderBy('createdAt', sort)
                                         .limitToLast(limit);
         return query;
     }
@@ -78,6 +79,7 @@ class BaseRepository {
      * Creates and returns a new Query.
      * @param {*} startAfter The start after document.
      * @param {number} limit The maximum number of the number of documents returned.
+     * @param {string} [sort="asc"] The sort direction. Accepts 'asc' or 'desc'.
      * 
      * See {@link firebase.firestore.CollectionReference.orderBy}.
      * 
@@ -87,8 +89,8 @@ class BaseRepository {
      * 
      * @return The created Query.
      */
-    getAllWithinRange = function (startAfter, limit) {
-        const query = this.collectionRef.orderBy('createdAt', 'asc')
+    getAllWithinRange = function (startAfter, limit, sort = 'asc') {
+        const query = this.collectionRef.orderBy('createdAt', sort)
                                         .startAfter(startAfter)
                                         .limit(limit);
         return query;

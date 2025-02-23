@@ -1,24 +1,32 @@
+import { getApiUrl } from "../util/apiUtil";
 import apiClient from "./apiClient";
-
-const BASE_URL = import.meta.env.VITE_ASSISTANT_API_URL;
 
 /**
  * Sends a request to the Assistant API with the user message.
- * @param {string} userMessage New user message.
+ * @param {string} userId Unique identifier for tracking user data stored on the API server.
+ * @param {string} userMessage User message.
  * @param {Array<object>} chatHistory Previous messages.
  * @returns Response
  */
-const getAssistantResponse = async (userMessage, chatHistory = []) => {
+export const getAssistantResponse = async (userId, userMessage, chatHistory = []) => {
+    if (!userId) {
+        throw new Error("User Id is required");
+    }
+
     if (!userMessage) {
         throw new Error("User message is required");
     }
 
+    const baseUrl = getApiUrl();
     const config = {
-        url: `${BASE_URL}/llm/chat`,
+        url: `${baseUrl}/v1/llm/chat?uuid=${userId}`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            message: userMessage,
+            'message': {
+                'role': 'human',
+                'content': userMessage
+            },
             'prev_messages': chatHistory
         }),
     };
@@ -28,17 +36,47 @@ const getAssistantResponse = async (userMessage, chatHistory = []) => {
         const data = await response.json();
 
         if (response.ok) {
-            // Handle OK response
             return { response: data.response.content, sources: data.sources, };
         } else {
-            // Handle error response
             throw new Error(data.error ? data.error : response.statusText);
         }
     } catch (error) {
-        console.log("Assistant API Error", error);
-        return { response: "Your message could not be processed." };
+        return { response: "Your message could not be processed. Please try again." };
     }
 }
 
+/**
+ * Sends a request to the Assistant API with the uploaded file.
+ * @param {string} userId Unique identifier for tracking user data stored on the API server.
+ * @param {File} file Uploaded file.
+ * @returns Response
+ */
+export const getAssistantAnalysisResponse = async (userId, file) => {
+    if (!userId) {
+        throw new Error("User Id is required");
+    }
 
-export { getAssistantResponse }
+    if (!file) {
+        throw new Error("File is required");
+    }
+
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+
+    const baseUrl = getApiUrl();
+    const config = {
+        url: `${baseUrl}/v1/llm/compliance-analysis?uuid=${userId}`,
+        method: 'POST',
+        headers: { }, // Set empty headers to allow browser to set file headers.
+        body: formData,
+    };
+
+    const response = await apiClient(config);
+    const data = await response.json();
+
+    if (response.ok) {
+        return data;
+    } else {
+        throw new Error(data.error ? data.error : response.statusText);
+    }
+}

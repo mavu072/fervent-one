@@ -3,37 +3,46 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../../App';
 import SignInPage from '../login/SignInPage';
 import LandingPage from '../landing-page/LandingPage';
-import PageNotFound from '../error/RouteErrors';
-// import Privacy from '../../legal/Privacy';
-// import TermsOfService from '../../legal/TermsOfService';
-// import About from '../../about/About';
+import ErrorPage, { PageNotFound } from '../error/RouteErrors';
+// import PrivacyPage from '../../legal/PrivacyPage';
+// import TermsOfServicePage from '../../legal/TermsOfServicePage';
+// import AboutPage from '../../about/AboutPage';
 
 const Router = createBrowserRouter([
     {
         path: '/',
         element: <LandingPage />,
-        errorElement: <PageNotFound />
+        errorElement: <ErrorPage />
     },
     {
         path: '/login',
-        element: <SignInPage />
+        element: <SignInPage />,
+        errorElement: <ErrorPage />
     },
     {
-        path: '/home',
-        element: <App />
+        path: '/home/*', // '*' To accommodate the nested routes.
+        element: <App />,
+        errorElement: <ErrorPage />
     },
     // {
     //     path: '/privacy',
-    //     element: <Privacy />
+    //     element: <PrivacyPage />,
+    //     errorElement: <ErrorPage />
     // },
     // {
     //     path: '/terms',
-    //     element: <TermsOfService />
+    //     element: <TermsOfServicePage />,
+    //     errorElement: <ErrorPage />
     // },
     // {
     //     path: '/about',
-    //     element: <About />
-    // }
+    //     element: <AboutPage />,
+    //     errorElement: <ErrorPage />
+    // },
+    {
+        path: '*',
+        element: <PageNotFound />,
+    }
 ]);
 
 export default Router;

@@ -1,18 +1,23 @@
-from dotenv import load_dotenv
-
-from src.utils.file_utils import create_directory_if_not_exists
+from src.config.constants import DOCUMENT_DIR
 
 import os
 
-load_dotenv()
 
-DOCUMENT_DIR = os.getenv("DOCUMENT_DIR")
 docs_dir = DOCUMENT_DIR
 
-def mkdir_if_not_exists():
+
+def mk_doc_dir():
     """Creates the local document directory for storing files, if it does not exist."""
 
-    create_directory_if_not_exists(docs_dir)
+    mkdir(docs_dir)
+
+
+def find_all_files():
+    """Lists all files in the document directory."""
+
+    mk_doc_dir()
+
+    return os.listdir(docs_dir)
 
 
 def get_path_to_file(filename: str):
@@ -51,23 +56,29 @@ def read_from_file(filepath: str):
     return content
 
 
-def find_all_files():
-    """Lists all files in the document directory."""
-
-    mkdir_if_not_exists()
-
-    return os.listdir(docs_dir)
-
-
-def rm_file_if_exists(filepath: str):
-    """Deletes a file from local document directory, if it exists."""
+def rm_file(filepath: str):
+    """Deletes a file, if it exists."""
 
     deleted = False
 
     if is_file_exists(filepath):
         os.remove(filepath)
         deleted = True
-        
-        print(f">>> Deleted file: {filepath}")
 
     return deleted
+
+
+def mkdir(directory: str):
+    """Creates a directory, if it does not exist."""
+
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+
+
+
+def mkdirtree(dirpath: str):
+    """Creates directories recursively, if they do not exist."""
+
+    if not os.path.exists(dirpath):
+        os.makedirs(dirpath)
+

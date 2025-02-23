@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, createContext } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import FirebaseApp from '../../firebase/firebaseConfig';
-import { getThemePreference, saveThemePreference } from '../theme/util/themeUtil';
 
 export const AppContext = createContext();
 
@@ -9,17 +8,22 @@ const AppProvider = ({ children }) => {
     const app = FirebaseApp();
     const auth = app.auth;
     const [user, isAuthLoading, authError] = useAuthState(auth);
-    const [mode, setMode] = useState(getThemePreference());
+    const [infoMsg, setInfoMsg] = useState({ message: null, count: 0 });
 
     useEffect(() => {
-        saveThemePreference(mode);
-    }, [mode]);
+        if (authError) console.log("Auth Error:", authError);
+    }, [authError]);
 
-    const toggleColorMode = useCallback(() => {
-        setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
-    }, [setMode]);
+    const onInfoMessage = useCallback((newInfoMsg) => {
+        setInfoMsg((prev) => {
+            return {
+              message: newInfoMsg,
+              count: prev.count + 1,
+            }
+          });
+    }, [setInfoMsg])
 
-    const value = { user, app, auth, isAuthLoading, authError, mode, toggleColorMode };
+    const value = { user, app, auth, isAuthLoading, infoMsg, onInfoMessage };
 
     return <AppContext.Provider value={value}>
         {children}

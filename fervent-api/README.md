@@ -95,17 +95,23 @@ Create an `.env file` and add the environment variables.
 
 ```env
 OPENAI_API_KEY = "xxxxxxxx"
-CHROMA_DIR = "tmp/chroma" # Chroma directory. Your vector store is saved here.
-DOCUMENT_DIR = "tmp/sys_files" # Document directory. Your system files are saved here.
 ALLOWED_ORIGIN = "*" # Add allowed origin. Hint: This should be where your frontend is running.
 ```
 
 3. Run application.
 
 ```commandline
-python -m uvicorn main:app --reload
+python -m uvicorn main:app
 ```
 or
+```commandline
+uvicorn main:app
+```
+
+#### Hot Reloading
+Hot-reloading refreshes the server when you save changes to the application files, without re-starting the server.
+To enable hot-reloading, start the server with the command:
+
 ```commandline
 uvicorn main:app --reload
 ```
@@ -116,7 +122,7 @@ These logs do not contain timestamps and information from other processes. To ac
 you must override uvicorn logs as follows:
 
 ```commandline
- uvicorn main:app --reload --log-config=log_conf.yaml
+ uvicorn main:app --log-config=log_conf.yaml
 ```
 
 The log configurations are defined in the `log_conf.yaml` file.
@@ -125,7 +131,7 @@ The log configurations are defined in the `log_conf.yaml` file.
 To deploy the application on your private or home network, use the flag:
 
 ```commandline
-uvicorn main:app  --host 0.0.0.0
+uvicorn main:app --host 0.0.0.0
 ```
 
 Using `0.0.0.0` is the equivalent of `127.0.0.1`.
@@ -135,14 +141,41 @@ Using `0.0.0.0` is the equivalent of `127.0.0.1`.
 Once your application is running. Visit `http://127.0.0.1:8000/`. 
 To see the API documentation. Visit `http://127.0.0.1:8000/docs#/`.
 
----
 
 ## Making your first request
 
-Before you can query the vector database or start talking to the language models.
+Before you can query the vector database or start talking to the models.
 You will need to complete a few more steps.
 
-1. Upload files to vector database.
-1. Initialize the vector database with the files.
+- Using the swagger interactive API docs or Postman:
+    1. Upload files to local storage. To get you started, some files have been placed in the [samples](./sample-files/uploads) folder.
+    2. Initialize the vector database. A vector store will be initialized with the files in the local storage.
 
-Done! Now, you can start querying the database and talk to the models. 
+Done! Now, you can start querying the database and talking to the models. 
+
+
+## Unit testing
+
+Unit tests have been configured and are runnable with `pytest`. To run unit tests, use the command:
+
+```commandline
+python -m pytest
+```
+
+#### Running single test files
+
+You can also run tests on a single file, by using the command:
+
+```commandline
+python -m pytest tests/config/test_constants.py
+```
+
+#### Print output to console
+
+When running tests, you may want to print output to the console. Use `-s` to allow prints to show on the console:
+
+```commandline
+python -m pytest -s
+```
+
+---

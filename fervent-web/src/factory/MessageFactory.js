@@ -8,7 +8,10 @@ function MessageFactory() {
      * @param {string} message.attachment.name Attachment Name
      * @param {number} message.attachment.size Attachment Size
      * @param {number} message.attachment.type Attachment Type
-     * @param {object} message.sources Message Sources
+     * @param {Array<object>} message.sources Sources
+     * @param {string} message.sources.title Source Title 
+     * @param {string} message.sources.link Source URL 
+     * @param {string} message.sources.type Source Type 
      * @param {"user" | "assistant"} message.role Message Sender's Role
      * @param {string} message.userId Recipient User Id
      * @param {firebase.firestore.FieldValue} message.createdAt Created At timestamp

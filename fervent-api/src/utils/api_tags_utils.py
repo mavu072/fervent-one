@@ -1,4 +1,3 @@
-# OpenAPI tags used for API documentation.
 API_TAGS = {
     "disk-storage": "Disk Storage",
     "vector-db": "Vector Database (Chroma)",
@@ -6,3 +5,4 @@ API_TAGS = {
     "ner": "Named Entity Recognition (NER)",
     "llm": "Large Language Model (LLM)"
 }
+"""Tags for OpenAPI documentation."""
