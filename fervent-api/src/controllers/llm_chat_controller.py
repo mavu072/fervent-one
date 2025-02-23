@@ -3,12 +3,11 @@ from typing import BinaryIO
 
 from src.config.constants import UPLOADS_DIR
 from src.models.chat import Message
-from src.services.ner import find_named_entities
-from src.services.llm_chains import run_retrieval_chain, run_conversational_chain, run_analysis_chain
-from src.services.disk_storage import mkdirtree, rm_file
+from src.services.ner.detection import find_named_entities, censor_named_entities
+from src.services.ner.categories import PERSON
+from src.services.llm.chains import run_retrieval_chain, run_conversational_chain, run_analysis_chain
+from src.services.storage.local_store import mkdirtree, rm_file
 from src.utils.message_utils import format_chat_history, find_named_entities_in_message_list, censor_name_entities_in_message_list
-from src.utils.ner_validator_utils import censor_named_entities
-from src.utils.ner_entity_category_utils import PERSON
 
 import traceback
 

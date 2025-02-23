@@ -6,7 +6,7 @@ import traceback
 
 
 def initialize_chroma_database():
-    """Initialize Chroma (a vector database) and loads the files saved in the local disk storage."""
+    """Initialize Chroma (a vector database) and loads the files saved in the local storage."""
     try:
         init_chromadb()
 

@@ -4,7 +4,6 @@ from typing import BinaryIO, TextIO
 def validate_uploaded_file(filename: str, file: BinaryIO | TextIO, size: int, mime_type: str):
     """Validates an uploaded file."""
 
-    valid = False
     max_file_size = 20 * 1024 * 1024 # 20 MB
     supported_file_types = ["application/pdf", "text/plain", "image/png", "image/jpg", "image/jpeg"]
 
@@ -29,4 +28,3 @@ def validate_uploaded_file(filename: str, file: BinaryIO | TextIO, size: int, mi
     valid = True # Passed all validation tests.
 
     return valid
-

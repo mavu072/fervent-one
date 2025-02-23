@@ -2,8 +2,9 @@ from langchain_chroma import Chroma
 from langchain.schema import Document
 from langchain_openai import OpenAIEmbeddings
 
-from src.services.document_loader import load_directory, split_documents_to_chunks
-from src.services.disk_storage import mkdir
+from src.services.document_loaders.loaders import load_directory 
+from src.services.text_splitters.splitters import split_documents
+from src.services.storage.local_store import mkdir
 from src.config.constants import CHROMA_DIR, DOCUMENT_DIR
 
 import os
@@ -18,7 +19,9 @@ def create_vector_store_from_documents(documents: list[Document]):
     """Creates a Chroma vectorstore from a list of documents (Uses default langchain collection)."""
 
     # Uses default langchain collection.
-    db = Chroma.from_documents(documents=documents, embedding=OpenAIEmbeddings(), persist_directory=CHROMA_DIR)
+    db = Chroma.from_documents(
+        documents=documents, embedding=OpenAIEmbeddings(), persist_directory=CHROMA_DIR
+    )
 
     return db
 
@@ -36,7 +39,7 @@ def get_chromadb_retriever():
     """Get Chroma vector store (database) as a retriever interface."""
 
     db = get_chroma_client()
-    retriever = db.as_retriever(search_type="similarity", search_kwargs={"k":3})
+    retriever = db.as_retriever(search_type="similarity", search_kwargs={"k": 3})
 
     return retriever
 
@@ -54,16 +57,18 @@ def query_chromadb(query: str):
 
 
 def init_chromadb():
-    """Initializes a default Chroma vector store (database),
-      and loads documents in the local disk storage into the vector store.
+    """
+    Initializes a default Chroma vector store (database),
+    and loads all documents, which are reserved for use by the system,
+    from the local storage into the vector store.
     """
 
     mkdir(DOCUMENT_DIR)
-    
+
     documents = load_directory(DOCUMENT_DIR)
     print(f">>> Loaded {len(documents)} documents from directory: {DOCUMENT_DIR}.")
 
-    chunks = split_documents_to_chunks(documents)
+    chunks = split_documents(documents)
     print(f">>> Split {len(documents)} documents into {len(chunks)} chunks.")
 
     mkdir(CHROMA_DIR)

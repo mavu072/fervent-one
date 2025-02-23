@@ -6,14 +6,14 @@ from langchain.schema import Document
 
 from src.models.error import Error
 from src.services.vectorstores.chroma import get_chromadb_retriever, query_chromadb
-from src.config.prompt_templates import (
+from src.services.llm.prompt_templates import (
     QA_PROMPT_TEMPLATE,
     CONTEXTUALISE_CHAT_HISTORY_PROMPT,
     SYSTEM_INSTRUCTION_PROMPT_V2 as SYSTEM_INSTRUCTION_PROMPT,
     COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE,
 )
+from src.services.vectorstores.vector_search_utils import join_similarity_search_results
 from src.utils.model_utils import parse_compliance_analysis
-from src.utils.vectorstores.vectorstore_utils import join_similarity_search_results
 from src.utils.json_utils import extract_json_obj
 from src.utils.exception_utils import ERR_ANALYSIS_FAILED, ERR_JSON_PARSER
 
@@ -28,19 +28,20 @@ llm = ChatOpenAI()
 retriever = get_chromadb_retriever()
 
 
-def get_llm_prompt_response(query_text: str, context_text: str):
-    """Creates a response for a prompt."""
+def create_prompt_response(query_text: str, context_text: str):
+    """Responds to a message, using with the system's QA prompt."""
 
     # Create prompt from a prompt template
     prompt_template = ChatPromptTemplate.from_template(QA_PROMPT_TEMPLATE)
+    # Fill placeholders with values and invoke llm.
     prompt = prompt_template.format(context=context_text, input=query_text)
     response = llm.invoke(prompt)
 
     return response
 
 
-def get_llm_conversational_response(query_message: str, message_history: list):
-    """Creates a response for the user message using the previous messages as context."""
+def create_conversational_response(query_message: str, message_history: list):
+    """Responds to a message and keeps the previous messages in the context."""
 
     # (chat history chain)
     # CONTEXTUALISE_CHAT_HISTORY_PROMPT: a prompt instructed to produce a rephrased question based on the user's last question, but referencing previous messages.
@@ -71,7 +72,7 @@ def get_llm_conversational_response(query_message: str, message_history: list):
         history_aware_retriever, question_answer_chain
     )
 
-    # invoke and replace placeholders with values.
+    # Fill placeholders with values and invoke retrieval chain.
     response = retrieval_chain.invoke(
         {"input": query_message, "chat_history": message_history}
     )
@@ -79,39 +80,44 @@ def get_llm_conversational_response(query_message: str, message_history: list):
     return response
 
 
-def get_llm_analysis_response(articles: list[Document]):
-    """Creates an analysis response for articles within a document. Article refers to clauses/sections in a document."""
+def perform_document_analysis(articles: list[Document]):
+    """Performs an analysis on a document.
+    \n
+    **Article** refers to clauses/sections in a document.
+    """
 
-    response = {"result": []}
     prompt_template = ChatPromptTemplate.from_template(
         COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE
     )
 
+    response = {"result": []}
+
     for i in range(len(articles)):
-        # Select article.
-        article = articles[i]
-        article_text = article.page_content
+
+        # Article selection.
+        article_text = articles[i].page_content
         article_response = {
             "id": i,
             "text": article_text,
         }
 
-        # Vector search: Query vectorstore for relevent legal context.
+        # (vector search) Query vectorstore for relevent legal context.
         search_result_docs = query_chromadb(article_text)
+
         if search_result_docs is None:
-            # Pass error.
+            # Provide error, if vector search finds no relevant context.
             article_response["error"] = Error(message=ERR_ANALYSIS_FAILED)
         else:
             # Format search result.
             legal_context = join_similarity_search_results(search_result_docs)
 
-            # Do analysis.
+            # Fill placeholders with article and provide matching legal context, then invoke llm.
             prompt = prompt_template.format(
                 article_context=article_text, legal_context=legal_context
             )
             ai_response = llm.invoke(prompt)
 
-            # Parse response.
+            # Try parse response and provide error, if fails.
             try:
                 analysis_result = parse_compliance_analysis(
                     extract_json_obj(ai_response.content)

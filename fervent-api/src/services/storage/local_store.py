@@ -20,7 +20,7 @@ def find_all_files():
     return os.listdir(docs_dir)
 
 
-def get_path_to_file(filename: str):
+def path_to_file(filename: str):
     """Returns a relative path to a file stored in the document directory."""
 
     if not filename.endswith(".txt"):

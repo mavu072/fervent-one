@@ -1,8 +1,7 @@
 from fastapi.responses import JSONResponse
 
-from src.services.ner import find_named_entities
-from src.utils.ner_validator_utils import censor_named_entities
-from src.utils.ner_entity_category_utils import entity_categories
+from src.services.ner.detection import find_named_entities, censor_named_entities
+from src.services.ner.categories import entity_categories
 
 
 def detect_named_entities(text: str):

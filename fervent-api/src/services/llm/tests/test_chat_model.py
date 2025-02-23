@@ -2,19 +2,19 @@ from langchain_core.messages.ai import AIMessage
 from langchain.schema import Document
 from src.models.compliance_analysis import ComplianceAnalysis
 from src.models.error import Error
-from src.services.llm import (
-    get_llm_prompt_response,
-    get_llm_conversational_response,
-    get_llm_analysis_response,
+from src.services.llm.chat_model import (
+    create_prompt_response,
+    create_conversational_response,
+    perform_document_analysis,
 )
 
 
-def test_get_llm_prompt_response():
+def test_create_prompt_response():
     query = "What is pytest?"
     context = "A delightful test framework for python applications."
     answer = "test framework"
 
-    result = get_llm_prompt_response(query_text=query, context_text=context)
+    result = create_prompt_response(query_text=query, context_text=context)
 
     assert result is not None
     assert type(result) is AIMessage
@@ -29,7 +29,7 @@ def test_get_llm_prompt_response():
     assert result.response_metadata["token_usage"]["prompt_tokens"] is 33
 
 
-def test_get_llm_conversational_response():
+def test_create_conversational_response():
     name = "Rick Sanchez"
     msg = "What is my name?"
     history = [
@@ -37,7 +37,7 @@ def test_get_llm_conversational_response():
         ("ai", "I understand master.")
     ]
 
-    result = get_llm_conversational_response(query_message=msg, message_history=history)
+    result = create_conversational_response(query_message=msg, message_history=history)
 
     assert result["input"] is msg
     assert result["chat_history"] is history
@@ -56,7 +56,7 @@ def test_history_and_context_awareness():
         ("ai", "I understand master.")
     ]
 
-    result = get_llm_conversational_response(query_message=msg, message_history=history)
+    result = create_conversational_response(query_message=msg, message_history=history)
 
     assert type(result["answer"]) is str
     assert result["answer"].find(name) is not -1
@@ -74,24 +74,35 @@ def test_history_and_context_memory():
         ("ai", "Your name is Rick Sanchez. The CCMA (Commission for Conciliation, Mediation and Arbitration) can help you at work by assisting with resolving disputes related to the interpretation or application of labor laws."),
     ]
 
-    result = get_llm_conversational_response(query_message=msg, message_history=history)
+    result = create_conversational_response(query_message=msg, message_history=history)
 
     assert type(result["answer"]) is str
     assert result["answer"].find(subject) is not -1
 
 
-def test_get_llm_analysis_response():
+def test_perform_document_analysis():
     article0 = Document("""1. Termination
                      The Employer may terminate this agreement at any time without notice or reason.""")
     article1 = Document("""2. Compensation.
                      The Employer agrees to pay the Employee a salary of 2000 rands per month.""")
-    article2 = Document("Foo Bar") # Hallucination test.
 
-    articles =  [article0, article1, article2]
+    articles =  [article0, article1]
 
-    response = get_llm_analysis_response(articles=articles)
+    response = perform_document_analysis(articles=articles)
 
     assert type(response) is dict
-    assert type(response["article0"]["compliance_analysis"]) is ComplianceAnalysis
-    assert type(response["article1"]["compliance_analysis"]) is ComplianceAnalysis
-    assert type(response["article2"]["error"]) is Error
+
+    result = response["result"]
+    assert type(result[0]["compliance_analysis"]) is ComplianceAnalysis
+    assert type(result[1]["compliance_analysis"]) is ComplianceAnalysis
+
+
+def test_hallucination_during_analysis():
+    articles =  [Document("Foo Bar")]
+
+    response = perform_document_analysis(articles=articles)
+
+    assert type(response) is dict
+
+    result = response["result"]
+    assert type(result[0]["error"]) is Error
