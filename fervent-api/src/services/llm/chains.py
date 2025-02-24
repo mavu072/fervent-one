@@ -3,7 +3,7 @@ from src.services.llm.chat_model import (
     create_conversational_response,
     perform_document_analysis,
 )
-from src.services.vectorstores.chroma import query_chromadb
+from src.services.vectorstores.chroma import query_chroma
 from src.services.document_loaders.loaders import load_pdf 
 from src.services.text_splitters.splitters import split_documents
 from src.services.vectorstores.vector_search_utils import (
@@ -17,7 +17,7 @@ def run_retrieval_chain(query_text: str):
     """Runs a retrieval chain to create a response for user messages."""
 
     # documents matching query.
-    result_docs = query_chromadb(query_text)
+    result_docs = query_chroma(query_text)
 
     if result_docs is None:
         raise Exception(ERR_NO_MATCH_FOUND)
@@ -72,6 +72,6 @@ async def run_analysis_chain(filepath: str):
     doc_chunks = split_documents(doc_pages)
 
     # Analyse Pages.
-    response = perform_document_analysis(doc_chunks)
+    response = await perform_document_analysis(doc_chunks)
 
     return response

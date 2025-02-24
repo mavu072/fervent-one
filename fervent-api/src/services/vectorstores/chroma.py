@@ -26,7 +26,7 @@ def create_vector_store_from_documents(documents: list[Document]):
     return db
 
 
-def get_chroma_client():
+def chroma_client():
     """Get Chroma client (Uses default langchain collection)."""
 
     # Uses default langchain collection.
@@ -35,19 +35,19 @@ def get_chroma_client():
     return db
 
 
-def get_chromadb_retriever():
+def chroma_retriever():
     """Get Chroma vector store (database) as a retriever interface."""
 
-    db = get_chroma_client()
+    db = chroma_client()
     retriever = db.as_retriever(search_type="similarity", search_kwargs={"k": 3})
 
     return retriever
 
 
-def query_chromadb(query: str):
+def query_chroma(query: str):
     """Queries Chroma vector store (database)."""
 
-    db = get_chroma_client()
+    db = chroma_client()
     docs = db.similarity_search_with_relevance_scores(query, k=3)
 
     if len(docs) == 0 or docs[0][1] < 0.7:
@@ -56,7 +56,18 @@ def query_chromadb(query: str):
     return docs
 
 
-def init_chromadb():
+async def aquery_vector_store(query: str, db: Chroma):
+    """Queries Chroma vector store asynchronously."""
+
+    docs = await db.asimilarity_search_with_relevance_scores(query, k=4)
+
+    if len(docs) == 0 or docs[0][1] < 0.7:
+        return None
+    
+    return docs
+
+
+def init_chroma():
     """
     Initializes a default Chroma vector store (database),
     and loads all documents, which are reserved for use by the system,
@@ -72,7 +83,7 @@ def init_chromadb():
     print(f">>> Split {len(documents)} documents into {len(chunks)} chunks.")
 
     mkdir(CHROMA_DIR)
-    Chroma.delete_collection(get_chroma_client())
+    Chroma.delete_collection(chroma_client())
 
     create_vector_store_from_documents(chunks)
     print(f">>> Persisted {len(chunks)} documents to Chroma DB.")
