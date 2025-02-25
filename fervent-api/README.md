@@ -8,6 +8,7 @@ Fervent API is RESTful API that exposes endpoints for interacting with these ser
 
 These services are consumed through the API by client applications.
 
+
 ## Setup environment
 
 #### Best Practices
@@ -50,36 +51,39 @@ deactivate
 
 ## Pre-installation
 
-#### Required Packages
+#### Required Software/Packages
+
+- **Python** version 3.12.8 or higher is required
 
 - **Tesseract OCR** is required.
 
-Download and install [Tesseract](https://tesseract-ocr.github.io/tessdoc/Installation.html).
-Add your installation to your PATH variables.
+    Download and install [Tesseract](https://tesseract-ocr.github.io/tessdoc/Installation.html).
+    Add your installation to your PATH variables.
 
-To test if Tesseract is installed correctly, run:
+    To test if Tesseract is installed correctly, run:
 
-```commandline
-tesseract
-```
+    ```commandline
+    tesseract
+    ```
 
 - **Poppler** is a package required by the python library `pdf2image`.
 
-Before installing the dependencies, you must install [Poppler](https://pdf2image.readthedocs.io/en/latest/installation.html).
+    Before installing the dependencies, you must install [Poppler](https://pdf2image.readthedocs.io/en/latest/installation.html).
 
-- **Spacy** is required.
+    - **Spacy** is required.
 
-Download spacy and models.
+    Download spacy and models.
 
-```commandline
-pip install -U pip setuptools wheel
-pip install -U spacy
-python -m spacy download en_core_web_sm
-```
+    ```commandline
+    pip install -U pip setuptools wheel
+    pip install -U spacy
+    python -m spacy download en_core_web_sm
+    ```
 
 - **OpenAI** is required.
 
-You will need an OpenAI API key. Create one on the [OpenAI Platform](https://platform.openai.com/).
+    You will need an OpenAI API key. Create one on the [OpenAI Platform](https://platform.openai.com/).
+
 
 ## Installation
 
@@ -167,7 +171,7 @@ python -m pytest
 You can also run tests on a single file, by using the command:
 
 ```commandline
-python -m pytest tests/config/test_constants.py
+python -m pytest sample-tests/test_demo.py
 ```
 
 #### Print output to console

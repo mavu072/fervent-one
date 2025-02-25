@@ -2,6 +2,7 @@
 
 Fervent Web is a client application that consumes the REST services supported by the Fervent API.
 
+
 ## Setup environment
 
 This application requires that you set up a Firebase project.
@@ -9,15 +10,34 @@ This application requires that you set up a Firebase project.
 On the [Firebase console](https://console.firebase.google.com/u/1/):
 - Create a Web App configuration.
 
-Take note of your app configurations. You will need this later on.
+    Take note of your app configurations. You will need this later on.
 
 - Enable Sign-in providers.
 
-Enable Email/Password and Google Sign-In.
+- Enable Email/Password and Google Sign-In.
 
 - Enable Firestore Database.
 
-Change your database rules to allow `read, write` operations.
+    Change your database rules to allow `read, write` operations.
+
+    ```
+    rules_version = '2';
+
+    service cloud.firestore {
+        match /databases/{database}/documents {
+            match /{document=**} {
+                allow read, write: if request.auth != null; // Allows authenticated users to read/write.
+            }
+        }
+    }
+    ```
+
+
+## Pre-installation
+
+#### Required Software/Packages
+
+- **Node** version v22.14.0 or higher is required.
 
 
 ## Installation
