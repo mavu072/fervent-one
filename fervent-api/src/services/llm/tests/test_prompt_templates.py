@@ -1,5 +1,5 @@
-from src.config.prompt_templates import QA_PROMPT_TEMPLATE, CONTEXTUALISE_CHAT_HISTORY_PROMPT, COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE
-from src.config.prompt_templates import CUSTOM_FILE_QA_PROMPT_TEMPLATE
+from src.services.llm.prompt_templates import QA_PROMPT_TEMPLATE, CONTEXTUALISE_CHAT_HISTORY_PROMPT, COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE
+from src.services.llm.prompt_templates import CUSTOM_FILE_QA_PROMPT_TEMPLATE
 
 
 def test_qa_prompt_template():
@@ -18,8 +18,9 @@ def test_compliance_analysis_prompt_template():
     assert COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE is not None
 
     document_context = "This is a document about nothing."
+    article_context = "Fake news."
 
-    result = COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE.format(document_context=document_context)
+    result = COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE.format(legal_context=document_context, article_context=article_context)
 
     assert result.find(document_context) is not -1
 

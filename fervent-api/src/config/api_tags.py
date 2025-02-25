@@ -1,5 +1,5 @@
 API_TAGS = {
-    "disk-storage": "Disk Storage",
+    "local-storage": "Local Storage",
     "vector-db": "Vector Database (Chroma)",
     "ocr": "Optical Character Recognition (OCR)",
     "ner": "Named Entity Recognition (NER)",

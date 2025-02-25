@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.utils.api_tags_utils import API_TAGS
+from src.config.api_tags import API_TAGS
 from src.controllers.vectorstore_controller import initialize_chroma_database, similarity_search_on_chroma
 
 

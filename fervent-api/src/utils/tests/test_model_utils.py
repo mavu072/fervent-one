@@ -32,7 +32,6 @@ def test_parse_compliance_report():
 """
 
     parsed_obj = parse_compliance_report(str_obj)
-    print(parsed_obj)
 
     assert type(parsed_obj) == ComplianceReport
     assert parsed_obj.overall_compliance_rating == 70

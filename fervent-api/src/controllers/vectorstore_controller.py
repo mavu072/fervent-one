@@ -1,14 +1,14 @@
 from fastapi.responses import JSONResponse
 
-from src.services.vectorstores.chroma import init_chromadb, query_chromadb
+from src.services.vectorstores.chroma import init_chroma, query_chroma
 
 import traceback
 
 
 def initialize_chroma_database():
-    """Initialize Chroma (a vector database) and loads the files saved in the local disk storage."""
+    """Initialize Chroma (a vector database) and loads the files saved in the local storage."""
     try:
-        init_chromadb()
+        init_chroma()
 
         return JSONResponse(
             status_code=200,
@@ -27,7 +27,7 @@ def initialize_chroma_database():
 def similarity_search_on_chroma(search_input: str):
     """Query Chroma using a similarity search."""
     try:
-        results = query_chromadb(search_input)
+        results = query_chroma(search_input)
         total = len(results)
 
         res = []

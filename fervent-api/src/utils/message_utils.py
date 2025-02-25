@@ -1,8 +1,7 @@
 from typing import List
 
 from src.models.chat import Message
-from src.services.ner import find_named_entities
-from src.utils.ner_validator_utils import censor_named_entities
+from src.services.ner.detection import find_named_entities, censor_named_entities
 
 
 def convert_message_list_to_pairs(msg_list: List[Message]):

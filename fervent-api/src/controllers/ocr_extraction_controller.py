@@ -1,8 +1,8 @@
 from fastapi.responses import JSONResponse
 from typing import BinaryIO
 
-from src.services.ocr import convert_pdf_to_image, read_images_to_text
-from src.services.file_validation import validate_uploaded_file
+from src.services.ocr.ocr_tess import pdf_to_image, images_to_text
+from src.services.validators.file_validator import validate_uploaded_file
 
 
 def ocr_text_from_file(filename: str, file: BinaryIO, size: int, mime_type: str):
@@ -10,8 +10,8 @@ def ocr_text_from_file(filename: str, file: BinaryIO, size: int, mime_type: str)
     try:
         validate_uploaded_file(filename=filename, file=file, size=size, mime_type=mime_type)
 
-        img_pages = convert_pdf_to_image(file=file, mime_type=mime_type)
-        text_content_pages = read_images_to_text(images=img_pages)
+        img_pages = pdf_to_image(file=file, mime_type=mime_type)
+        text_content_pages = images_to_text(images=img_pages)
         page_no = len(img_pages)
 
         return JSONResponse(

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, Form
 from typing import Annotated
 
-from src.utils.api_tags_utils import API_TAGS
+from src.config.api_tags import API_TAGS
 from src.models.chat import Chat
 from src.controllers.llm_chat_controller import (
     send_message_to_assistant_with_retrieval_chain,

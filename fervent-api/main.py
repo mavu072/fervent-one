@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.routes.vectorstore_router import router as vectorstore_router
-from src.routes.disk_storage_router import router as disk_storage_router
+from src.routes.local_storage_router import router as local_storage_router
 from src.routes.ocr_extraction_router import router as ocr_extraction_router
 from src.routes.ner_entity_router import router as ner_entity_router
 from src.routes.llm_router import router as llm_router
@@ -27,6 +27,7 @@ origins = [
     "http://localhost:3000",
     "http://127.0.0.0",
     "http://127.0.0.0:3000",
+    "*", # All
     ALLOWED_ORIGIN,
 ]
 
@@ -41,7 +42,7 @@ app.add_middleware(
 
 # Include routes.
 app.include_router(vectorstore_router)
-app.include_router(disk_storage_router)
+app.include_router(local_storage_router)
 app.include_router(ocr_extraction_router)
 app.include_router(ner_entity_router)
 app.include_router(llm_router)
