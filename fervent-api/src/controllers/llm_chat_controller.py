@@ -71,7 +71,7 @@ def send_message_to_assistant_with_conversational_chain(uuid: str | None, messag
 
 
 async def send_file_to_assistant_with_analysis_chain(uuid: str, filename: str, file: BinaryIO, size: int, mime_type: str):
-    """"""
+    """Send a file to the LLM to get a compliance analysis."""
     try:
         # Get uploader's unique path.
         uploads_dir = UPLOADS_DIR + "/" + uuid

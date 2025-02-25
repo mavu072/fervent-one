@@ -1,7 +1,7 @@
 from src.services.llm.chat_model import (
     create_prompt_response,
     create_conversational_response,
-    perform_document_analysis,
+    create_compliance_analysis,
 )
 from src.services.vectorstores.chroma import query_chroma
 from src.services.document_loaders.loaders import load_pdf 
@@ -63,7 +63,7 @@ def run_conversational_chain_with_files(
 
 
 async def run_analysis_chain(filepath: str):
-    """Runs an analysis chain to create responses to an uploaded file."""
+    """Runs an analysis chain to create a compliance analysis for a file."""
 
     # Load Document.
     doc_pages = await load_pdf(filepath)
@@ -72,6 +72,6 @@ async def run_analysis_chain(filepath: str):
     doc_chunks = split_documents(doc_pages)
 
     # Analyse Pages.
-    response = await perform_document_analysis(doc_chunks)
+    response = await create_compliance_analysis(doc_chunks)
 
     return response

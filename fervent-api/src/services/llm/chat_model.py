@@ -93,10 +93,10 @@ def create_conversational_response(query_message: str, message_history: list):
     return response
 
 
-async def perform_document_analysis(articles: list[Document]):
-    """Performs an analysis on a document.
+async def create_compliance_analysis(articles: list[Document]):
+    """Performs and creates a compliance analysis on a document.
     \n
-    **Article** refers to clauses/sections in a document.
+        :param list[Document] articles: An article refers to clauses/sections in a document.
     """
 
     response = {"result": []}
@@ -183,18 +183,18 @@ def post_process_outputs(output: tuple[str, str | BaseMessage | AIMessage]):
 
     (doc_text, response) = output
 
-    parsed = {"text": doc_text}
+    obj = {"text": doc_text}
 
     if type(response) == BaseMessage or AIMessage:
         try:
             compliance_analysis = parse_compliance_analysis(
                 extract_json_obj(response.content)
             )
-            parsed["compliance_analysis"] = compliance_analysis
+            obj["compliance_analysis"] = compliance_analysis
 
         except Exception as error:
-            parsed["error"] = ERR_JSON_PARSER.format(cause=error)
+            obj["error"] = ERR_JSON_PARSER.format(cause=error)
     else:
-        parsed["error"] = response
+        obj["error"] = response
 
-    return parsed
+    return obj
