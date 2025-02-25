@@ -7,7 +7,11 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.schema import Document
 
 from src.models.error import Error
-from src.services.vectorstores.chroma import chroma_retriever, chroma_client, query_chroma, aquery_vector_store
+from src.services.vectorstores.chroma import (
+    chroma_retriever,
+    chroma_client,
+    aquery_vector_store,
+)
 from src.services.llm.prompt_templates import (
     QA_PROMPT_TEMPLATE,
     CONTEXTUALISE_CHAT_HISTORY_PROMPT,
@@ -107,14 +111,18 @@ async def create_compliance_analysis(articles: list[Document]):
     timer_start = time.perf_counter()
     inputs = await asyncio.gather(*coroutines)
     timer_stop = time.perf_counter()
-    
-    print(f"Finished Pre-process Coroutine tasks: {len(inputs)}")
-    print(f"*** Finished all concurrent requests in... {timer_stop - timer_start:0.4f} seconds")
 
-    errors = list(filter(lambda input: type(input[1]) is str, inputs))
+    print(f"Finished Pre-process Coroutine tasks: {len(inputs)}")
+    print(
+        f"*** Finished all concurrent requests in... {timer_stop - timer_start:0.4f} seconds"
+    )
+
+    errors = list(filter(lambda input: type(input[1]) == Error, inputs))
     print(f"Errors: {len(errors)}")
 
-    prompt_values = list(filter(lambda input: type(input[1]) is PromptValue or ChatPromptValue, inputs))
+    prompt_values = list(
+        filter(lambda input: type(input[1]) == ChatPromptValue, inputs)
+    )
     print(f"Valid Inputs: {len(prompt_values)}")
 
     invoke_coroutines = list(map(process_inputs, prompt_values))
@@ -125,7 +133,9 @@ async def create_compliance_analysis(articles: list[Document]):
     timer_stop = time.perf_counter()
 
     print(f"Finished AInvoke Coroutine tasks: {len(result)}")
-    print(f"*** Finished all concurrent requests in... {timer_stop - timer_start:0.4f} seconds")
+    print(
+        f"*** Finished all concurrent requests in... {timer_stop - timer_start:0.4f} seconds"
+    )
 
     processed_result = list(map(post_process_outputs, list(result + errors)))
 
@@ -148,7 +158,7 @@ async def pre_process_inputs(doc: Document):
 
     if search_result_docs is None:
         # (error) if vector search finds no relevant context.
-        return (doc_text, ERR_ANALYSIS_FAILED)
+        return (doc_text, Error(message=ERR_ANALYSIS_FAILED))
     else:
         legal_context = join_similarity_search_results(search_result_docs)
 
@@ -163,7 +173,7 @@ async def pre_process_inputs(doc: Document):
         return (doc_text, prompt_value)
 
 
-async def process_inputs(input: tuple[str, PromptValue | ChatPromptValue]):
+async def process_inputs(input: tuple[str, ChatPromptValue]):
     """Process prompt values by running through analysis."""
 
     (doc_text, prompt_val) = input
@@ -178,7 +188,7 @@ async def process_inputs(input: tuple[str, PromptValue | ChatPromptValue]):
     return (doc_text, response)
 
 
-def post_process_outputs(output: tuple[str, str | BaseMessage | AIMessage]):
+def post_process_outputs(output: tuple[str, Error | BaseMessage | AIMessage]):
     """Post-process outputs to format data structure after completing analysis."""
 
     (doc_text, response) = output
@@ -194,6 +204,10 @@ def post_process_outputs(output: tuple[str, str | BaseMessage | AIMessage]):
 
         except Exception as error:
             obj["error"] = ERR_JSON_PARSER.format(cause=error)
+
+    elif type(response) == Error:
+        obj["error"] = response.message
+
     else:
         obj["error"] = response
 

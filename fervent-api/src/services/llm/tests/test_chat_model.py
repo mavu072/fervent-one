@@ -5,8 +5,10 @@ from src.models.error import Error
 from src.services.llm.chat_model import (
     create_prompt_response,
     create_conversational_response,
-    perform_document_analysis,
+    create_compliance_analysis,
 )
+
+import pytest
 
 
 def test_create_prompt_response():
@@ -80,7 +82,8 @@ def test_history_and_context_memory():
     assert result["answer"].find(subject) is not -1
 
 
-def test_perform_document_analysis():
+@pytest.mark.asyncio
+async def test_perform_document_analysis():
     article0 = Document("""1. Termination
                      The Employer may terminate this agreement at any time without notice or reason.""")
     article1 = Document("""2. Compensation.
@@ -88,7 +91,7 @@ def test_perform_document_analysis():
 
     articles =  [article0, article1]
 
-    response = perform_document_analysis(articles=articles)
+    response = await create_compliance_analysis(articles=articles)
 
     assert type(response) is dict
 
@@ -97,12 +100,13 @@ def test_perform_document_analysis():
     assert type(result[1]["compliance_analysis"]) is ComplianceAnalysis
 
 
-def test_hallucination_during_analysis():
+@pytest.mark.asyncio
+async def test_hallucination_during_analysis():
     articles =  [Document("Foo Bar")]
 
-    response = perform_document_analysis(articles=articles)
+    response = await create_compliance_analysis(articles=articles)
 
     assert type(response) is dict
 
     result = response["result"]
-    assert type(result[0]["error"]) is Error
+    assert type(result[0]["error"]) is str
