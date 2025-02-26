@@ -9,7 +9,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand --detectOpenHandles",
+    "testwatch": "jest --watch --runInBand --detectOpenHandles"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

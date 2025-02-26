@@ -8,6 +8,7 @@ import Insights from "./Insights";
 import Articles from "./Articles";
 import OverallScoreCard from "./OverallScoreCard";
 import Definitions from "./Definitions";
+import Errors from "./Errors";
 
 
 /**
@@ -17,13 +18,23 @@ import Definitions from "./Definitions";
  * @param {boolean} obj.loading Loading.
  * @returns JSX Component
  */
-function AnalysisViewer({ articles = [], loading = false }) {
+function AnalysisViewer({ articles = [], loading = false, onTextSearch }) {
     const [selectedInfoType, setSelectedInfoType] = useState(0);
-    const allIssues = articles.map(article => article.nonCompliantSections).flat();
-    const allInsights = articles.map(article => article.compliantSections).flat()
+    // Categorize articles.
+    const allIssues = articles.map(article => article.nonCompliantSections || []).flat();
+    const allInsights = articles.map(article => article.compliantSections || []).flat()
+    const allErrors = articles.map(({ text, error }) => {
+        if (error) {
+            return { text, error };
+        }
+        return null;
+    }).filter(error => error !== null);
+    // Totals.
     const sumIssues = allIssues.length;
-    const sumIInsights = allInsights.length;
-    const overallScore = Math.floor((sumIInsights / (sumIssues + sumIInsights)) * 100);
+    const sumInsights = allInsights.length;
+    const sumErrors = allErrors.length;
+    // Calculate score.
+    const overallScore = Math.floor((sumInsights / (sumIssues + sumInsights)) * 100);
 
     function handleClickArticles() {
         setSelectedInfoType(0);
@@ -35,6 +46,10 @@ function AnalysisViewer({ articles = [], loading = false }) {
 
     function handleClickInsights() {
         setSelectedInfoType(2);
+    }
+
+    function handleClickErrors() {
+        setSelectedInfoType(3);
     }
 
     return (
@@ -53,18 +68,24 @@ function AnalysisViewer({ articles = [], loading = false }) {
                     onClick={handleClickIssues}
                 />
                 <Chip
-                    label={`${sumIInsights} Positive Insights`}
+                    label={`${sumInsights} Positive Insights`}
                     sx={{ borderRadius: '8px', bgcolor: "secondary.main", color: "white" }}
                     onClick={handleClickInsights}
+                />
+                <Chip
+                    label={`${sumErrors} Errors`}
+                    sx={{ borderRadius: '8px', bgcolor: "error.main", color: "white" }}
+                    onClick={handleClickErrors}
                 />
             </Stack>
 
             <OverallScoreCard score={overallScore || 0} />
             <Definitions />
 
-            {selectedInfoType == 0 && <Articles articles={articles} />}
-            {selectedInfoType == 1 && <Issues issues={allIssues} />}
-            {selectedInfoType == 2 && <Insights insights={allInsights} />}
+            {selectedInfoType == 0 && <Articles articles={articles} onTextSearch={onTextSearch} />}
+            {selectedInfoType == 1 && <Issues issues={allIssues} onTextSearch={onTextSearch} />}
+            {selectedInfoType == 2 && <Insights insights={allInsights} onTextSearch={onTextSearch} />}
+            {selectedInfoType == 3 && <Errors errors={allErrors} />}
         </Stack>
     );
 }
