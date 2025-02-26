@@ -12,7 +12,7 @@ import CompliantCard from "./CompliantCard";
  * @param {boolean} obj.loading Loading.
  * @returns JSX Component
  */
-function Insights({ insights, loading = false }) {
+function Insights({ insights, loading = false, onTextSearch }) {
     return (
         <Stack flex={1} gap={1}>
             <Typography gutterBottom variant="h7" component="div" fontWeight={600}>
@@ -20,7 +20,14 @@ function Insights({ insights, loading = false }) {
             </Typography>
 
             {loading && <SectionLoader />}
-            {insights && insights.map((insight, index) => <CompliantCard key={index} id={index} details={insight} />)}
+            {insights && insights.map((insight, index) => (
+                <CompliantCard
+                    key={index}
+                    id={index}
+                    details={insight}
+                    onTextSearch={onTextSearch}
+                />
+            ))}
         </Stack>
     );
 }

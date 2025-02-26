@@ -27,6 +27,7 @@ function ComplianceCheckerPane() {
     const [analysisResult, setAnalyisResult] = useState();
     const [analysing, setAnalysing] = useState(false);
     const [analysisTimeElapsed, setAnalysisTimeElapsed] = useState();
+    const [searchText, setSearchText] = useState("");
 
     const fileAnalyser = new FileAnalysisService();
     const reader = new FileReader();
@@ -61,7 +62,7 @@ function ComplianceCheckerPane() {
 
                 setAnalyisResult(complianceAnalysis);
                 setAnalysisTimeElapsed(timeElapsed);
-                onInfoMessage(`Analysis completed in ${timeElapsed} secs.`)
+                onInfoMessage(`Analysis completed in ${analysisTimeElapsed} secs.`)
             }).catch(error => {
                 onInfoMessage(error?.message || "Analysis Error");
                 setAnalysing(false);
@@ -75,6 +76,15 @@ function ComplianceCheckerPane() {
         setFile(undefined);
         setFileBuffer(undefined);
         setAnalyisResult(undefined);
+        setSearchText("");
+    }
+
+    /**
+     * Handle PDF text search.
+     * @param {string} text 
+     */
+    function handleSearch(text) {
+        setSearchText(text);
     }
 
     return (
@@ -145,7 +155,7 @@ function ComplianceCheckerPane() {
                             </Box>
                         }
                         {!file && <DropFileZone files={file} setFiles={handleAddFiles} accept=".pdf" />}
-                        {file && <PDFViewer fileSource={fileBuffer} />}
+                        {file && <PDFViewer fileSource={fileBuffer} searchText={searchText} />}
                     </Stack>
                     <Stack
                         className="Analysis-column"
@@ -159,7 +169,7 @@ function ComplianceCheckerPane() {
                             scrollbarWidth: "none",
                         }}
                     >
-                        <AnalysisViewer articles={analysisResult?.result} loading={analysing} />
+                        <AnalysisViewer articles={analysisResult?.result} loading={analysing} onTextSearch={handleSearch} />
                     </Stack>
                 </Stack>
 

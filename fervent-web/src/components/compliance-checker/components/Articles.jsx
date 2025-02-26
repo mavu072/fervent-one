@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Issues from "./Issues";
 import Insights from "./Insights";
 import ArticleContent from "./ArticleContent";
+import Button from "../../buttons/Button";
 
 /**
  * Articles
@@ -15,12 +16,14 @@ import ArticleContent from "./ArticleContent";
  * @param {Array<object>} obj.articles Articles.
  * @returns JSX Component.
  */
-function Articles({ articles }) {
+function Articles({ articles, onTextSearch }) {
     const [expanded, setExpanded] = useState(articles[0]?.id);
 
     const handleExpand = (target) => (event, newTarget) => {
         setExpanded(newTarget ? target : false);
     }
+
+
 
     return (
         <Stack flex={1}>
@@ -49,8 +52,8 @@ function Articles({ articles }) {
                         <AccordionDetails sx={{ p: 0 }}>
                             <Stack flex={1} gap={2}>
                                 <ArticleContent text={text} />
-                                <Issues issues={nonCompliantSections} />
-                                <Insights insights={compliantSections} />
+                                <Issues issues={nonCompliantSections} onTextSearch={onTextSearch} />
+                                <Insights insights={compliantSections} onTextSearch={onTextSearch} />
                             </Stack>
                         </AccordionDetails>
                     </Accordion>

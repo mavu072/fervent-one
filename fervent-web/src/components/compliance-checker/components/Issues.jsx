@@ -12,7 +12,7 @@ import NonCompliantCard from "./NonCompliantCard";
  * @param {boolean} obj.loading Loading.
  * @returns JSX Component
  */
-function Issues({ issues, loading = false }) {
+function Issues({ issues, loading = false, onTextSearch }) {
     return (
         <Stack flex={1} gap={1}>
             <Typography gutterBottom variant="h7" component="div" fontWeight={600}>
@@ -20,7 +20,13 @@ function Issues({ issues, loading = false }) {
             </Typography>
 
             {loading && <SectionLoader />}
-            {issues && issues.map((issue, index) => <NonCompliantCard key={index} id={index} details={issue} />)}
+            {issues && issues.map((issue, index) => (
+                <NonCompliantCard
+                    key={index}
+                    id={index}
+                    details={issue}
+                    onTextSearch={onTextSearch}
+                />))}
         </Stack>
     );
 }

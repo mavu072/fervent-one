@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import useResizeObserver from "../../custom-hooks/useResizeObserver";
 import ArrowButton from "../buttons/ArrowButton";
 import SectionLoader from '../loader/SectionLoader';
+import { highlightPattern } from "./highlight";
 
 // Use external CDN. After I get it working, I will switch to configuring a local worker.
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -16,15 +17,19 @@ const observerOptions = {};
 
 /**
  * PDFViewer.
- * @param {object} props 
+ * @param {object} props
+ * @param {number} props.maxWidth Maximum page width.
+ * @param {string} props.searchText Text to be found and highlighted.
  * @returns JSX Component.
  */
-function PDFViewer({ fileSource, maxWidth = 800 }) {
+function PDFViewer({ fileSource, maxWidth = 800, searchText }) {
     const file = useMemo(() => fileSource, [fileSource]);
     const [numPages, setNumPages] = useState();
     const [pageNumber, setPageNumber] = useState(1);
     const [containerRef, setContainerRef] = useState(null);
     const [containerWidth, setContainerWidth] = useState();
+
+    const textRenderer = useCallback((textItem) => highlightPattern(textItem.str, searchText), [searchText]);
 
     const onResize = useCallback((observerEntries) => {
         const [entry] = observerEntries; // De-structure entries array to get first entry.
@@ -64,7 +69,7 @@ function PDFViewer({ fileSource, maxWidth = 800 }) {
                         justifyContent: "space-between",
                         position: "relative",
                         top: "50%",
-                        zIndex: 9990,
+                        zIndex: 1000,
                         height: 0,
                     }}
                 >
@@ -87,6 +92,7 @@ function PDFViewer({ fileSource, maxWidth = 800 }) {
                         <Page
                             pageNumber={pageNumber}
                             width={containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth}
+                            customTextRenderer={textRenderer}
                         />
                     </Document>
                 </Box>

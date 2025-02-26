@@ -2,7 +2,7 @@ import React from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-const ARTICLE_DEFINITION = "refers to analysed clauses/sections in a document.";
+const ARTICLE_DEFINITION = "refers to grouped clauses/sections in a document.";
 
 function Definitions() {
     return (

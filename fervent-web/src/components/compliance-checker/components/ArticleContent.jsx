@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import Button from "../../buttons/Button";
 
 /**
  * ArticleContent.
@@ -9,17 +17,48 @@ import Typography from "@mui/material/Typography";
  * @returns JSX Component.
  */
 function ArticleContent({ text }) {
+    const [open, setOpen] = useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+
     return (
-        <Stack flex={1}>
-            <Typography component="span" sx={{
-                color: 'text.secondary',
-                textOverflow: 'ellipsis',
-                wordWrap: 'break-word'
-            }}>
-                {text ? (text.substring(0, 50) + "...") : ""}
-            </Typography>
-        </Stack>
-    )
+        <React.Fragment>
+            <Stack flex={1}>
+                <Button title="View article" handleClick={handleClickOpen} variant="outlined" />
+            </Stack>
+            <Dialog
+                fullScreen={fullScreen}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="responsive-dialog-title"
+                sx={{
+                    zIndex: 9999,
+                }}
+            >
+                <DialogTitle id="responsive-dialog-title">
+                    {"Article"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        {text}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button title="Done" variant="text" autoFocus handleClick={handleClose} />
+                </DialogActions>
+            </Dialog>
+        </React.Fragment>
+
+    );
 }
 
 export default ArticleContent;
