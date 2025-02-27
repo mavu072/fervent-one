@@ -1,6 +1,6 @@
-from src.services.vectorstores.vectorstore_collections import list_all_collections, create_new_collection, delete_collection
+from src.services.vectorstores.collections import list_all_collections, create_new_collection, delete_collection
 from langchain_chroma import Chroma
-from langchain.schema import Document
+from langchain_core.documents import Document
 from chromadb.errors import InvalidCollectionException
 
 

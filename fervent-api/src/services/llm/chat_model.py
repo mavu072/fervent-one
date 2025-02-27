@@ -1,10 +1,10 @@
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.prompt_values import PromptValue, ChatPromptValue
 from langchain_core.messages import BaseMessage, AIMessage
+from langchain_core.documents import Document
 from langchain_openai import ChatOpenAI
 from langchain.chains import create_retrieval_chain, create_history_aware_retriever
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.schema import Document
 
 from src.models.error import Error
 from src.services.vectorstores.chroma import (
@@ -18,7 +18,7 @@ from src.services.llm.prompt_templates import (
     SYSTEM_INSTRUCTION_PROMPT_V2 as SYSTEM_INSTRUCTION_PROMPT,
     COMPLIANCE_ANALYSIS_PROMPT_TEMPLATE,
 )
-from src.services.vectorstores.vector_search_utils import join_similarity_search_results
+from src.services.vectorstores.search_utils import join_similarity_search_results
 from src.utils.model_utils import parse_compliance_analysis
 from src.utils.json_utils import extract_json_obj
 from src.utils.exception_utils import ERR_ANALYSIS_FAILED, ERR_JSON_PARSER

@@ -1,5 +1,5 @@
 from langchain_chroma import Chroma
-from langchain.schema import Document
+from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from chromadb.config import Settings
 from chromadb.errors import InvalidCollectionException

@@ -1,4 +1,4 @@
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 
 def join_similarity_search_results(result_docs: list[tuple[Document, float]]):
