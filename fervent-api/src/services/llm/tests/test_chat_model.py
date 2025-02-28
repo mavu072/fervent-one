@@ -1,5 +1,5 @@
 from langchain_core.messages.ai import AIMessage
-from langchain.schema import Document
+from langchain_core.documents import Document
 from src.models.compliance_analysis import ComplianceAnalysis
 from src.models.error import Error
 from src.services.llm.chat_model import (

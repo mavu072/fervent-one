@@ -6,7 +6,7 @@ from src.services.llm.chat_model import (
 from src.services.vectorstores.chroma import query_chroma
 from src.services.document_loaders.loaders import load_pdf 
 from src.services.text_splitters.splitters import split_documents
-from src.services.vectorstores.vector_search_utils import (
+from src.services.vectorstores.search_utils import (
     join_similarity_search_results,
     get_content_sources,
 )

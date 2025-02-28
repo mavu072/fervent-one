@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Chip from '@mui/material/Chip';
 import SectionLoader from "../../loader/SectionLoader";
-import NonCompliantCard from "./NonCompliantCard";
+import IssueCard from "./IssueCard";
 
 /**
  * Issues.
@@ -21,7 +21,7 @@ function Issues({ issues, loading = false, onTextSearch }) {
 
             {loading && <SectionLoader />}
             {issues && issues.map((issue, index) => (
-                <NonCompliantCard
+                <IssueCard
                     key={index}
                     id={index}
                     details={issue}

@@ -15,7 +15,7 @@ function TextSearch({ text, onTextSearch }) {
         <Box
             sx={{
                 pt: 1,
-                display: "flex",
+                display: { xs: "none", sm: "flex" },
                 justifyContent: "flex-end",
             }}
         >

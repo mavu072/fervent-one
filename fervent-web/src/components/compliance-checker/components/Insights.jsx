@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Chip from '@mui/material/Chip';
 import SectionLoader from "../../loader/SectionLoader";
-import CompliantCard from "./CompliantCard";
+import InsightCard from "./InsightCard";
 
 /**
  * Insights.
@@ -21,7 +21,7 @@ function Insights({ insights, loading = false, onTextSearch }) {
 
             {loading && <SectionLoader />}
             {insights && insights.map((insight, index) => (
-                <CompliantCard
+                <InsightCard
                     key={index}
                     id={index}
                     details={insight}

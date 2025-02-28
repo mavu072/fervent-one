@@ -53,7 +53,7 @@ function ArticleContent({ text }) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button title="Done" variant="text" autoFocus handleClick={handleClose} />
+                    <Button title="Done" variant="text" handleClick={handleClose} />
                 </DialogActions>
             </Dialog>
         </React.Fragment>
