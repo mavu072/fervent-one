@@ -1,15 +1,15 @@
 import React from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import SectionTitle, { CompliantText, Details } from "./ArticleSection";
+import SectionTitle, { CompliantText, Details } from "./Clause";
 import TextSearch from "./TextSearch";
 
 /**
- * CompliantCard.
+ * InsightCard.
  * @param {object} obj 
  * @returns JSX Component.
  */
-function CompliantCard({ id, details, onTextSearch }) {
+function InsightCard({ id, details, onTextSearch }) {
     const { sectionTitle, compliantText, positiveNote } = details;
 
     return (
@@ -24,4 +24,4 @@ function CompliantCard({ id, details, onTextSearch }) {
     );
 }
 
-export default CompliantCard;
+export default InsightCard;

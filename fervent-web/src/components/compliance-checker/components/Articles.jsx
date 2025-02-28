@@ -29,7 +29,7 @@ function Articles({ articles, onTextSearch }) {
         <Stack flex={1}>
             {articles && articles.map((article, index) => {
                 const id = index;
-                const { text, nonCompliantSections, compliantSections } = article;
+                const { text, nonCompliantSections: issues, compliantSections: insights } = article;
 
                 return (
                     <Accordion
@@ -52,8 +52,8 @@ function Articles({ articles, onTextSearch }) {
                         <AccordionDetails sx={{ p: 0 }}>
                             <Stack flex={1} gap={2}>
                                 <ArticleContent text={text} />
-                                <Issues issues={nonCompliantSections} onTextSearch={onTextSearch} />
-                                <Insights insights={compliantSections} onTextSearch={onTextSearch} />
+                                {issues?.length > 0 && <Issues issues={issues} onTextSearch={onTextSearch} />}
+                                {insights?.length > 0 && <Insights insights={insights} onTextSearch={onTextSearch} />}
                             </Stack>
                         </AccordionDetails>
                     </Accordion>

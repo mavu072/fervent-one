@@ -11,7 +11,7 @@ import { AppContext } from "../context-provider/AppContext";
 import { scrollbarStyle } from "../ui/scrollbarUtil";
 import ReportFactory from "../../factory/ReportFactory";
 import FileAnalysisService from "../../service/FileAnalysisService";
-import AnalysisViewer from "./components/AnalysisViewer";
+import AnalysisPane from "./components/AnalysisPane";
 import { DISCLAIMER_EXPERIMENTAL_AI } from "../../constants/stringConstants";
 import FileName from "./components/FileName";
 
@@ -22,7 +22,7 @@ import FileName from "./components/FileName";
 function ComplianceCheckerPane() {
     const { user, onInfoMessage } = useContext(AppContext);
     const [file, setFile] = useState();
-    const [title, setTitle] = useState("");
+    const [title, setTitle] = useState();
     const [fileBuffer, setFileBuffer] = useState();
     const [analysisResult, setAnalyisResult] = useState();
     const [analysing, setAnalysing] = useState(false);
@@ -62,20 +62,24 @@ function ComplianceCheckerPane() {
 
                 setAnalyisResult(complianceAnalysis);
                 setAnalysisTimeElapsed(timeElapsed);
-                onInfoMessage(`Analysis completed in ${analysisTimeElapsed} secs.`)
+                onInfoMessage(`Analysis completed in ${timeElapsed} secs.`)
             }).catch(error => {
-                onInfoMessage(error?.message || "Analysis Error");
+                onInfoMessage(`Analysis failed due to '${error?.message || "Unknown Error"}'.`);
                 setAnalysing(false);
             }).finally(() => {
                 setAnalysing(false);
             });
     }
 
+    /**
+     * Handle clear file.
+     */
     function handleClearFile() {
         setTitle(undefined);
         setFile(undefined);
         setFileBuffer(undefined);
         setAnalyisResult(undefined);
+        setAnalysisTimeElapsed(undefined);
         setSearchText("");
     }
 
@@ -105,7 +109,7 @@ function ComplianceCheckerPane() {
                     ':root': {
                         '--Footer-height': '30px',
                         '--ComplianceChecker-height': 'calc(100dvh - var(--Header-height))',
-                        '--AnalysisViewer-height': 'calc(var(--ComplianceChecker-height) - var(--Footer-height))',
+                        '--AnalysisPane-height': 'calc(var(--ComplianceChecker-height) - var(--Footer-height))',
                     },
                 }}
             />
@@ -135,7 +139,7 @@ function ComplianceCheckerPane() {
                         sx={{
                             flex: 1,
                             gap: 1,
-                            height: { xs: '100%', sm: 'var(--AnalysisViewer-height)' },
+                            height: { xs: '100%', sm: 'var(--AnalysisPane-height)' },
                             ...scrollbarStyle,
                             overflowY: { xs: 'unset', sm: "scroll" },
                             scrollbarWidth: "none",
@@ -162,14 +166,19 @@ function ComplianceCheckerPane() {
                         sx={{
                             width: { xs: '100%', sm: '40%' },
                             minWidth: { sm: '300px' },
-                            height: { xs: '100%', sm: 'var(--AnalysisViewer-height)', },
+                            height: { xs: '100%', sm: 'var(--AnalysisPane-height)', },
                             border: 0,
                             ml: { sm: 1 },
                             ...scrollbarStyle,
                             scrollbarWidth: "none",
                         }}
                     >
-                        <AnalysisViewer articles={analysisResult?.result} loading={analysing} onTextSearch={handleSearch} />
+                        <AnalysisPane
+                            articles={analysisResult?.result}
+                            loading={analysing}
+                            onTextSearch={handleSearch}
+                            timeElapsed={analysisTimeElapsed}
+                        />
                     </Stack>
                 </Stack>
 
