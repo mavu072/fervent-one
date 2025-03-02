@@ -1,12 +1,10 @@
-from src.services.ner.categories import entity_categories
-
 import spacy
 
 # Load spacy English model.
 nlp = spacy.load("en_core_web_sm")
 
 
-def find_named_entities(text: str, ner_categories: list[str]):
+def detect_entities(text: str, ner_categories: list[str]):
     """Detects named entities in text."""
 
     entity_list = []
@@ -19,16 +17,14 @@ def find_named_entities(text: str, ner_categories: list[str]):
     return entity_list
 
 
-def censor_named_entities(entities: tuple[str, str], text: str):
-    """Censors named entities within a string."""
+def detect_entities_in_messages(messages: list[tuple[str, str]], ner_categories: list[str]):
+    """Detects named entities within a list of messages."""
 
-    if len(entities) == 0 or len(text) == 0:
-        return text
+    entity_list = []
 
-    censored = text
+    for (msg_role, msg_content) in messages:
+        if msg_role == "human":
+            found_entity_list = detect_entities(text=msg_content, ner_categories=ner_categories)
+            entity_list = entity_list + found_entity_list
 
-    for entity, category in entities:
-        if category in entity_categories:
-            censored = censored.replace(entity, f"[{category}]")
-
-    return censored
+    return entity_list

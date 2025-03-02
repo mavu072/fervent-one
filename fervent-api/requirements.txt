@@ -2,11 +2,11 @@ fastapi
 pydantic
 python-multipart
 python-dotenv
-unstructured
 langchain
 langchain_chroma
 langchain_openai
 langchain_community
+unstructured
 pillow
 pdf2image
 pytesseract

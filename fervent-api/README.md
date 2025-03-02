@@ -166,7 +166,7 @@ Unit tests have been configured and are runnable with `pytest`. To run unit test
 python -m pytest
 ```
 
-#### Running single test files
+#### Running a single test files
 
 You can also run tests on a single file, by using the command:
 
@@ -174,7 +174,21 @@ You can also run tests on a single file, by using the command:
 python -m pytest sample-tests/test_demo.py
 ```
 
-#### Print output to console
+You can run all tests within a module, as follows:
+
+```commandline
+python -m pytest [module_path]
+```
+
+#### Running a single unit test
+
+You can run a single unit test, as follows:
+
+```commandline
+python -m pytest sample-tests/test_demo.py::test_func()
+```
+
+#### Printing output to console
 
 When running tests, you may want to print output to the console. Use `-s` to allow prints to show on the console:
 

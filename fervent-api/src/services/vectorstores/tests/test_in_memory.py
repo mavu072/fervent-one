@@ -16,7 +16,6 @@ doc_4 = Document(id="4", page_content="Hello world!")
 
 
 def test_create_in_memory_vector_store():
-
     db = create_in_memory_vector_store(docs=[doc_1, doc_2, doc_3])
 
     assert db is not None
@@ -32,7 +31,6 @@ def test_create_in_memory_vector_store():
 
 
 def test_query_in_memory_vector_store():
-
     db = create_in_memory_vector_store(docs=[doc_1, doc_2, doc_3])
     db.add_documents([doc_4]) # Add irrelevent doc, which should not be returned.
 
@@ -46,7 +44,6 @@ def test_query_in_memory_vector_store():
 
 @pytest.mark.asyncio
 async def test_aquery_in_memory_vector_store():
-
     db = create_in_memory_vector_store(docs=[doc_1, doc_2, doc_3])
     query = "thud"
     k = 1 # Number of returned documents.

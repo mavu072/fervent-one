@@ -7,7 +7,7 @@ from src.services.storage.local_store import (
     write_to_file,
     rm_file,
     find_all_files,
-    is_file_exists,
+    is_path_exists,
 )
 from src.services.ocr.ocr_tess import run_ocr_thread
 from src.services.file_converters.converters import pdf_to_image
@@ -60,7 +60,7 @@ def read_file(filename: str):
     try:
         filepath = path_to_file(filename)
 
-        if not is_file_exists(filepath):
+        if not is_path_exists(filepath):
             raise ValueError("File does not exist.")
 
         file_content = read_from_file(filepath)
@@ -84,7 +84,7 @@ def delete_file(filename: str):
 
         filepath = path_to_file(filename)
 
-        if not is_file_exists(filepath):
+        if not is_path_exists(filepath):
             raise ValueError("File does not exist.")
 
         deleted = rm_file(filepath)
