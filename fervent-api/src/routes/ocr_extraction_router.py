@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile
 
-from src.config.api_tags import API_TAGS
+from definitions import API_TAGS
 from src.controllers.ocr_extraction_controller import ocr_text_from_file
 
 

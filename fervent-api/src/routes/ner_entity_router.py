@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.config.api_tags import API_TAGS
+from definitions import API_TAGS
 from src.controllers.ner_entity_controller import detect_named_entities, detect_and_censor_named_entities
 
 

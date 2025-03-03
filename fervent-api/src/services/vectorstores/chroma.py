@@ -2,10 +2,10 @@ from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 
+from definitions import CHROMA_DIR, DOCUMENT_DIR
 from src.services.document_loaders.loaders import load_directory 
 from src.services.text_splitters.splitters import split_documents
 from src.services.storage.local_store import mkdir
-from src.config.constants import CHROMA_DIR, DOCUMENT_DIR
 
 import os
 from dotenv import load_dotenv

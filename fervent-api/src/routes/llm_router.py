@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, Form
 from typing import Annotated
 
-from src.config.api_tags import API_TAGS
+from definitions import API_TAGS
 from src.models.chat import Chat
 from src.controllers.llm_chat_controller import (
     send_message_to_assistant_with_retrieval_chain,
@@ -24,7 +24,7 @@ def create_chat_completion(message: Annotated[str, Form()]):
 
 
 @router.post("/v1/llm/chat", tags=[API_TAGS["llm"]])
-def add_message_to_conversation(
+async def add_message_to_conversation(
     uuid: str | None,
     chat: Chat,
 ):
@@ -34,7 +34,7 @@ def add_message_to_conversation(
         :param str | None uuid: A unique identifier. Used to identify the directory storing this conversation's files.
         :param Chat chat: Instance of Chat class. Contains the new message and previous messages.
     """
-    return send_message_to_assistant_with_conversational_chain(
+    return await send_message_to_assistant_with_conversational_chain(
         uuid=uuid, message=chat.message.content, prev_messages=chat.prev_messages
     )
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile
 
-from src.config.api_tags import API_TAGS
+from definitions import API_TAGS
 from src.controllers.local_storage_controller import upload_file, read_file, delete_file, list_files
 
 

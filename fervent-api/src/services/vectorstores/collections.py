@@ -4,8 +4,8 @@ from langchain_openai import OpenAIEmbeddings
 from chromadb.config import Settings
 from chromadb.errors import InvalidCollectionException
 
+from definitions import CHROMA_DIR
 from src.services.text_splitters.splitters import split_documents
-from src.config.constants import CHROMA_DIR
 
 import os
 import chromadb

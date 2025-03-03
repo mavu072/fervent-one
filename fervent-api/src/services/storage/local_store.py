@@ -1,4 +1,4 @@
-from src.config.constants import DOCUMENT_DIR
+from definitions import DOCUMENT_DIR
 
 import os
 
