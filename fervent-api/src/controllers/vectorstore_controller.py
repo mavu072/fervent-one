@@ -89,8 +89,7 @@ def add_files_to_vectorstore(collection_name: str, files: list[UploadFile]):
             status_code=200, 
             content={
                 "success": True, 
-                "uploaded_documents": len(files),
-                "persisted_documents": len(docs)
+                "uploaded_documents": len(docs),
             }
         )
     
