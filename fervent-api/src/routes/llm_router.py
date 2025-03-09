@@ -24,10 +24,7 @@ def create_chat_completion(message: Annotated[str, Form()]):
 
 
 @router.post("/v1/llm/chat", tags=[API_TAGS["llm"]])
-async def add_message_to_conversation(
-    uuid: str | None,
-    chat: Chat,
-):
+async def add_message_to_conversation(uuid: str | None, chat: Chat):
     """
     Sends a new message to the LLM with conversational history.
 

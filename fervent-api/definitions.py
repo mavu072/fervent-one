@@ -18,6 +18,7 @@ Each child directory name must be a unique identifier that must be include with 
 API_TAGS = {
     "local-storage": "Local Storage",
     "vector-db": "Vector Database (Chroma)",
+    "vector-store": "Vector Store",
     "ocr": "Optical Character Recognition (OCR)",
     "ner": "Named Entity Recognition (NER)",
     "llm": "Large Language Model (LLM)"

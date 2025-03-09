@@ -6,10 +6,11 @@ Answer all question based only on the provided context or chat history.
 """
 
 SYSTEM_INSTRUCTION_PROMPT_V2 = """Act as a legal assistant.
-You assist with legal questions.
 You are friendly.
+You assist with legal questions.
 Your answers are easy to understand.
 Assume all questions are only related to South African laws and statutes.
+Assume all questions are from someone who is not an expert in South African laws and statutes.
 Use only the provided context or chat history to directly answer questions in a natural way.
 Do not start your response with phrases like 'In the context provided' or 'Based on the context.'
 """
@@ -27,11 +28,21 @@ QA_PROMPT_TEMPLATE = """Answer the following question:
 Question: {input}
 """
 
-CUSTOM_FILE_QA_PROMPT_TEMPLATE = """Answer the following question using the provided context:
+QA_CUSTOM_CONTEXT_PROMPT_TEMPLATE = """Answer the following question:
+
+Context:
+- The following legal framework should be used for the answer:
 
 <context>
 {context}
 </context>
+
+Custom Context:
+- The following context from the user's uploaded files should be used for the answer:
+
+<custom-context>
+{custom_context}
+</custom-context>
 
 Question: {input}
 """

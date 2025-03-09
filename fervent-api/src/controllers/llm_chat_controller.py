@@ -1,13 +1,15 @@
 from fastapi.responses import JSONResponse
 from typing import BinaryIO
 
-from src.config.constants import UPLOADS_DIR
+from definitions import UPLOADS_DIR
 from src.models.chat import Message
-from src.services.ner.detection import find_named_entities, censor_named_entities
+from src.services.ner.detection import detect_entities, detect_entities_in_messages
+from src.services.ner.censorship import censor_entities, censor_entities_in_messages
 from src.services.ner.categories import PERSON
 from src.services.llm.chains import run_retrieval_chain, run_conversational_chain, run_analysis_chain
-from src.services.storage.local_store import mkdirtree, rm_file
-from src.utils.message_utils import format_chat_history, find_named_entities_in_message_list, censor_name_entities_in_message_list
+from src.services.llm.chat_utils import format_chat_history
+from src.services.vectorstores.collections import get_collection
+from src.services.storage.local_store import mkdirtree, rm_file, is_path_exists
 
 import traceback
 
@@ -17,8 +19,8 @@ entity_categories = [PERSON] # Censored entities for LLM.
 def send_message_to_assistant_with_retrieval_chain(query: str):
     """Send a message or query to the LLM and get a response."""
     try:
-        entity_list = find_named_entities(query, entity_categories)
-        censored_query = censor_named_entities(entity_list, query)
+        entity_list = detect_entities(query, entity_categories)
+        censored_query = censor_entities(entity_list, query)
         response = run_retrieval_chain(censored_query)
 
         return JSONResponse(
@@ -38,19 +40,28 @@ def send_message_to_assistant_with_retrieval_chain(query: str):
         )
     
 
-def send_message_to_assistant_with_conversational_chain(uuid: str | None, message: str, prev_messages: list[Message]):
+async def send_message_to_assistant_with_conversational_chain(uuid: str | None, message: str, prev_messages: list[Message]):
     """Send a message to the LLM with conversational history to get a history aware response."""
     try:
-        entity_list = find_named_entities(message, entity_categories)
-        censored_message = censor_named_entities(entity_list, message)
+        # Censor sensitive data in messages.
+        entity_list = detect_entities(message, entity_categories)
+        censored_message = censor_entities(entity_list, message)
 
+        # Censor sensitive data in history.
         chat_history = format_chat_history(prev_messages)
-        entity_list_in_history = find_named_entities_in_message_list(chat_history, entity_categories)
-        censored_chat_history = censor_name_entities_in_message_list(entity_list_in_history, chat_history)
+        entity_list_in_history = detect_entities_in_messages(chat_history, entity_categories)
+        censored_chat_history = censor_entities_in_messages(entity_list_in_history, chat_history)
 
-        response = run_conversational_chain(censored_message, censored_chat_history)
-
+        # All censored data.
         censored_data = entity_list + entity_list_in_history
+
+        # Check if user has files loaded in a special vector store collection.
+        vectorstore = get_collection(collection_name=uuid)
+
+        if vectorstore is not None:
+            response = await run_conversational_chain(censored_message, censored_chat_history, vectorstore)
+        else:
+            response = await run_conversational_chain(censored_message, censored_chat_history)
 
         return JSONResponse(
             status_code=200,
@@ -73,11 +84,11 @@ def send_message_to_assistant_with_conversational_chain(uuid: str | None, messag
 async def send_file_to_assistant_with_analysis_chain(uuid: str, filename: str, file: BinaryIO, size: int, mime_type: str):
     """Send a file to the LLM to get a compliance analysis."""
     try:
-        # Get uploader's unique path.
-        uploads_dir = UPLOADS_DIR + "/" + uuid
+        # Create user's unique file directory for temporary stored files.
+        uploads_dir = UPLOADS_DIR + "/" + uuid + "/tmp"
         mkdirtree(uploads_dir)
 
-        # Get file path
+        # Create file path
         filepath = uploads_dir + "/" + filename
 
         # Write file.

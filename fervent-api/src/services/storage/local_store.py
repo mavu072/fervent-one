@@ -75,7 +75,6 @@ def mkdir(directory: str):
         os.mkdir(directory)
 
 
-
 def mkdirtree(dirpath: str):
     """Creates directories recursively, if they do not exist."""
 
