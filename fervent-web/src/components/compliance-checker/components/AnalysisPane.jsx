@@ -35,22 +35,11 @@ function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapse
     const sumErrors = allErrors.length;
     // Calculate score.
     const overallScore = Math.floor((sumInsights / (sumIssues + sumInsights)) * 100);
-
-    function handleClickArticles() {
-        setSelectedInfoType(0);
-    }
-
-    function handleClickIssues() {
-        setSelectedInfoType(1);
-    }
-
-    function handleClickInsights() {
-        setSelectedInfoType(2);
-    }
-
-    function handleClickErrors() {
-        setSelectedInfoType(3);
-    }
+    // Togglers.
+    const handleClickArticles = () => setSelectedInfoType(0)
+    const handleClickIssues = () => setSelectedInfoType(1)
+    const handleClickInsights = () => setSelectedInfoType(2)
+    const handleClickErrors = () => setSelectedInfoType(3)
 
     return (
         <Stack flex={1} gap={2} pb={1}>
@@ -92,7 +81,6 @@ function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapse
             {selectedInfoType == 1 && <Issues issues={allIssues} onTextSearch={onTextSearch} />}
             {selectedInfoType == 2 && <Insights insights={allInsights} onTextSearch={onTextSearch} />}
             {selectedInfoType == 3 && <Errors errors={allErrors} />}
-
 
             {timeElapsed &&
                 <Typography variant="body2" component="small" sx={{ color: 'text.secondary', width: '100%', textAlign: "center" }}>

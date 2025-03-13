@@ -12,7 +12,7 @@ import LoadMoreButton from '../buttons/LoadMoreButton';
 import AccountAvatar from '../account/AccountAvatar';
 import { formatTime } from '../../util/dateTimeUtil';
 import { scrollbarStyle } from '../ui/scrollbarUtil';
-import { appName } from '../../util/appNameUtil';
+import { appName } from '../../config/appConfig';
 import { scrollTo } from '../ui/scrollUtil';
 import { AppContext } from '../context-provider/AppContext';
 import { ServiceContext } from '../context-provider/ServiceContext';
@@ -22,7 +22,6 @@ import MessageService from '../../service/MessageService';
 import FileService from '../../service/FileService';
 import ReportService from '../../service/ReportService';
 import MessageResponderService from '../../service/MessageResponderService';
-
 
 const systemUser = { displayName: appName };
 
@@ -151,32 +150,39 @@ function MessagesPane() {
    */
   const handleSubmit = async () => {
     try {
-      const userId = user.email; // Use email as unique id in requests.
       // Store in local variables. The global vars are cleared when submission is triggered.
       const newUserMsg = textMessageInput;
       const uploadedFiles = [...selectedFiles];
 
-      // Save user message and start typing effect.
-      if (newUserMsg.trim() !== '') {
+      // Save files.
+      if (uploadedFiles.length > 0) {
+        await messageResponder.saveHumanFiles(uploadedFiles);
+        // Send files to assistant.
+        await messageResponder.uploadFiles(uploadedFiles);
+      }
+
+      // Save user message.
+      if (newUserMsg && newUserMsg.trim() !== '') {
         await messageResponder.saveHumanMessage(newUserMsg);
       }
+
+      // Start typing effect and get assisant response message and/or files.
       setIsTyping(true);
 
-      if (uploadedFiles.length > 0) {
-        // Save file messages and files.
-        const savedMsgsAndFiles = await messageResponder.saveHumanFiles(uploadedFiles);
-
-        // Get assisant response to text with files.
-        const savedResp = await messageResponder.getAndSaveSystemResponseWithFiles(uploadedFiles);
-      } else {
-        // Get assisant response to text.
-        const savedResp = await messageResponder.getAndSaveSystemResponse(userId, newUserMsg, chatHistory);
+      if ((!newUserMsg || newUserMsg.trim() === '') && uploadedFiles.length > 0) {
+        const noun = uploadedFiles.length > 1 ? "files" : "file";
+        const confirmMsg = `I received the ${noun}. How would you like me to help with ${noun == "files" ? "them" : "it"}? 
+        For example, I can answer questions based on the contents.`;
+        await messageResponder.saveSystemMessage({ content: confirmMsg });
       }
 
+      await messageResponder.getSystemResponse(newUserMsg, chatHistory);
     } catch (error) {
+      // Show error.
       onInfoMessage(error?.message || "Messaging Error");
     } finally {
-      setIsTyping(false); // Stop typing effect.
+      // Stop typing effect.
+      setIsTyping(false);
     }
   }
 
@@ -229,8 +235,8 @@ function MessagesPane() {
                     attachment={attachment}
                     arrivedAt={arrivedAt}
                     sender={
-                      isYou ? <AccountAvatar user={user} tooltipTitle={"You"} placement={"left"} />
-                        : <AccountAvatar user={systemUser} tooltipTitle={systemUser.displayName} placement={"right"} />
+                      isYou ? <AccountAvatar user={user} tooltipTitle={"You"} placement={"top-end"} />
+                        : <AccountAvatar user={systemUser} tooltipTitle={systemUser.displayName} placement={"top-start"} />
                     }
                   />
                 </Stack>

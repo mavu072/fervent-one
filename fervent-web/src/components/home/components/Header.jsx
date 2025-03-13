@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { toggleSidebar } from '../util/sidebarUtil';
-import { appName } from '../../../util/appNameUtil';
+import { appName } from '../../../config/appConfig';
 import MenuButton from '../../buttons/MenuButton';
 import AccountContextMenu from '../../account/AccountContextMenu';
 import ToggleColorMode from '../../theme/ToggleColorMode';

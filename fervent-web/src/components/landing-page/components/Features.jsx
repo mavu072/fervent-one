@@ -13,7 +13,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import imgMobile from '../assets/chat-mobile.svg';
 import imgLaptop from '../assets/chat-laptop.svg';
 import imgPlatforms from '../assets/supported-platforms.svg';
-import { appName } from '../../../util/appNameUtil';
+import { appName } from '../../../config/appConfig';
 
 const items = [
   {

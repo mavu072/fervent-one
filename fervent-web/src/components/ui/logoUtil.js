@@ -1,7 +1,7 @@
-import logoLightSvg from '../assets/Logo-light.svg';
-import logoDarkSvg from '../assets/Logo-dark.svg';
-import logoShortLightSvg from '../assets/Logo-short-light.svg';
-import logoShortDarkSvg from '../assets/Logo-short-dark.svg';
+import logoLightSvg from '../../assets/Logo-light.svg';
+import logoDarkSvg from '../../assets/Logo-dark.svg';
+import logoShortLightSvg from '../../assets/Logo-short-light.svg';
+import logoShortDarkSvg from '../../assets/Logo-short-dark.svg';
 
 export const logoLight = logoLightSvg;
 export const logoDark = logoDarkSvg;

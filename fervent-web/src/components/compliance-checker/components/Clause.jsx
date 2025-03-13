@@ -1,5 +1,6 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 /**
  * SectionTitle.
@@ -67,6 +68,8 @@ export function SuggestedAlternative({ suggestion = {} }) {
                 fontWeight: 600,
             }}
         >
+            <AutoAwesomeIcon sx={{ width: '15px', height: '15px' }} />
+            &nbsp;
             {suggestion?.text || ""}
         </Typography>
     );

@@ -6,6 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Typography from "@mui/material/Typography";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Button from "../../buttons/Button";
@@ -33,7 +34,10 @@ function ArticleContent({ text }) {
     return (
         <React.Fragment>
             <Stack flex={1}>
-                <Button title="View article" handleClick={handleClickOpen} variant="outlined" />
+                <Typography component="span">
+                    {text.substring(0, 100)}
+                    <Button title="...more" handleClick={handleClickOpen} variant="text" />
+                </Typography>
             </Stack>
             <Dialog
                 fullScreen={fullScreen}

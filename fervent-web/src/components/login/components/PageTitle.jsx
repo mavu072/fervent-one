@@ -1,6 +1,6 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import { appName } from "../../../util/appNameUtil";
+import { appName } from "../../../config/appConfig";
 
 function PageTitle() {
     return (

@@ -23,8 +23,6 @@ function Articles({ articles, onTextSearch }) {
         setExpanded(newTarget ? target : false);
     }
 
-
-
     return (
         <Stack flex={1}>
             {articles && articles.map((article, index) => {

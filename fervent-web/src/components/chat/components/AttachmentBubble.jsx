@@ -19,7 +19,7 @@ import { formatFileSize } from "../../../util/fileUtil";
  */
 function AttachmentBubble({ isSent, attachment, arrivedAt }) {
     return (
-        <Tooltip title={arrivedAt} placement={isSent ? "top" : "top"}>
+        <Tooltip title={arrivedAt} placement={isSent ? "top" : "top"} arrow>
             <Paper
                 variant="outlined"
                 sx={{

@@ -7,7 +7,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import bgImage from '../assets/supported-platforms.svg';
-import { appName } from '../../../util/appNameUtil';
+import { appName } from '../../../config/appConfig';
 
 const parts = appName.split(" ");
 const firstPart = `${parts[0]} ${parts[1]}`;

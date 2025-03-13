@@ -34,8 +34,8 @@ function Definitions() {
                     <Typography variant="body1" component="small" sx={{ color: 'text.secondary' }}>
                         Glossary
                     </Typography>
-                    {definitions.map((item) => (
-                        <Typography variant="body2" component="small" sx={{ color: 'text.secondary' }}>
+                    {definitions.map((item, index) => (
+                        <Typography key={index} variant="body2" component="small" sx={{ color: 'text.secondary' }}>
                             &bull; <strong>{item.term}</strong> {item.meaning}
                         </Typography>
                     ))}
