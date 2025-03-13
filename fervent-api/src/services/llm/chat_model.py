@@ -104,7 +104,7 @@ async def create_conversational_response(
     if vectorstore == None:
         response = await retrieval_chain.ainvoke({"input": query_message, "chat_history": message_history})
     else:
-        docs = await aquery_vector_store(query=query_message, db=vectorstore, k=1)
+        docs = await aquery_vector_store(query=query_message, db=vectorstore, k=3)
         custom_context = list(map(lambda doc: doc.__getitem__(0), docs if docs != None else []))
         response = await retrieval_chain.ainvoke(
             {

@@ -7,6 +7,7 @@ from definitions import UPLOADS_DIR
 from src.services.vectorstores.chroma import init_chroma, query_chroma
 from src.services.vectorstores.collections import create_collection
 from src.services.document_loaders.loaders import load_pdf_directory
+from src.services.text_splitters.splitters import split_documents
 from src.services.storage.local_store import mkdirtree
 
 import traceback
@@ -78,8 +79,10 @@ def add_files_to_vectorstore(collection_name: str, files: list[UploadFile]):
 
         # Load and add documents to collection.
         docs = load_pdf_directory(write_dir, mode="single")
+        chunks = split_documents(docs)
         if len(docs) > 0:
-            create_collection(collection_name, docs)
+            create_collection(collection_name, chunks)
+            print(f">>> Added Documents to Collection: {collection_name}")
 
         # Delete files.
         shutil.rmtree(write_dir)
