@@ -1,4 +1,13 @@
 /**
+ * Gets API base URL.
+ * @returns {string} API URL
+ */
+export function getApiUrl() {
+    const baseUrl = import.meta.env.VITE_ASSISTANT_API_URL;
+    return baseUrl;
+}
+
+/**
  * API Client for making HTTP requests.
  * @param {object} requestConfig Request Configuration
  * @param {string} requestConfig.url Request URL

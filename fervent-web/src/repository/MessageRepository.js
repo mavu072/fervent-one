@@ -5,10 +5,12 @@ class MessageRepository extends BaseRepository {
 
     /**
      * Message Repository.
-     * @param {firebase.app.App} app 
-     * @param {string} messagesCollectionPath 
+     * @param {firebase.app.App} app App.
+     * @param {object} user User.
+     * @param {string} user.uid Unique Id.
      */
-    constructor(app, messagesCollectionPath) {
+    constructor(app, user) {
+        const messagesCollectionPath = `users/${user.uid}/messages`;
         super(app, messagesCollectionPath);
     }
 }
