@@ -62,7 +62,8 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
                 }}
             >
                 <Stack>
-                    <UploadFileButton onAddSelectedFiles={onAddSelectedFiles} accept=".jpg,.jpeg,.png,.pdf" multiple />
+                    {/* To be supported later: .jpg,.jpeg,.png, */}
+                    <UploadFileButton onAddSelectedFiles={onAddSelectedFiles} accept=".pdf" multiple />
                 </Stack>
                 <FormControl sx={{ flexGrow: 1, px: 1, }}>
                     <TextareaAutosize

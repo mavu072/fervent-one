@@ -146,36 +146,35 @@ function MessagesPane() {
   }
 
   /**
-   * Send message or upload selected files.
+   * Send message or upload files.
    */
   const handleSubmit = async () => {
     try {
       // Store in local variables. The global vars are cleared when submission is triggered.
       const newUserMsg = textMessageInput;
       const uploadedFiles = [...selectedFiles];
-
-      // Save files.
+      // 1. Save files.
       if (uploadedFiles.length > 0) {
         await messageResponder.saveHumanFiles(uploadedFiles);
-        // Send files to assistant.
-        await messageResponder.uploadFiles(uploadedFiles);
       }
-
-      // Save user message.
+      // 2. Save user message.
       if (newUserMsg && newUserMsg.trim() !== '') {
         await messageResponder.saveHumanMessage(newUserMsg);
       }
-
-      // Start typing effect and get assisant response message and/or files.
+      // 3. Start typing effect.
       setIsTyping(true);
+      // 4. Upload files.
+      if (uploadedFiles.length > 0) {
+        await messageResponder.uploadFiles(uploadedFiles);
 
-      if ((!newUserMsg || newUserMsg.trim() === '') && uploadedFiles.length > 0) {
-        const noun = uploadedFiles.length > 1 ? "files" : "file";
-        const confirmMsg = `I received the ${noun}. How would you like me to help with ${noun == "files" ? "them" : "it"}? 
-        For example, I can answer questions based on the contents.`;
-        await messageResponder.saveSystemMessage({ content: confirmMsg });
+        // 4. a) Create confirmation message.
+        if ((!newUserMsg || newUserMsg.trim() === '')) {
+          const noun = uploadedFiles.length > 1 ? "files" : "file";
+          const confirmMsg = `I received the ${noun}. How would you like me to help with ${noun == "files" ? "them" : "it"}? For example, I can answer questions based on the contents.`;
+          await messageResponder.saveSystemMessage({ content: confirmMsg });
+        }
       }
-
+      // 6. Create response to message and/or files.
       await messageResponder.getSystemResponse(newUserMsg, chatHistory);
     } catch (error) {
       // Show error.
