@@ -20,6 +20,7 @@ import Errors from "./Errors";
  */
 function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapsed }) {
     const [selectedInfoType, setSelectedInfoType] = useState(0);
+    
     // Categorize articles.
     const allIssues = articles.map(article => article.nonCompliantSections || []).flat();
     const allInsights = articles.map(article => article.compliantSections || []).flat()
@@ -35,11 +36,12 @@ function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapse
     const sumErrors = allErrors.length;
     // Calculate score.
     const overallScore = Math.floor((sumInsights / (sumIssues + sumInsights)) * 100);
+
     // Togglers.
-    const handleClickArticles = () => setSelectedInfoType(0)
-    const handleClickIssues = () => setSelectedInfoType(1)
-    const handleClickInsights = () => setSelectedInfoType(2)
-    const handleClickErrors = () => setSelectedInfoType(3)
+    const handleClickArticles = () => setSelectedInfoType(0);
+    const handleClickIssues = () => setSelectedInfoType(1);
+    const handleClickInsights = () => setSelectedInfoType(2);
+    const handleClickErrors = () => setSelectedInfoType(3);
 
     return (
         <Stack flex={1} gap={2} pb={1}>
