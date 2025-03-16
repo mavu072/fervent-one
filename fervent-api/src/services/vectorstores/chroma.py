@@ -2,10 +2,10 @@ from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 
+from definitions import CHROMA_DIR, DOCUMENT_DIR
 from src.services.document_loaders.loaders import load_directory 
 from src.services.text_splitters.splitters import split_documents
 from src.services.storage.local_store import mkdir
-from src.config.constants import CHROMA_DIR, DOCUMENT_DIR
 
 import os
 from dotenv import load_dotenv
@@ -56,10 +56,10 @@ def query_chroma(query: str):
     return docs
 
 
-async def aquery_vector_store(query: str, db: Chroma):
+async def aquery_vector_store(query: str, db: Chroma, k: int = 4):
     """Queries Chroma vector store asynchronously."""
 
-    docs = await db.asimilarity_search_with_relevance_scores(query, k=4)
+    docs = await db.asimilarity_search_with_relevance_scores(query, k=k)
 
     if len(docs) == 0 or docs[0][1] < 0.7:
         return None

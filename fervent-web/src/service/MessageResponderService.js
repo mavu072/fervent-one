@@ -1,13 +1,16 @@
 import MessageService from "./MessageService";
 import FileService from "./FileService";
+import ReportService from "./ReportService";
 import MessageFactory from "../factory/MessageFactory";
 import FileFactory from "../factory/FileFactory";
+import ReportFactory from "../factory/ReportFactory";
 import { ASSISTANT, USER } from "../constants/messageConstants";
 import { getServerTimestamp } from "../firebase/firebaseUtil";
-import { getAssistantResponse } from "../api/GetAssistantResponseApi";
-import ReportService from "./ReportService";
-import ReportFactory from "../factory/ReportFactory";
+import { getAssistantResponse, uploadFilesToAssistant } from "../api/GetAssistantResponseApi";
 
+/**
+ * A service class that encapsulates the functionality for sending and recieving messages and files between the client and API.
+ */
 class MessageResponderService {
 
     /**
@@ -32,122 +35,124 @@ class MessageResponderService {
 
     /**
      * Save user message.
-     * @param
+     * @param {string} userMsg User message.
      * @returns
      */
     saveHumanMessage(userMsg) {
+        if (!userMsg || userMsg.trim() === "") return null;
+
+        // Create.
         const msg = this.messageFactory.createMessage({
             content: userMsg,
             userId: this.userId,
             role: USER,
             createdAt: getServerTimestamp()
         });
-
+        // Save.
         return this.messageService.save(msg);
     }
 
     /**
-     * Save user uploaded files.
-     * @description Records uploaded files as messages in messages collection and saves files in files collection.
-     * @param {Array<File>} uploadedFiles 
-     * @returns
+     * Save system message.
+     * @param {object} systemMsg System message.
+     * @param {string} systemMsg.content Content.
+     * @param {Array | null} systemMsg.sources (Optional) Sources.
+     * @returns Promise
      */
-    saveHumanFiles(uploadedFiles) {
-        if (uploadedFiles.length == 0) {
-            return null;
-        }
-
-        const attachmentMsgList = [];
-        const attachmentList = [];
-
-        // Create messages.
-        attachmentMsgList.push(...uploadedFiles.map(file =>
-            this.messageFactory.createMessage({
-                attachment: { name: file.name, size: file.size, type: file.type },
-                userId: this.userId,
-                role: USER,
-                createdAt: getServerTimestamp()
-            })
-        ));
-
-        // Create files.
-        attachmentList.push(...uploadedFiles.map(file =>
-            this.fileFactory.createFile({
-                name: file.name,
-                size: file.size,
-                type: file.type,
-                createdAt: getServerTimestamp()
-            })
-        ));
-
-        // Save promises.
-        const savedMsgs = attachmentMsgList.map(msg => this.messageService.save(msg));
-        const savedAttachments = attachmentList.map(attachment => this.fileService.save(attachment));
-
-        // Save messages and files.
-        return Promise.all([...savedMsgs, ...savedAttachments]);
-    }
-
-    /**
-     * Makes an API request to get assistant response and saves it.
-     * @param {string} userId 
-     * @param {string} userMsg 
-     * @param {Array} chatHistory 
-     * @returns
-     */
-    async getAndSaveSystemResponse(userId, userMsg, chatHistory) {
-        const { response, sources } = await getAssistantResponse(userId, userMsg, chatHistory);
-        const assistantReponse = { content: response, sources };
+    saveSystemMessage({ content, sources = null }) {
+        if (!content || content.trim() === "") return null;
 
         // Create assistant message.
         const msg = this.messageFactory.createMessage({
-            content: assistantReponse.content,
-            sources: assistantReponse.sources,
+            content: content,
+            sources: sources,
             userId: this.userId,
             role: ASSISTANT,
             createdAt: getServerTimestamp()
         });
-
         // Save assistant message.
         return this.messageService.save(msg);
     }
 
     /**
-     * Makes an API request to get assistant response and saves it.
-     * @param {Array<File>} uploadedFiles 
-     * @returns
+     * Saves a user file attachment as a message.
+     * @param {object} file File.
+     * @param {string} file.name Filename.
+     * @param {number} file.size File size.
+     * @param {string} file.type File mime.
+     * @returns Promise
      */
-    async getAndSaveSystemResponseWithFiles(uploadedFiles) {
-        if (uploadedFiles.length == 0) {
-            return null;
-        }
+    saveAttachmentAsMessage({ name, size, type}) {
+        // Create.
+        const msg = this.messageFactory.createMessage({
+            attachment: { name: name, size: size, type: type },
+            userId: this.userId,
+            role: USER,
+            createdAt: getServerTimestamp()
+        })
+        // Save.
+        return this.messageService.save(msg);
+    }
 
-        const assistantReponses = [];
-
-        // 1. Send all uploaded files as one list. 
-        console.log("Sending files to API...");
-        // 2. Send user message.
-        // const { response, sources } = await getAssistantResponseWithFiles(userMsg, chatHistory, uploadedFiles);
-        await setTimeout(() => { }, 1000); // simulate API call.
-
-        // 3. Get assistant responses.
-        const assistantReponse = { content: `Your ${uploadedFiles.length > 1 ? "files have" : "file has"} been processed.` };
-        assistantReponses.push(assistantReponse);
-
-        // Create assistant messages.
-        const assistantMsgs = assistantReponses.map(({ content, sources }) => {
-            return this.messageFactory.createMessage({
-                content,
-                sources,
-                userId: this.userId,
-                role: ASSISTANT,
-                createdAt: getServerTimestamp()
-            });
+    /**
+     * Saves a file attachment.
+     * @param {object} file File.
+     * @param {string} file.name Filename.
+     * @param {number} file.size File size.
+     * @param {string} file.type File mime.
+     * @param {string} file.content (Optional) File content as a string.
+     * @returns Promise
+     */
+    saveAttachment({ name, size, type, content = null}) {
+        // Create.
+        const attachment = this.fileFactory.createFile({
+            name: name,
+            size: size,
+            type: type,
+            content: content,
+            createdAt: getServerTimestamp()
         });
+        // Save.
+        return this.fileService.save(attachment);
+    }
 
-        // Save assistant messages.
-        const savedAssistantMsgs = assistantMsgs.map(msg => this.messageService.save(msg));
-        return Promise.all(savedAssistantMsgs);
+    /**
+     * Save user uploaded files.
+     * @description Records uploaded files as messages in messages collection.
+     * @param {Array<File>} uploadedFiles 
+     * @returns Promise
+     */
+    saveHumanFiles(uploadedFiles) {
+        if (!uploadedFiles || uploadedFiles.length === 0) return null;
+
+        // Create.
+        const savedMsgs = uploadedFiles.map(file => this.saveAttachmentAsMessage(file));
+        // Save.
+        return Promise.all([...savedMsgs]);
+    }
+
+    /**
+     * Makes an API request to get assistant response and saves it.
+     * @param {string} userMsg 
+     * @param {Array} chatHistory 
+     * @returns Promise
+     */
+    async getSystemResponse(userMsg, chatHistory) {
+        if (!userMsg || userMsg.trim() === "") return null;
+
+        const { response, sources } = await getAssistantResponse(this.userId, userMsg, chatHistory);
+        return this.saveSystemMessage({ content: response, sources: sources })
+    }
+
+    /**
+     * Makes an API request to upload files to assistant.
+     * @param {Array<File>} uploadedFiles Files to upload.
+     * @returns Promise
+     */
+    async uploadFiles(uploadedFiles) {
+        if (!uploadedFiles || uploadedFiles.length === 0) return null;
+        
+        return uploadFilesToAssistant(this.userId, uploadedFiles);
     }
 }
 

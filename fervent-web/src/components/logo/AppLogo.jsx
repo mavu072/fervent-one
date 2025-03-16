@@ -1,6 +1,6 @@
 import React from "react";
-import { logoShortStyle, logoShortLight, logoShortDark, logoLight, logoDark, logoStyle } from '../../util/logoUtil';
-import { appName } from '../../util/appNameUtil';
+import { logoShortStyle, logoShortLight, logoShortDark, logoLight, logoDark, logoStyle } from '../ui/logoUtil';
+import { appName } from '../../config/appConfig';
 
 function AppLogoIcon({ mode }) {
     return (

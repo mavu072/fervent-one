@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { orgName } from "../../../util/appNameUtil";
+import { orgName } from "../../../config/appConfig";
 
 function Copyright() {
     return (

@@ -6,7 +6,6 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import DropFileZone from "../drag-and-drop/DropFileZone";
 import PDFViewer from "../pdf-viewer/PDFViewer";
-import ClearButton from "../buttons/ClearButton";
 import { AppContext } from "../context-provider/AppContext";
 import { scrollbarStyle } from "../ui/scrollbarUtil";
 import ReportFactory from "../../factory/ReportFactory";
@@ -55,7 +54,7 @@ function ComplianceCheckerPane() {
 
         // Analyse
         const startTime = performance.now();
-        fileAnalyser.analyseFile(user.email, fl)
+        fileAnalyser.analyseFile(user.uid, fl)
             .then(res => {
                 const complianceAnalysis = new ReportFactory().createComplianceAnalysisFromPayload(res);
                 const timeElapsed = Math.floor((performance.now() - startTime) / 1000);
@@ -109,11 +108,13 @@ function ComplianceCheckerPane() {
                     ':root': {
                         '--Footer-height': '30px',
                         '--ComplianceChecker-height': 'calc(100dvh - var(--Header-height))',
+                        '--ComplianceChecker-width': 'calc(100dvw - var(--Sidebar-width))',
                         '--AnalysisPane-height': 'calc(var(--ComplianceChecker-height) - var(--Footer-height))',
                     },
                 }}
             />
             <Box
+                className="Inner-container"
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -125,7 +126,7 @@ function ComplianceCheckerPane() {
                 }}
             >
                 <Stack
-                    className="Responsive-display"
+                    className="Responsive-columns"
                     sx={{
                         display: 'flex',
                         flexDirection: { xs: 'column', sm: 'row' },
@@ -140,25 +141,15 @@ function ComplianceCheckerPane() {
                             flex: 1,
                             gap: 1,
                             height: { xs: '100%', sm: 'var(--AnalysisPane-height)' },
+                            width: 'var(--ComplianceChecker-width)',
                             ...scrollbarStyle,
                             overflowY: { xs: 'unset', sm: "scroll" },
+                            overflowX: 'hidden',
                             scrollbarWidth: "none",
                         }}
                     >
-                        {file &&
-                            <Box className="File-header"
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "flex-start",
-                                    justifyContent: "space-between",
-                                }}
-                            >
-                                <FileName name={title} />
-                                <ClearButton handleClick={handleClearFile} tooltipTitle="Remove file" />
-                            </Box>
-                        }
-                        {!file && <DropFileZone files={file} setFiles={handleAddFiles} accept=".pdf" />}
+                        {file && <FileName fileName={title} onRemoveFile={handleClearFile} />}
+                        {!file && <DropFileZone files={file} setFiles={handleAddFiles} accept=".pdf" onMessage={onInfoMessage} />}
                         {file && <PDFViewer fileSource={fileBuffer} searchText={searchText} />}
                     </Stack>
                     <Stack
@@ -173,15 +164,9 @@ function ComplianceCheckerPane() {
                             scrollbarWidth: "none",
                         }}
                     >
-                        <AnalysisPane
-                            articles={analysisResult?.result}
-                            loading={analysing}
-                            onTextSearch={handleSearch}
-                            timeElapsed={analysisTimeElapsed}
-                        />
+                        <AnalysisPane articles={analysisResult?.result} loading={analysing} onTextSearch={handleSearch} timeElapsed={analysisTimeElapsed} />
                     </Stack>
                 </Stack>
-
                 <Stack className="Footer" width='100%' height='var(--Footer-height)'>
                     <Typography
                         variant="caption"

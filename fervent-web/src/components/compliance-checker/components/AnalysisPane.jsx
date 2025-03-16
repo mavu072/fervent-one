@@ -20,6 +20,7 @@ import Errors from "./Errors";
  */
 function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapsed }) {
     const [selectedInfoType, setSelectedInfoType] = useState(0);
+    
     // Categorize articles.
     const allIssues = articles.map(article => article.nonCompliantSections || []).flat();
     const allInsights = articles.map(article => article.compliantSections || []).flat()
@@ -36,21 +37,11 @@ function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapse
     // Calculate score.
     const overallScore = Math.floor((sumInsights / (sumIssues + sumInsights)) * 100);
 
-    function handleClickArticles() {
-        setSelectedInfoType(0);
-    }
-
-    function handleClickIssues() {
-        setSelectedInfoType(1);
-    }
-
-    function handleClickInsights() {
-        setSelectedInfoType(2);
-    }
-
-    function handleClickErrors() {
-        setSelectedInfoType(3);
-    }
+    // Togglers.
+    const handleClickArticles = () => setSelectedInfoType(0);
+    const handleClickIssues = () => setSelectedInfoType(1);
+    const handleClickInsights = () => setSelectedInfoType(2);
+    const handleClickErrors = () => setSelectedInfoType(3);
 
     return (
         <Stack flex={1} gap={2} pb={1}>
@@ -92,7 +83,6 @@ function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapse
             {selectedInfoType == 1 && <Issues issues={allIssues} onTextSearch={onTextSearch} />}
             {selectedInfoType == 2 && <Insights insights={allInsights} onTextSearch={onTextSearch} />}
             {selectedInfoType == 3 && <Errors errors={allErrors} />}
-
 
             {timeElapsed &&
                 <Typography variant="body2" component="small" sx={{ color: 'text.secondary', width: '100%', textAlign: "center" }}>

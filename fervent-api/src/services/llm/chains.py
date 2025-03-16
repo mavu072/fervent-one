@@ -1,3 +1,5 @@
+from langchain_chroma import Chroma
+
 from src.services.llm.chat_model import (
     create_prompt_response,
     create_conversational_response,
@@ -25,20 +27,17 @@ def run_retrieval_chain(query_text: str):
     context_text = join_similarity_search_results(result_docs)
 
     response = create_prompt_response(query_text, context_text)
-
     sources = get_content_sources(result_docs)
 
     return {"content": response.content, "sources": sources}
 
 
-def run_conversational_chain(user_message: str, message_history: list):
-    """Runs a conversational retrieval chain to create responses to user messages."""
+async def run_conversational_chain(user_message: str, message_history: list, vectorstore: Chroma = None):
+    """Runs a conversational retrieval chain to create responses to user messages and files, if any."""
 
-    result = create_conversational_response(user_message, message_history)
+    result = await create_conversational_response(user_message, message_history, vectorstore)
     response = result["answer"]
-
-    # documents from documents stuff chain.
-    docs = result["context"]
+    docs = result["context"] # documents from documents stuff chain.
 
     result_docs = [[doc, 0] for doc in docs]
     sources = get_content_sources(result_docs)
@@ -50,16 +49,6 @@ def run_conversational_chain(user_message: str, message_history: list):
         "message_history": result["chat_history"],
         "sources": sources,
     }
-
-
-def run_conversational_chain_with_files(
-    user_message: str, message_history: list, files: list
-):
-    """Runs a conversational retrieval chain to create responses to user messages and files."""
-    
-    # TODO Implement
-
-    return
 
 
 async def run_analysis_chain(filepath: str):

@@ -1,4 +1,4 @@
-from src.config.constants import DOCUMENT_DIR
+from definitions import DOCUMENT_DIR
 
 import os
 
@@ -31,10 +31,10 @@ def path_to_file(filename: str):
     return fpath
 
 
-def is_file_exists(filepath: str):
-    """Determines if file exists."""
+def is_path_exists(path: str):
+    """Determines if file or directory path exists."""
 
-    return os.path.exists(filepath)
+    return os.path.exists(path)
 
 
 def write_to_file(filepath: str, content: str):
@@ -48,7 +48,7 @@ def write_to_file(filepath: str, content: str):
 def read_from_file(filepath: str):
     """Reads content from a file, if it exists."""
 
-    if is_file_exists(filepath):
+    if is_path_exists(filepath):
         file = open(filepath)
         content = file.read()
         file.close()
@@ -61,7 +61,7 @@ def rm_file(filepath: str):
 
     deleted = False
 
-    if is_file_exists(filepath):
+    if is_path_exists(filepath):
         os.remove(filepath)
         deleted = True
 
@@ -73,7 +73,6 @@ def mkdir(directory: str):
 
     if not os.path.exists(directory):
         os.mkdir(directory)
-
 
 
 def mkdirtree(dirpath: str):

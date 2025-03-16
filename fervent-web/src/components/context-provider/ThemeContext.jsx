@@ -7,7 +7,7 @@ export const ThemeContext = createContext();
 
 function GlobalThemeProvider({ children }) {
     const [mode, setMode] = useState(getThemePreference());
-    const defaultTheme = createTheme({ palette: { mode } });
+    const defaultTheme = createTheme({ palette: { mode }, cssVariables: true, });
 
     useEffect(() => {
         saveThemePreference(mode);

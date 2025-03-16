@@ -6,10 +6,12 @@ class FileRepository extends BaseRepository {
     /**
      * File Repository.
      * @param {firebase.app.App} app 
-     * @param {string} messagesCollectionPath 
+     * @param {object} user User.
+     * @param {string} user.uid Unique Id.
      */
-    constructor(app, filesCollectionPath) {
-        super(app, filesCollectionPath)
+    constructor(app, user) {
+        const filesCollectionPath = `users/${user.uid}/files`;
+        super(app, filesCollectionPath);
     }
 }
 

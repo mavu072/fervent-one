@@ -1,13 +1,14 @@
 from fastapi.responses import JSONResponse
 
-from src.services.ner.detection import find_named_entities, censor_named_entities
+from src.services.ner.detection import detect_entities
+from src.services.ner.censorship import censor_entities
 from src.services.ner.categories import entity_categories
 
 
 def detect_named_entities(text: str):
     """Detect and return named entities within text."""
     try:
-        entity_list = find_named_entities(text, entity_categories)
+        entity_list = detect_entities(text, entity_categories)
         total = len(entity_list)
 
         return JSONResponse(
@@ -28,8 +29,8 @@ def detect_named_entities(text: str):
 def detect_and_censor_named_entities(text: str):
     """Detect and censor named entities within text."""
     try:
-        entity_list = find_named_entities(text, entity_categories)
-        censored_text = censor_named_entities(entity_list, text)
+        entity_list = detect_entities(text, entity_categories)
+        censored_text = censor_entities(entity_list, text)
         total = len(entity_list)
 
         return JSONResponse(

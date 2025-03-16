@@ -14,10 +14,9 @@ const ServiceProvider = ({ children }) => {
     const { user, app } = useContext(AppContext);
 
     // Required context by Services.
-    const userId = user.uid;
-    const messageRepository = new MessageRepository(app, `users/${userId}/messages`);
-    const fileRepository = new FileRepository(app, `users/${userId}/files`);
-    const reportRepository = new ReportRepository(app, `users/${userId}/reports`);
+    const messageRepository = new MessageRepository(app, user);
+    const fileRepository = new FileRepository(app, user);
+    const reportRepository = new ReportRepository(app, user);
 
     const contextValue = { messageRepository, fileRepository, reportRepository };
 

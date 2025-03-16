@@ -1,4 +1,4 @@
-import { appName, orgSupportEmail } from '../../../util/appNameUtil';
+import { appName, orgSupportEmail } from '../../../config/appConfig';
 
 const faqs = [
     {

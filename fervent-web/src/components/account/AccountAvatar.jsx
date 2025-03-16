@@ -2,8 +2,8 @@ import React from "react";
 import firebase from "firebase/compat/app";
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
-import { stringAvatar } from "../../util/avatarUtil";
-import { stringToColor } from "../../util/colorUtil";
+import { stringAvatar } from "../ui/avatarUtil";
+import { stringToColor } from "../ui/colorUtil";
 
 /**
  * AccountAvatar.
