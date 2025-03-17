@@ -1,19 +1,15 @@
 import React, { createContext, useState, useCallback } from "react";
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswerRounded';
-import FolderIcon from '@mui/icons-material/Folder';
 import DocumentScannerIcon from '@mui/icons-material/DocumentScannerRounded';
 import { useLocation, useNavigate } from "react-router-dom";
-
-export const ROOT_PATH = "/home";
-export const MESSAGES_PATH = "/";
-export const COMPLIANCE_CHECKER_PATH = "/compliance-checker";
+import { COMPLIANCE_CHECKER_PATH, COMPLIANCE_CHECKER_TITLE, MESSAGES_PATH, MESSAGES_TITLE, ROOT_PATH } from "../../config/appConfig";
 
 export const PaneNavigationContext = createContext();
 
 function PaneNavigationProvider({ children }) {
     const paneList = [
-        { path: MESSAGES_PATH, title: "My Messages", icon: <QuestionAnswerIcon /> },
-        { path: COMPLIANCE_CHECKER_PATH, title: "Compliance Checker", icon: <DocumentScannerIcon /> },
+        { path: MESSAGES_PATH, title: MESSAGES_TITLE, icon: <QuestionAnswerIcon /> },
+        { path: COMPLIANCE_CHECKER_PATH, title: COMPLIANCE_CHECKER_TITLE, icon: <DocumentScannerIcon /> },
     ];
 
     const navigate = useNavigate();

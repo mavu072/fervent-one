@@ -1,4 +1,4 @@
-import { TYPE_COMPLIANCE_ANALYSIS, TYPE_COMPLIANCE_REPORT } from "../constants/reportConstants";
+import { TYPE_COMPLIANCE_ANALYSIS, TYPE_COMPLIANCE_REPORT } from "../constants/messageConstants";
 
 function ReportFactory() {
 

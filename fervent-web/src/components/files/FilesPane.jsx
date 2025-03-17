@@ -9,7 +9,7 @@ import FolderItem from "./components/FolderItem";
 import { ServiceContext } from "../context-provider/ServiceContext";
 import { scrollbarStyle } from "../ui/scrollbarUtil";
 import { formatTime } from "../../util/dateTimeUtil";
-import { DEF_FILE_LIMIT } from "../../constants/fileConstants";
+import { DEF_FILE_LIMIT } from "../../constants/messageConstants";
 import FileService from "../../service/FileService";
 
 /**

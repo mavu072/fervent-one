@@ -4,10 +4,10 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import MessagesPane from "../../chat/MessagesPane";
 import ComplianceCheckerPane from "../../compliance-checker/ComplianceCheckerPane";
-import { ErrorPageNotFound } from "../../error/RouteErrors";
-import { COMPLIANCE_CHECKER_PATH } from "../../context-provider/PaneNavigationContext";
-import { AppContext } from "../../context-provider/AppContext";
 import SnackBarNotification from "../../notification/SnackBar";
+import { AppContext } from "../../context-provider/AppContext";
+import { ErrorPageNotFound } from "../../error/RouteErrors";
+import { COMPLIANCE_CHECKER_PATH } from "../../../config/appConfig";
 
 /**
  * MainContent.

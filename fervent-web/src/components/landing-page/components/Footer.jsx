@@ -15,138 +15,142 @@ function Footer() {
   const { mode } = useContext(ThemeContext);
 
   return (
-    <Container
+    <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: { xs: 4, sm: 8 },
-        py: { xs: 5, sm: 10 },
-        textAlign: { sm: 'center', md: 'left' },
+        color: 'white',
+        bgcolor: '#06090a',
       }}
     >
-      <Box
+      <Container
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          width: '100%',
-          justifyContent: 'space-between',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: { xs: 4, sm: 8 },
+          py: { xs: 5, sm: 10 },
+          textAlign: { sm: 'center', md: 'left' },
         }}
       >
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'column',
-            gap: 4,
-            minWidth: { xs: '100%', sm: '60%' },
+            flexDirection: { xs: 'column', sm: 'row' },
+            width: '100%',
+            justifyContent: 'space-between',
           }}
         >
-          <Box flex={1}
+          <Box
             sx={{
-              display: "flex",
-              justifyContent: { xs: "center", md: "left" },
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 4,
+              minWidth: { xs: '100%', sm: '60%' },
             }}
           >
-            <AppLogoHorizontal mode={mode} />
+            <Box flex={1}
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "center", md: "left" },
+              }}
+            >
+              <AppLogoHorizontal mode="dark" />
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: { xs: 'none', sm: 'flex' },
+              flexDirection: 'column',
+              gap: 1,
+            }}
+          >
+            <Typography variant="body2" fontWeight={600}>
+              Product
+            </Typography>
+            <Link color="#FFF" href="#">
+              Features
+            </Link>
+            <Link color="#FFF" href="#">
+              Highlights
+            </Link>
+            <Link color="#FFF" href="#">
+              Pricing
+            </Link>
+            <Link color="#FFF" href="#">
+              FAQs
+            </Link>
+          </Box>
+          <Box
+            sx={{
+              display: { xs: 'none', sm: 'flex' },
+              flexDirection: 'column',
+              gap: 1,
+            }}
+          >
+            <Typography variant="body2" fontWeight={600}>
+              Company
+            </Typography>
+            <Link color="#FFF" href="/about">
+              About us
+            </Link>
+          </Box>
+          <Box
+            sx={{
+              display: { xs: 'none', sm: 'flex' },
+              flexDirection: 'column',
+              gap: 1,
+            }}
+          >
+            <Typography variant="body2" fontWeight={600}>
+              Legal
+            </Typography>
+            <Link color="#FFF" href="/terms-and-conditions">
+              Terms
+            </Link>
+            <Link color="#FFF" href="/privacy-policy">
+              Privacy
+            </Link>
           </Box>
         </Box>
         <Box
           sx={{
-            display: { xs: 'none', sm: 'flex' },
-            flexDirection: 'column',
-            gap: 1,
+            display: 'flex',
+            justifyContent: 'space-between',
+            pt: { xs: 4, sm: 8 },
+            width: '100%',
+            borderTop: '1px solid',
+            borderColor: 'divider',
           }}
         >
-          <Typography variant="body2" fontWeight={600}>
-            Product
-          </Typography>
-          <Link color="text.secondary" href="#">
-            Features
-          </Link>
-          <Link color="text.secondary" href="#">
-            Highlights
-          </Link>
-          <Link color="text.secondary" href="#">
-            Pricing
-          </Link>
-          <Link color="text.secondary" href="#">
-            FAQs
-          </Link>
-        </Box>
-        <Box
-          sx={{
-            display: { xs: 'none', sm: 'flex' },
-            flexDirection: 'column',
-            gap: 1,
-          }}
-        >
-          <Typography variant="body2" fontWeight={600}>
-            Company
-          </Typography>
-          <Link color="text.secondary" href="/about">
-            About us
-          </Link>
-        </Box>
-        <Box
-          sx={{
-            display: { xs: 'none', sm: 'flex' },
-            flexDirection: 'column',
-            gap: 1,
-          }}
-        >
-          <Typography variant="body2" fontWeight={600}>
-            Legal
-          </Typography>
-          <Link color="text.secondary" href="/terms">
-            Terms
-          </Link>
-          <Link color="text.secondary" href="/privacy">
-            Privacy
-          </Link>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          pt: { xs: 4, sm: 8 },
-          width: '100%',
-          borderTop: '1px solid',
-          borderColor: 'divider',
-        }}
-      >
-        <Box>
-          <Link color="text.secondary" href="/privacy">
-            Privacy Policy
-          </Link>
-          <Typography display="inline" sx={{ mx: 0.5, opacity: 0.5 }}>
-            &nbsp;•&nbsp;
-          </Typography>
-          <Link color="text.secondary" href="/terms">
-            Terms of Service
-          </Link>
-          <Copyright />
-        </Box>
-        <Stack
-          direction="row"
-          justifyContent="left"
-          spacing={1}
-          useFlexGap
-          sx={{
-            color: 'text.secondary',
-          }}
-        >
-          <IconButton
-            color="inherit"
-            href={gitRepo}
-            aria-label="GitHub"
-            sx={{ alignSelf: 'center' }}
+          <Box>
+            <Link color="#FFF" href="/privacy-policy">
+              Privacy Policy
+            </Link>
+            <Typography display="inline" sx={{ mx: 0.5, opacity: 0.5 }}>
+              &nbsp;•&nbsp;
+            </Typography>
+            <Link color="#FFF" href="/terms-and-conditions">
+              Terms of Service
+            </Link>
+            <Copyright sx={{ color: "#FFF", }} />
+          </Box>
+          <Stack
+            direction="row"
+            justifyContent="left"
+            spacing={1}
+            useFlexGap
           >
-            <GitHubIcon />
-          </IconButton>
-        </Stack>
-      </Box>
-    </Container>
+            <IconButton
+              color="inherit"
+              href={gitRepo}
+              aria-label="GitHub"
+              sx={{ alignSelf: 'center' }}
+            >
+              <GitHubIcon />
+            </IconButton>
+          </Stack>
+        </Box>
+      </Container>
+    </Box>
   );
 }
 

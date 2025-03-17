@@ -25,12 +25,12 @@ const Router = createBrowserRouter([
         errorElement: <ErrorPage />
     },
     // {
-    //     path: '/privacy',
+    //     path: '/privacy-policy',
     //     element: <PrivacyPage />,
     //     errorElement: <ErrorPage />
     // },
     // {
-    //     path: '/terms',
+    //     path: '/terms-and-conditions',
     //     element: <TermsOfServicePage />,
     //     errorElement: <ErrorPage />
     // },

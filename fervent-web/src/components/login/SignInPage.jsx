@@ -9,6 +9,7 @@ import GoogleSignInButton from './components/GoogleSignInButton';
 import PageTitle from './components/PageTitle';
 import SignInForm from './components/SignInForm';
 import { AppContext } from '../context-provider/AppContext';
+import { appName } from '../../config/appConfig';
 
 /**
  * SignInPage.
@@ -30,6 +31,9 @@ function SignInPage() {
 
     return (
         <React.Fragment>
+            <title>
+                Login | {appName}
+            </title>
             <Container component="main" maxWidth="xs">
                 {infoMsg.message && <SnackBarNotification key={infoMsg.count} message={infoMsg.message} />}
                 <Box

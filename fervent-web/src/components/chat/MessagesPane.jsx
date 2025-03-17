@@ -10,18 +10,17 @@ import InlineLoader from '../loader/InlineLoader';
 import SectionLoader from '../loader/SectionLoader';
 import LoadMoreButton from '../buttons/LoadMoreButton';
 import AccountAvatar from '../account/AccountAvatar';
-import { formatTime } from '../../util/dateTimeUtil';
-import { scrollbarStyle } from '../ui/scrollbarUtil';
-import { appName } from '../../config/appConfig';
-import { scrollTo } from '../ui/scrollUtil';
-import { AppContext } from '../context-provider/AppContext';
-import { ServiceContext } from '../context-provider/ServiceContext';
-import { DEF_MESSAGE_LIMIT, FILE_SIZE_LIMIT, LIMIT_INCREMENT_VALUE } from '../../constants/messageConstants';
-import { DISCLAIMER_EXPERIMENTAL_AI, WARNING_HIDE_SENSITIVE_INFO } from '../../constants/stringConstants';
 import MessageService from '../../service/MessageService';
 import FileService from '../../service/FileService';
 import ReportService from '../../service/ReportService';
 import MessageResponderService from '../../service/MessageResponderService';
+import { AppContext } from '../context-provider/AppContext';
+import { ServiceContext } from '../context-provider/ServiceContext';
+import { formatTime } from '../../util/dateTimeUtil';
+import { scrollbarStyle } from '../ui/scrollbarUtil';
+import { scrollTo } from '../ui/scrollUtil';
+import { appName, MESSAGES_TITLE, DISCLAIMER_EXPERIMENTAL_AI, WARNING_HIDE_SENSITIVE_INFO } from '../../config/appConfig';
+import { DEF_MESSAGE_LIMIT, FILE_SIZE_LIMIT, LIMIT_INCREMENT_VALUE } from '../../constants/messageConstants';
 
 const systemUser = { displayName: appName };
 
@@ -35,7 +34,7 @@ function MessagesPane() {
   const messageService = new MessageService(messageRepository);
   const messageResponder = new MessageResponderService({
     userId: user.uid,
-    messageService,
+    messageService: messageService,
     fileService: new FileService(fileRepository),
     reportService: new ReportService(reportRepository)
   });
@@ -197,6 +196,9 @@ function MessagesPane() {
         borderRadius: 0,
       }}
     >
+      <title>
+        {MESSAGES_TITLE} – {appName}
+      </title>
       {isMessagesloading && <SectionLoader />}
       <Box
         sx={{

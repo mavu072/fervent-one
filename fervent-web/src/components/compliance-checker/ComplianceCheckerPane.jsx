@@ -11,8 +11,8 @@ import { scrollbarStyle } from "../ui/scrollbarUtil";
 import ReportFactory from "../../factory/ReportFactory";
 import FileAnalysisService from "../../service/FileAnalysisService";
 import AnalysisPane from "./components/AnalysisPane";
-import { DISCLAIMER_EXPERIMENTAL_AI } from "../../constants/stringConstants";
 import FileName from "./components/FileName";
+import { appName, COMPLIANCE_CHECKER_TITLE, DISCLAIMER_EXPERIMENTAL_AI } from "../../config/appConfig";
 
 /**
  * ComplianceCheckerPane.
@@ -103,6 +103,9 @@ function ComplianceCheckerPane() {
                 borderRadius: 0,
             }}
         >
+            <title>
+                {COMPLIANCE_CHECKER_TITLE} – {appName}
+            </title>
             <GlobalStyles
                 styles={{
                     ':root': {
