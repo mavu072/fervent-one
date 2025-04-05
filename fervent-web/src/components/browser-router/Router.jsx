@@ -5,6 +5,8 @@ import SignInPage from '../login/SignInPage';
 import LandingPage from '../landing-page/LandingPage';
 import ErrorPage, { PageNotFound } from '../error/RouteErrors';
 import AboutPage from '../info/AboutPage';
+import TermsAndConditionsPage from '../info/TermsAndConditionsPage';
+import PrivacyPolicyPage from '../info/PrivacyPolicyPage';
 
 const Router = createBrowserRouter([
     {
@@ -27,16 +29,16 @@ const Router = createBrowserRouter([
         element: <AboutPage />,
         errorElement: <ErrorPage />
     },
-    // {
-    //     path: '/privacy-policy',
-    //     element: <PrivacyPage />,
-    //     errorElement: <ErrorPage />
-    // },
-    // {
-    //     path: '/terms-and-conditions',
-    //     element: <TermsAndConditionsPage />,
-    //     errorElement: <ErrorPage />
-    // },
+    {
+        path: '/terms-and-conditions',
+        element: <TermsAndConditionsPage />,
+        errorElement: <ErrorPage />
+    },
+    {
+        path: '/privacy-policy',
+        element: <PrivacyPolicyPage />,
+        errorElement: <ErrorPage />
+    },
     {
         path: '*',
         element: <PageNotFound />,
