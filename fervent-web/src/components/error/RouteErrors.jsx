@@ -37,7 +37,6 @@ export function ErrorPageNotFound() {
 }
 
 export function ErrorMessage({ error }) {
-  
   function reloadWindow() {
     window.location.reload();
   }
@@ -63,6 +62,7 @@ export function ErrorMessage({ error }) {
 export function PageNotFound() {
   return (
     <div style={errorPageStyle}>
+      <title>Page Not Found</title>
       <ErrorPageNotFound />
     </div>
   );
@@ -74,9 +74,9 @@ export function PageNotFound() {
  */
 function ErrorPage() {
   const error = useRouteError();
-
   return (
     <div style={errorPageStyle}>
+      <title>Error</title>
       <ErrorMessage error={error} />
     </div>
   );

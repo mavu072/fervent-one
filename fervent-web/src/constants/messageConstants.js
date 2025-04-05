@@ -6,11 +6,16 @@ export const ASSISTANT = "assistant";
 export const HUMAN = "human";
 export const SYSTEM = "system";
 
-// Sources
-export const OPEN_INTERNAL = "internal"; // If set, a source will be opened internally, within the app.
-
-// Default message limit.
+// Default limits.
 export const DEF_MESSAGE_LIMIT = 10;
+export const DEF_FILE_LIMIT = 100;
+
+// Increment size.
 export const LIMIT_INCREMENT_VALUE = 10;
 
+// File size.
 export const FILE_SIZE_LIMIT = 2000000; // 2 MB.
+
+// Report types.
+export const TYPE_COMPLIANCE_REPORT = "complianceReport";
+export const TYPE_COMPLIANCE_ANALYSIS = "complianceAnalysis";

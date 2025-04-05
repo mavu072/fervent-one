@@ -3,10 +3,6 @@ import { AppContext } from "./AppContext";
 import MessageRepository from "../../repository/MessageRepository";
 import FileRepository from "../../repository/FileRepository";
 import ReportRepository from "../../repository/ReportRepository";
-import MessageService from "../../service/MessageService";
-import FileService from "../../service/FileService";
-import ReportService from "../../service/ReportService";
-import MessageResponderService from "../../service/MessageResponderService";
 
 export const ServiceContext = createContext();
 

@@ -10,7 +10,12 @@ import Features from './components/Features';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import { AppContext } from '../context-provider/AppContext';
+import { appDescription, appName, metaDescription, metaKeywords } from '../../config/appConfig';
 
+/**
+ * LandingPage.
+ * @returns JSX Component
+ */
 function LandingPage() {
   const { user } = useContext(AppContext);
   const navigate = useNavigate();
@@ -23,9 +28,17 @@ function LandingPage() {
 
   return (
     <React.Fragment>
+      <>
+        <meta name="description" content={metaDescription} />
+        <meta name="keywords" content={metaKeywords} />
+        <title>
+          {appName}: {appDescription}
+        </title>
+      </>
       <AppAppBar />
       <Hero />
       <Box sx={{ bgcolor: 'background.default' }}>
+        <Divider />
         <Features />
         <Divider />
         <Highlights />

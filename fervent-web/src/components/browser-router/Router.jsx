@@ -4,9 +4,9 @@ import App from '../../App';
 import SignInPage from '../login/SignInPage';
 import LandingPage from '../landing-page/LandingPage';
 import ErrorPage, { PageNotFound } from '../error/RouteErrors';
-// import PrivacyPage from '../../legal/PrivacyPage';
-// import TermsOfServicePage from '../../legal/TermsOfServicePage';
-// import AboutPage from '../../about/AboutPage';
+import AboutPage from '../info/AboutPage';
+import TermsAndConditionsPage from '../info/TermsAndConditionsPage';
+import PrivacyPolicyPage from '../info/PrivacyPolicyPage';
 
 const Router = createBrowserRouter([
     {
@@ -24,21 +24,21 @@ const Router = createBrowserRouter([
         element: <App />,
         errorElement: <ErrorPage />
     },
-    // {
-    //     path: '/privacy',
-    //     element: <PrivacyPage />,
-    //     errorElement: <ErrorPage />
-    // },
-    // {
-    //     path: '/terms',
-    //     element: <TermsOfServicePage />,
-    //     errorElement: <ErrorPage />
-    // },
-    // {
-    //     path: '/about',
-    //     element: <AboutPage />,
-    //     errorElement: <ErrorPage />
-    // },
+    {
+        path: '/about',
+        element: <AboutPage />,
+        errorElement: <ErrorPage />
+    },
+    {
+        path: '/terms-and-conditions',
+        element: <TermsAndConditionsPage />,
+        errorElement: <ErrorPage />
+    },
+    {
+        path: '/privacy-policy',
+        element: <PrivacyPolicyPage />,
+        errorElement: <ErrorPage />
+    },
     {
         path: '*',
         element: <PageNotFound />,
