@@ -109,7 +109,7 @@ function Footer() {
                 Company
               </Typography>
               <Link color="#FFF" href="/about">
-                About
+                About Us
               </Link>
               <Link color="#FFF" href="/privacy-policy">
                 Privacy Policy
