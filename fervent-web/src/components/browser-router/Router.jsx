@@ -4,9 +4,7 @@ import App from '../../App';
 import SignInPage from '../login/SignInPage';
 import LandingPage from '../landing-page/LandingPage';
 import ErrorPage, { PageNotFound } from '../error/RouteErrors';
-// import PrivacyPage from '../../legal/PrivacyPage';
-// import TermsOfServicePage from '../../legal/TermsOfServicePage';
-// import AboutPage from '../../about/AboutPage';
+import AboutPage from '../info/AboutPage';
 
 const Router = createBrowserRouter([
     {
@@ -24,6 +22,11 @@ const Router = createBrowserRouter([
         element: <App />,
         errorElement: <ErrorPage />
     },
+    {
+        path: '/about',
+        element: <AboutPage />,
+        errorElement: <ErrorPage />
+    },
     // {
     //     path: '/privacy-policy',
     //     element: <PrivacyPage />,
@@ -31,12 +34,7 @@ const Router = createBrowserRouter([
     // },
     // {
     //     path: '/terms-and-conditions',
-    //     element: <TermsOfServicePage />,
-    //     errorElement: <ErrorPage />
-    // },
-    // {
-    //     path: '/about',
-    //     element: <AboutPage />,
+    //     element: <TermsAndConditionsPage />,
     //     errorElement: <ErrorPage />
     // },
     {
