@@ -101,9 +101,17 @@ function PrivacyPolicy() {
 
                         <h2>Contact Us</h2>
                         <p>If you have any questions or concerns about our Privacy Policy or data practices, please contact us at <Link href={"mailto:" + orgSupportEmail} color='inherit'>{orgSupportEmail}</Link>.</p>
-
-                        <p>This Privacy Policy was last updated on {lastUpdated}.</p>
                     </Typography>
+                    <Box
+                        sx={{
+                            width: '100%',
+                            textAlign: { xs: 'center', md: 'right' },
+                        }}
+                    >
+                        <Typography variant="caption" color="text.secondary" sx={{ mt: 2 }}>
+                            <i>This Privacy Policy was last updated on {lastUpdated}.</i>
+                        </Typography>
+                    </Box>
                 </Stack>
             </Container>
         </Box>

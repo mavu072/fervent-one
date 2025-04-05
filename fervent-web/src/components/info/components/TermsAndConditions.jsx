@@ -77,9 +77,17 @@ function TermsAndConditions() {
 
                         <h2>8. Contact Us</h2>
                         <p>If you have any questions or concerns about these terms, please contact us at <Link href={"mailto:" + orgSupportEmail} color='inherit'>{orgSupportEmail}</Link>.</p>
-
-                        <p>These terms were last updated on {lastUpdated}.</p>
                     </Typography>
+                    <Box
+                        sx={{
+                            width: '100%',
+                            textAlign: { xs: 'center', md: 'right' },
+                        }}
+                    >
+                        <Typography variant="caption" color="text.secondary" sx={{ mt: 2 }}>
+                            <i>These Terms and Conditions were last updated on {lastUpdated}.</i>
+                        </Typography>
+                    </Box>
                 </Stack>
             </Container>
         </Box>
