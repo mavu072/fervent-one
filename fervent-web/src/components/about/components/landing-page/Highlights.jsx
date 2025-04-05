@@ -11,7 +11,7 @@ import AccessibilityNew from '@mui/icons-material/AccessibilityNew';
 import SecurityRounded from '@mui/icons-material/SecurityRounded';
 import DocumentScannerRounded from '@mui/icons-material/DocumentScannerRounded';
 import SupportAgentRounded from '@mui/icons-material/SupportAgentRounded';
-import { appName } from '../../../config/appConfig';
+import { appName } from '../../../../config/appConfig';
 
 const items = [
   {

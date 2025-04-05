@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material';
-import { orgSupportEmail } from '../../../config/appConfig';
+import { orgSupportEmail } from '../../../../config/appConfig';
 
 function Contact() {
   return (

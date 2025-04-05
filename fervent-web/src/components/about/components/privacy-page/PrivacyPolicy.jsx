@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { alpha } from '@mui/material';
-import { appName, orgSupportEmail } from '../../../config/appConfig';
+import { appName, orgSupportEmail } from '../../../../config/appConfig';
 
 const lastUpdated = "5 April 2025";
 

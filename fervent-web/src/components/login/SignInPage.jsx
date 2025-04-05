@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import SnackBarNotification from '../notification/SnackBar';
-import Copyright from '../landing-page/components/Copyright';
+import Copyright from '../about/components/landing-page/Copyright';
 import GoogleSignInButton from './components/GoogleSignInButton';
 import PageTitle from './components/PageTitle';
 import SignInForm from './components/SignInForm';

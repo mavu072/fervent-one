@@ -2,23 +2,23 @@ import React from 'react';
 import Divider from '@mui/material/Divider';
 import { appName } from '../../config/appConfig';
 import BackButton from './components/BackButton';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import Footer from '../landing-page/components/Footer';
+import TermsAndConditions from './components/terms-page/TermsAndConditions';
+import Footer from './components/landing-page/Footer';
 
-function PrivacyPolicyPage() {
+function TermsAndConditionsPage() {
     return (
         <React.Fragment>
             <>
                 <title>
-                    Privacy Policy | {appName}
+                    Terms and Conditions | {appName}
                 </title>
             </>
             <BackButton />
-            <PrivacyPolicy />
+            <TermsAndConditions />
             <Divider />
             <Footer />
         </React.Fragment>
     );
 }
 
-export default PrivacyPolicyPage;
+export default TermsAndConditionsPage;

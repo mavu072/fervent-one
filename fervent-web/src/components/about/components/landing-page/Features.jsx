@@ -10,10 +10,10 @@ import Typography from '@mui/material/Typography';
 import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
 import DocumentScannerIcon from '@mui/icons-material/DocumentScannerRounded';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import imgMobile from '../assets/chat-mobile.svg';
-import imgLaptop from '../assets/chat-laptop.svg';
-import imgPlatforms from '../assets/supported-platforms.svg';
-import { appName } from '../../../config/appConfig';
+import imgMobile from '../../assets/chat-mobile.svg';
+import imgLaptop from '../../assets/chat-laptop.svg';
+import imgPlatforms from '../../assets/supported-platforms.svg';
+import { appName } from '../../../../config/appConfig';
 
 const items = [
   {

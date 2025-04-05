@@ -7,9 +7,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Copyright from './Copyright';
-import { gitRepo } from '../../../config/appConfig';
-import { ThemeContext } from '../../context-provider/ThemeContext';
-import { AppLogoHorizontal } from '../../logo/AppLogo';
+import { gitRepo } from '../../../../config/appConfig';
+import { ThemeContext } from '../../../context-provider/ThemeContext';
+import { AppLogoHorizontal } from '../../../logo/AppLogo';
 
 function Footer() {
 

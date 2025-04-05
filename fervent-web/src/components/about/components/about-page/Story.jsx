@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { appName } from '../../../config/appConfig';
+import { appName } from '../../../../config/appConfig';
 
 function Story() {
     return (

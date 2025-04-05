@@ -10,10 +10,10 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import ToggleColorMode from '../../theme/ToggleColorMode';
-import AppLogoIcon, { AppLogoHorizontal } from '../../logo/AppLogo';
-import GoToLoginButton from '../../login/components/GoToLoginButton';
-import { ThemeContext } from '../../context-provider/ThemeContext';
+import ToggleColorMode from '../../../theme/ToggleColorMode';
+import AppLogoIcon, { AppLogoHorizontal } from '../../../logo/AppLogo';
+import GoToLoginButton from '../../../login/components/GoToLoginButton';
+import { ThemeContext } from '../../../context-provider/ThemeContext';
 import { useLocation } from 'react-router-dom';
 
 function AppAppBar() {
