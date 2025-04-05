@@ -12,7 +12,19 @@ import { ThemeContext } from '../../context-provider/ThemeContext';
 import { AppLogoHorizontal } from '../../logo/AppLogo';
 
 function Footer() {
-  const { mode } = useContext(ThemeContext);
+
+  const scrollToSection = (sectionId) => {
+    const sectionElement = document.getElementById(sectionId);
+    const offset = 128;
+    if (sectionElement) {
+      const targetScroll = sectionElement.offsetTop - offset;
+      sectionElement.scrollIntoView({ behavior: 'smooth' });
+      window.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <Box
@@ -26,7 +38,7 @@ function Footer() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: { xs: 4, sm: 8 },
+          gap: { xs: 4, sm: 4 },
           py: { xs: 5, sm: 10 },
           textAlign: { sm: 'center', md: 'left' },
         }}
@@ -37,105 +49,93 @@ function Footer() {
             flexDirection: { xs: 'column', sm: 'row' },
             width: '100%',
             justifyContent: 'space-between',
+            gap: { xs: 4, sm: '' },
           }}
         >
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              gap: 4,
               minWidth: { xs: '100%', sm: '60%' },
             }}
           >
             <Box flex={1}
               sx={{
                 display: "flex",
-                justifyContent: { xs: "center", md: "left" },
+                justifyContent:  { xs: 'center', sm: "left" },
               }}
             >
               <AppLogoHorizontal mode="dark" />
             </Box>
           </Box>
-          <Box
+
+          <Box flex={1}
             sx={{
-              display: { xs: 'none', sm: 'flex' },
-              flexDirection: 'column',
-              gap: 1,
+              display: "flex",
+              justifyContent: 'space-between',
             }}
           >
-            <Typography variant="body2" fontWeight={600}>
-              Product
-            </Typography>
-            <Link color="#FFF" href="#">
-              Features
-            </Link>
-            <Link color="#FFF" href="#">
-              Highlights
-            </Link>
-            <Link color="#FFF" href="#">
-              Pricing
-            </Link>
-            <Link color="#FFF" href="#">
-              FAQs
-            </Link>
-          </Box>
-          <Box
-            sx={{
-              display: { xs: 'none', sm: 'flex' },
-              flexDirection: 'column',
-              gap: 1,
-            }}
-          >
-            <Typography variant="body2" fontWeight={600}>
-              Company
-            </Typography>
-            <Link color="#FFF" href="/about">
-              About us
-            </Link>
-          </Box>
-          <Box
-            sx={{
-              display: { xs: 'none', sm: 'flex' },
-              flexDirection: 'column',
-              gap: 1,
-            }}
-          >
-            <Typography variant="body2" fontWeight={600}>
-              Legal
-            </Typography>
-            <Link color="#FFF" href="/terms-and-conditions">
-              Terms
-            </Link>
-            <Link color="#FFF" href="/privacy-policy">
-              Privacy
-            </Link>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+              }}
+            >
+              <Typography variant="body2" fontWeight={600}>
+                Product
+              </Typography>
+              <Link color="#FFF" href="/?goto=features">
+                Features
+              </Link>
+              <Link color="#FFF" href="/?goto=highlights">
+                Highlights
+              </Link>
+              <Link color="#FFF" href="/?goto=pricing">
+                Pricing
+              </Link>
+              <Link color="#FFF" href="/?goto=faq">
+                FAQs
+              </Link>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+              }}
+            >
+              <Typography variant="body2" fontWeight={600}>
+                Company
+              </Typography>
+              <Link color="#FFF" href="/about">
+                About
+              </Link>
+              <Link color="#FFF" href="/privacy-policy">
+                Privacy Policy
+              </Link>
+              <Link color="#FFF" href="/terms-and-conditions">
+                Terms & Conditions
+              </Link>
+            </Box>
           </Box>
         </Box>
+
         <Box
           sx={{
             display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
             justifyContent: 'space-between',
-            pt: { xs: 4, sm: 8 },
+            pt: { xs: 1, sm: 2 },
             width: '100%',
             borderTop: '1px solid',
             borderColor: 'divider',
           }}
         >
-          <Box>
-            <Link color="#FFF" href="/privacy-policy">
-              Privacy Policy
-            </Link>
-            <Typography display="inline" sx={{ mx: 0.5, opacity: 0.5 }}>
-              &nbsp;•&nbsp;
-            </Typography>
-            <Link color="#FFF" href="/terms-and-conditions">
-              Terms of Service
-            </Link>
-            <Copyright sx={{ color: "#FFF", }} />
-          </Box>
+          <Copyright sx={{ color: "#FFF", textAlign: { xs: 'center', sm: 'left' }, }} />
           <Stack
             direction="row"
-            justifyContent="left"
+            justifyContent={{ xs: 'center', sm: 'left' }}
             spacing={1}
             useFlexGap
           >

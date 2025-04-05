@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import AppBar from '@mui/material/AppBar';
@@ -14,11 +14,24 @@ import ToggleColorMode from '../../theme/ToggleColorMode';
 import AppLogoIcon, { AppLogoHorizontal } from '../../logo/AppLogo';
 import GoToLoginButton from '../../login/components/GoToLoginButton';
 import { ThemeContext } from '../../context-provider/ThemeContext';
+import { useLocation } from 'react-router-dom';
 
 function AppAppBar() {
   const { mode } = useContext(ThemeContext);
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const menuBtnWidth = '30px';
+
+  useEffect(() => {
+    if (location?.search !== "") {
+      const params = location.search.substring(1);
+      const parts = params.split("="); // e.g. goto=features
+
+      if (parts[1]) {
+        scrollToSection(parts[1]);
+      }
+    }
+  }, [location]);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -77,12 +90,12 @@ function AppAppBar() {
               }}
             >
               <Stack className="AppBar-Logo" flex={1}>
-                 <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: '-5px',  mr: '5px', }}>
+                <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: '-5px', mr: '5px', }}>
                   <AppLogoIcon mode={mode} />
-                 </Box>
-                 <Box sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: "center", alignItems: "center", ml: menuBtnWidth, }}>
+                </Box>
+                <Box sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: "center", alignItems: "center", ml: menuBtnWidth, }}>
                   <AppLogoHorizontal mode={mode} />
-                 </Box>
+                </Box>
               </Stack>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem

@@ -19,7 +19,7 @@ export default function Hero() {
       id="hero"
       sx={(theme) => ({
         width: '100%',
-        bgcolor: theme.palette.mode === 'light' ? '#FFF': `${alpha('#090E10', 0.0)}`,
+        bgcolor: theme.palette.mode === 'light' ? '#FFF' : `${alpha('#090E10', 0.0)}`,
       })}
     >
       <Container
@@ -56,6 +56,7 @@ export default function Hero() {
             </Typography>
           </Typography>
           <Typography
+            variant="body2"
             textAlign="center"
             color="text.secondary"
             sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' } }}
