@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
@@ -8,29 +8,18 @@ import Typography from '@mui/material/Typography';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Copyright from './Copyright';
 import { gitRepo } from '../../../../config/appConfig';
-import { ThemeContext } from '../../../context-provider/ThemeContext';
 import { AppLogoHorizontal } from '../../../logo/AppLogo';
 
 function Footer() {
-
-  const scrollToSection = (sectionId) => {
-    const sectionElement = document.getElementById(sectionId);
-    const offset = 128;
-    if (sectionElement) {
-      const targetScroll = sectionElement.offsetTop - offset;
-      sectionElement.scrollIntoView({ behavior: 'smooth' });
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   return (
     <Box
       sx={{
-        color: 'white',
+        color: 'grey.400',
         bgcolor: '#06090a',
+        textDecoration: 'no-underline',
+        '& a:hover': {
+          color: 'grey.100'
+        }
       }}
     >
       <Container
@@ -52,70 +41,49 @@ function Footer() {
             gap: { xs: 4, sm: '' },
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              minWidth: { xs: '100%', sm: '60%' },
-            }}
-          >
-            <Box flex={1}
-              sx={{
-                display: "flex",
-                justifyContent:  { xs: 'center', sm: "left" },
-              }}
-            >
+          <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: { xs: '100%', sm: '60%' }, }} >
+            <Box sx={{ display: "flex", flex: 1, justifyContent: { xs: 'center', sm: "left" }, }} >
               <AppLogoHorizontal mode="dark" />
             </Box>
           </Box>
 
-          <Box flex={1}
-            sx={{
-              display: "flex",
-              justifyContent: 'space-between',
-            }}
-          >
+          <Box sx={{ display: 'flex', flex: 1, justifyContent: 'space-between', }}>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 1,
+                color: 'inherit',
               }}
             >
-              <Typography variant="body2" fontWeight={600}>
+              <Typography variant="body1" fontWeight={600}>
                 Product
               </Typography>
-              <Link color="#FFF" href="/?goto=features">
+              <Link variant='body2' color="inherit" sx={{ textDecoration: "inherit" }} href="/?goto=features">
                 Features
               </Link>
-              <Link color="#FFF" href="/?goto=highlights">
+              <Link variant='body2' color="inherit" sx={{ textDecoration: "inherit" }} href="/?goto=highlights">
                 Highlights
               </Link>
-              <Link color="#FFF" href="/?goto=pricing">
+              <Link variant='body2' color="inherit" sx={{ textDecoration: "inherit" }} href="/?goto=pricing">
                 Pricing
               </Link>
-              <Link color="#FFF" href="/?goto=faq">
+              <Link variant='body2' color="inherit" sx={{ textDecoration: "inherit" }} href="/?goto=faq">
                 FAQs
               </Link>
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 1,
-              }}
-            >
-              <Typography variant="body2" fontWeight={600}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, }}  >
+              <Typography variant="body1" fontWeight={600}>
                 Company
               </Typography>
-              <Link color="#FFF" href="/about">
+              <Link variant='body2' color="inherit" sx={{ textDecoration: "inherit" }} href="/about">
                 About Us
               </Link>
-              <Link color="#FFF" href="/privacy-policy">
+              <Link variant='body2' color="inherit" sx={{ textDecoration: "inherit" }} href="/privacy-policy">
                 Privacy Policy
               </Link>
-              <Link color="#FFF" href="/terms-and-conditions">
-                Terms & Conditions
+              <Link variant='body2' color="inherit" sx={{ textDecoration: "inherit" }} href="/terms-and-conditions">
+                Terms and Conditions
               </Link>
             </Box>
           </Box>
@@ -132,7 +100,7 @@ function Footer() {
             borderColor: 'divider',
           }}
         >
-          <Copyright sx={{ color: "#FFF", textAlign: { xs: 'center', sm: 'left' }, }} />
+          <Copyright sx={{ color: "inherit", textAlign: { xs: 'center', sm: 'left' }, }} />
           <Stack
             direction="row"
             justifyContent={{ xs: 'center', sm: 'left' }}
