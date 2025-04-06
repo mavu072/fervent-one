@@ -1,12 +1,12 @@
 import React from 'react';
 import Divider from '@mui/material/Divider';
 import { orgName } from "../../config/appConfig";
-import Introduction from './components/Introduction';
+import Introduction from './components/about-page/Introduction';
 import BackButton from './components/BackButton';
-import Footer from '../landing-page/components/Footer';
-import ContactUs from './components/Contact';
-import OurStory from './components/Story';
-import OurMission from './components/Mission';
+import Footer from './components/landing-page/Footer';
+import ContactUs from './components/about-page/Contact';
+import OurStory from './components/about-page/Story';
+import OurMission from './components/about-page/Mission';
 
 function AboutPage() {
     return (

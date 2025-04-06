@@ -2,11 +2,11 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import App from '../../App';
 import SignInPage from '../login/SignInPage';
-import LandingPage from '../landing-page/LandingPage';
+import LandingPage from '../about/LandingPage';
+import AboutPage from '../about/AboutPage';
+import TermsAndConditionsPage from '../about/TermsAndConditionsPage';
+import PrivacyPolicyPage from '../about/PrivacyPolicyPage';
 import ErrorPage, { PageNotFound } from '../error/RouteErrors';
-import AboutPage from '../info/AboutPage';
-import TermsAndConditionsPage from '../info/TermsAndConditionsPage';
-import PrivacyPolicyPage from '../info/PrivacyPolicyPage';
 
 const Router = createBrowserRouter([
     {

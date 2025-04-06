@@ -8,7 +8,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import JsxParser from 'react-jsx-parser';
-import faqs from '../data/faqs';
+import faqs from '../../data/faqs';
 
 export default function FAQ() {
   const [expanded, setExpanded] = useState(false);

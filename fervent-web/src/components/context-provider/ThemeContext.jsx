@@ -11,7 +11,7 @@ function GlobalThemeProvider({ children }) {
 
     useEffect(() => {
         saveThemePreference(mode);
-    }, [mode, saveThemePreference]);
+    }, [mode]);
 
     const toggleColorMode = useCallback(() => {
         setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));

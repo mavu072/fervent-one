@@ -114,6 +114,4 @@ export const uploadFilesToAssistant = async (uuid, files) => {
     } else {
         throw new Error(data.error ? data.error : response.statusText);
     }
-
-    return null;
 }

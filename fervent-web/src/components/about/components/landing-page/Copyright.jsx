@@ -1,6 +1,6 @@
 import React from "react";
 import Typography from '@mui/material/Typography';
-import { orgName } from "../../../config/appConfig";
+import { orgName } from "../../../../config/appConfig";
 
 /**
  * Copyright.

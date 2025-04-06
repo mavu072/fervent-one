@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';;
-import { appName } from "../../../config/appConfig";
+import { appName } from "../../../../config/appConfig";
 
 const items = [
     {
@@ -50,10 +50,10 @@ function Mission() {
     return (
         <Box
             id="mission"
-            sx={(theme) => ({
+            sx={{
                 width: '100%',
                 bgcolor: '#06090a',
-            })}
+            }}
         >
             <Container
                 sx={{
