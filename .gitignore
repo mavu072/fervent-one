@@ -193,3 +193,6 @@ dist-ssr
 
 # Runtime directories and files
 tmp/
+
+# Sentry
+.env.sentry-build-plugin
