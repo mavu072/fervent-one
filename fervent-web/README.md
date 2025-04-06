@@ -23,7 +23,7 @@ This application requires that you set up the following:
 
         Change your database rules to allow `read, write` operations.
 
-        ```
+        ```javascript
         rules_version = '2';
 
         service cloud.firestore {
@@ -37,7 +37,7 @@ This application requires that you set up the following:
 
 2. Sentry project.
 
-    - Sign in to Sentry.io using the organization or team account.
+    - Sign in to [Sentry.io](sentry.io) using the organization or team account.
     
     - Configure [Sentry JavaScript SDK](https://docs.sentry.io/platforms/javascript/) to diagnose issues and learn  about application code health.
 
