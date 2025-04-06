@@ -61,10 +61,14 @@ export function ErrorMessage({ error }) {
  */
 export function PageNotFound() {
   return (
-    <div style={errorPageStyle}>
-      <title>Page Not Found</title>
-      <ErrorPageNotFound />
-    </div>
+    <React.Fragment>
+      <>
+        <title>Page Not Found</title>
+      </>
+      <div style={errorPageStyle}>
+        <ErrorPageNotFound />
+      </div>
+    </React.Fragment>
   );
 }
 
@@ -75,10 +79,14 @@ export function PageNotFound() {
 function ErrorPage() {
   const error = useRouteError();
   return (
-    <div style={errorPageStyle}>
-      <title>Error</title>
-      <ErrorMessage error={error} />
-    </div>
+    <React.Fragment>
+      <>
+        <title>Error</title>
+      </>
+      <div style={errorPageStyle}>
+        <ErrorMessage error={error} />
+      </div>
+    </React.Fragment>
   );
 }
 

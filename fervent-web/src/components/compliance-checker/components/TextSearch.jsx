@@ -20,7 +20,7 @@ function TextSearch({ text, onTextSearch }) {
             }}
         >
             <Button
-                title="Find clause on page"
+                title="Find on page"
                 icon={<FindInPageIcon />}
                 variant="outlined"
                 handleClick={() => { onTextSearch(text); }}

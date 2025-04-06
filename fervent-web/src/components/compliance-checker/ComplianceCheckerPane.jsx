@@ -22,14 +22,12 @@ function ComplianceCheckerPane() {
     const { user, onInfoMessage } = useContext(AppContext);
     const [file, setFile] = useState();
     const [title, setTitle] = useState();
-    const [fileBuffer, setFileBuffer] = useState();
     const [analysisResult, setAnalyisResult] = useState();
     const [analysing, setAnalysing] = useState(false);
     const [analysisTimeElapsed, setAnalysisTimeElapsed] = useState();
     const [searchText, setSearchText] = useState("");
 
     const fileAnalyser = new FileAnalysisService();
-    const reader = new FileReader();
 
     /**
      * Handle upload file.
@@ -41,18 +39,9 @@ function ComplianceCheckerPane() {
         setTitle(fl.name);
         setFile(fl);
 
-        // Listen for load event and set file content to buffer.
-        reader.addEventListener("load", () => {
-            const buffer = reader.result;
-            setFileBuffer(buffer);
-            setAnalysing(true);
-            onInfoMessage("Analysing document.");
-        });
-
-        // Read file.
-        reader.readAsArrayBuffer(fl);
-
         // Analyse
+        setAnalysing(true);
+        onInfoMessage("Analysing document.");
         const startTime = performance.now();
         fileAnalyser.analyseFile(user.uid, fl)
             .then(res => {
@@ -76,7 +65,6 @@ function ComplianceCheckerPane() {
     function handleClearFile() {
         setTitle(undefined);
         setFile(undefined);
-        setFileBuffer(undefined);
         setAnalyisResult(undefined);
         setAnalysisTimeElapsed(undefined);
         setSearchText("");
@@ -151,9 +139,13 @@ function ComplianceCheckerPane() {
                             scrollbarWidth: "none",
                         }}
                     >
-                        {file && <FileName fileName={title} onRemoveFile={handleClearFile} />}
-                        {!file && <DropFileZone files={file} setFiles={handleAddFiles} accept=".pdf" onMessage={onInfoMessage} />}
-                        {file && <PDFViewer fileSource={fileBuffer} searchText={searchText} />}
+                        {!file && <DropFileZone setFiles={handleAddFiles} accept=".pdf" onMessage={onInfoMessage} />}
+                        {file && (
+                            <>
+                                <FileName fileName={title} onRemoveFile={handleClearFile} />
+                                <PDFViewer src={file} searchText={searchText} />
+                            </>
+                        )}
                     </Stack>
                     <Stack
                         className="Analysis-column"

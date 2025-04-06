@@ -1,11 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import MessagesPane from "../../chat/MessagesPane";
 import ComplianceCheckerPane from "../../compliance-checker/ComplianceCheckerPane";
-import SnackBarNotification from "../../notification/SnackBar";
-import { AppContext } from "../../context-provider/AppContext";
 import { ErrorPageNotFound } from "../../error/RouteErrors";
 import { COMPLIANCE_CHECKER_PATH } from "../../../config/appConfig";
 
@@ -14,11 +12,8 @@ import { COMPLIANCE_CHECKER_PATH } from "../../../config/appConfig";
  * @returns JSX component
  */
 function MainContent() {
-    const { infoMsg } = useContext(AppContext); // Display messages from all nested routes.
-
     return (
         <Box component="section" className="MainContent" sx={{ flex: 1 }}>
-            {infoMsg.message && <SnackBarNotification key={infoMsg.count} message={infoMsg.message} />}
             <Paper
                 sx={{
                     flex: 1,
