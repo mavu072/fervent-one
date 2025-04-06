@@ -25,7 +25,7 @@ jest.mock("../../src/firebase/firebaseUtil", () => {
 })
 jest.mock("../../src/repository/BaseRepository", () => {
     return class BaseRepository {
-        constructor(parameters) { }
+        constructor() { }
 
         save(doc) {
             return Promise.resolve(doc);
