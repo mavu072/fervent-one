@@ -35,9 +35,17 @@ function Contact() {
               color="text.secondary"
               sx={{ mb: 2 }}
             >
-              We love hearing from our users! If you have any questions, feedback, or suggestions, please don’t hesitate to reach out to us.
+              We love hearing from our users!
             </Typography>
           </div>
+          <Typography
+            component="div"
+            variant="body2"
+            color="text.secondary"
+            sx={{ alignSelf: 'center', width: '100%', mb: 2.5 }}
+          >
+            If you have any questions, feedback, or suggestions, please don’t hesitate to reach out to us.
+          </Typography>
           <Box>
             <Button variant="contained" size="medium" color="primary" href={"mailto:" + orgSupportEmail}>
               Contact us
