@@ -20,11 +20,10 @@ function Sidebar() {
   return (
     <Paper
       className="Sidebar"
-      sx={(theme) => ({
-        position: { xs: 'fixed', lg: 'sticky' },
+      sx={{
+        position: { xs: 'fixed' },
         transform: {
           xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1)))',
-          lg: 'none',
         },
         transition: 'transform 0.4s, width 0.4s',
         zIndex: 9998,
@@ -37,16 +36,17 @@ function Sidebar() {
         flexDirection: 'column',
         gap: 2,
         borderRadius: 0,
-        backgroundColor: theme.palette.mode === 'light' ? grey[100] : grey[900],
-      })}
+        backgroundColor: 'background.paper',
+      }}
     >
       <GlobalStyles
         styles={(theme) => ({
           ':root': {
             '--Sidebar-width': '280px',
-            [theme.breakpoints.up('lg')]: {
-              '--Sidebar-width': '280px',
+            [theme.breakpoints.up('md')]: {
+              '--Sidebar-width': '300px',
             },
+            '--Sidebar-background-backdrop': 'rgba(0, 0, 0, 0.5)',
           },
         })}
       />
@@ -60,11 +60,10 @@ function Sidebar() {
           width: '100vw',
           height: '100vh',
           opacity: 'var(--SideNavigation-slideIn)',
-          backgroundColor: 'var(--material-palette-background-backdrop)',
+          backgroundColor: 'var(--Sidebar-background-backdrop)',
           transition: 'opacity 0.4s',
           transform: {
             xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--Sidebar-width, 0px)))',
-            lg: 'translateX(-100%)',
           },
         }}
         onClick={() => closeSidebar()}

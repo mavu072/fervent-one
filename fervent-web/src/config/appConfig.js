@@ -16,5 +16,5 @@ export const WARNING_HIDE_SENSITIVE_INFO = "Do not share any sensitive informati
 export const ROOT_PATH = "/home";
 export const MESSAGES_PATH = "/";
 export const COMPLIANCE_CHECKER_PATH = "/compliance-checker";
-export const MESSAGES_TITLE = "My Messages";
+export const MESSAGES_TITLE = "Messages";
 export const COMPLIANCE_CHECKER_TITLE = "Compliance Checker";

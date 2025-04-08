@@ -82,7 +82,7 @@ function ComplianceCheckerPane() {
         <Paper
             className="ComplianceChecker-container"
             sx={{
-                width: { xs: '100dvw', lg: 'calc(100dvw - var(--Sidebar-width))' },
+                width: { xs: '100dvw' },
                 height: 'var(--ComplianceChecker-height)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -99,7 +99,7 @@ function ComplianceCheckerPane() {
                     ':root': {
                         '--Footer-height': '30px',
                         '--ComplianceChecker-height': 'calc(100dvh - var(--Header-height))',
-                        '--ComplianceChecker-width': 'calc(100dvw - var(--Sidebar-width))',
+                        '--ComplianceChecker-width': '100dvw',
                         '--AnalysisPane-height': 'calc(var(--ComplianceChecker-height) - var(--Footer-height))',
                     },
                 }}
@@ -131,8 +131,8 @@ function ComplianceCheckerPane() {
                         sx={{
                             flex: 1,
                             gap: 1,
-                            height: { xs: '100%', sm: 'var(--AnalysisPane-height)' },
-                            width: 'var(--ComplianceChecker-width)',
+                            width: { xs: '100%', sm: 'var(--ComplianceChecker-width)' },
+                            height: { sm: 'var(--AnalysisPane-height)' },
                             ...scrollbarStyle,
                             overflowY: { xs: 'unset', sm: "scroll" },
                             overflowX: 'hidden',
@@ -152,7 +152,7 @@ function ComplianceCheckerPane() {
                         sx={{
                             width: { xs: '100%', sm: '40%' },
                             minWidth: { sm: '300px' },
-                            height: { xs: '100%', sm: 'var(--AnalysisPane-height)', },
+                            height: { sm: 'var(--AnalysisPane-height)', },
                             border: 0,
                             ml: { sm: 1 },
                             ...scrollbarStyle,

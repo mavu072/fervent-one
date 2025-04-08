@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
+import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { PaneNavigationContext } from "../../context-provider/PaneNavigationContext";
 
 /**
@@ -23,29 +23,19 @@ function PaneNavigation({ onClick = undefined }) {
   }
 
   return (
-    <List
-      size="sm"
-      sx={{
-        gap: 1,
-        '--List-nestedInsetStart': '30px',
-        '--ListItem-radius': '4px',
-      }}
-    >
+    <List sx={{ width: '100%', bgcolor: 'inherit' }}>
       {paneList.map((pane, index) => {
         const selected = pane.path == selectedPane;
 
         return (
-          <ListItem key={index}>
+          <ListItem key={index} disablePadding>
             <ListItemButton
               selected={selected}
               onClick={() => { handleClick(pane.path) }}
-              sx={{
-                borderRadius: 'var(--ListItem-radius)',
-                overflow: "hidden",
-              }}
             >
-              <Box
+              <ListItemIcon
                 sx={{
+                  minWidth: '30px',
                   color: (theme) => {
                     if (theme.palette.mode === 'light') {
                       return selected ? 'primary.main' : 'grey.300';
@@ -55,12 +45,8 @@ function PaneNavigation({ onClick = undefined }) {
                 }}
               >
                 {pane.icon}
-              </Box>
-              <ListItemText>
-                <Typography level="title-sm" sx={{ whiteSpace: 'nowrap' }}>
-                  &nbsp;{pane.title}
-                </Typography>
-              </ListItemText>
+              </ListItemIcon>
+              <ListItemText primary={pane.title} sx={{ whiteSpace: 'nowrap' }} />
             </ListItemButton>
           </ListItem>
         );

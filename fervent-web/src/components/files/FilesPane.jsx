@@ -44,7 +44,7 @@ function FilesPane() {
         <Paper
             sx={{
                 height: 'calc(100dvh - var(--Header-height))',
-                width: { xs: '100dvw', lg: 'calc(100dvw - var(--Sidebar-width))' },
+                width: { xs: '100dvw', },
                 display: 'flex',
                 flexDirection: 'column',
                 overflowY: 'hidden',

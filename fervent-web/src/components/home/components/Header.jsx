@@ -24,7 +24,7 @@ function Header() {
         top: 0,
         right: 0,
         height: 'var(--Header-height)',
-        width: { xs: '100dvw', lg: 'calc(100dvw - var(--Sidebar-width))' },
+        width: { xs: '100dvw' },
         zIndex: 9995,
         p: 2,
         pr: 1.5, // Shifting to create room for context menu.
@@ -45,7 +45,7 @@ function Header() {
       />
       <Stack
         sx={{
-          display: { xs: 'flex', lg: 'none' },
+          display: { xs: 'flex' },
           m: 0,
           p: 0,
         }}
