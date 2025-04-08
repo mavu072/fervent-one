@@ -49,7 +49,7 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
             flexDirection: 'column',
             width: '100%',
             px: 2,
-            pb: 1,
+            pb: { xs: 4, md: 2 },
             pt: 1,
         }}>
             <FileInputList fileList={selectedFiles} onRemoveFile={onRemoveFile} />

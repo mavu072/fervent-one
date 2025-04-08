@@ -258,7 +258,7 @@ function MessagesPane() {
             <div ref={messagesEndRef}></div>
 
             <Stack display="flex" alignItems="center" textAlign="center" px={2} color={"text.secondary"} >
-              <Typography variant="caption">{DISCLAIMER_EXPERIMENTAL_AI}</Typography>
+              <Typography variant="caption">{DISCLAIMER_EXPERIMENTAL_AI} {WARNING_HIDE_SENSITIVE_INFO}</Typography>
             </Stack>
           </Stack>
         }
@@ -273,12 +273,6 @@ function MessagesPane() {
         onRemoveAllFiles={handleRemoveAllFiles}
         onSubmit={handleSubmit}
       />
-
-      <Stack pb={1}>
-        <Typography variant="caption" sx={{ color: 'text.secondary', textAlign: "center", px: 1 }}>
-          {WARNING_HIDE_SENSITIVE_INFO}
-        </Typography>
-      </Stack>
     </Paper>
   );
 }

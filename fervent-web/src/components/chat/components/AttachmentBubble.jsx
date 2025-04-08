@@ -22,12 +22,12 @@ function AttachmentBubble({ isSent, attachment, arrivedAt }) {
         <Tooltip title={arrivedAt} placement={isSent ? "top" : "top"} arrow>
             <Paper
                 variant="outlined"
-                sx={{
+                sx={(theme) => ({
                     px: 1.75,
                     py: 1.25,
                     borderRadius: 'var(--Chat-Bubble-radius)',
-                    backgroundColor: 'background.body',
-                }}
+                    backgroundColor: theme.palette.mode === 'light' ? 'background.body' : 'grey.900',
+                })}
             >
                 <Stack direction="row" spacing={1.5} alignItems="center">
                     <Avatar color="primary" size="lg">
