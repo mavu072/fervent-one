@@ -8,7 +8,7 @@ function BackButton() {
             sx={{
                 position: "sticky",
                 top: '10px',
-                marginLeft: '10px',
+                marginLeft: { xs: '0px', sm: '10px' },
                 color: 'grey.500'
             }}
         >
