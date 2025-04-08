@@ -49,7 +49,7 @@ function Story() {
                         sx={{ alignSelf: 'center', width: '100%' }}
                     >
                         <p>
-                            {appName} was born out of a need for accessible, clear, and reliable legal information for South African employees and labourers. Many workers face unfair treatment, contract disputes, and workplace injustices but struggle to navigate complex labor laws or afford legal assistance.
+                            {appName} was born out of a need for accessible, clear, and reliable legal information for South African employees and labourers. Many workers face unfair treatment, contract disputes, and workplace injustices but struggle to navigate complex labour laws or afford legal assistance.
                         </p>
                         <p>
                             The idea for {appName} came from the first-hand workplace experiences of our founders, their family, and friends. Seeing loved ones struggle with unpaid wages, unfair dismissals, and deceptive contracts made us realize how difficult it is for the average employee to understand and protect their rights.

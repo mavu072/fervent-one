@@ -90,7 +90,7 @@ VITE_ORG_SUPPORT_EMAIL=xxxxx@gmail.com # Replace with valid email
 VITE_GIT_REPO=https://github.com/mavu072/fervent-one
 
 VITE_APP_META_DESCRIPTION="A free, AI-powered platform that helps South African employees understand their workplace rights. Get instant access to employment laws, legal information, and contract compliance checks to navigate workplace issues with confidence."
-VITE_APP_META_KEYWORDS="AI Legal Companion, South African labor laws, employment rights, workplace legal information, contract compliance checker, unfair dismissal, unpaid wages, workplace disputes, labor law AI, employee rights South Africa"
+VITE_APP_META_KEYWORDS="AI Legal Companion, South African labour laws, employment rights, workplace legal information, contract compliance checker, unfair dismissal, unpaid wages, workplace disputes, labour law AI, employee rights South Africa"
 ```
 
 3. Run application.
