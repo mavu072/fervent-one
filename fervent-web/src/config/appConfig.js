@@ -13,7 +13,7 @@ export const metaKeywords = import.meta.env.VITE_APP_META_KEYWORDS;
 export const DISCLAIMER_EXPERIMENTAL_AI = "Generative AI is experimental and can make mistakes.";
 export const WARNING_HIDE_SENSITIVE_INFO = "Do not share any sensitive information. i.e. tax or bank details.";
 
-export const ROOT_PATH = "/home";
+export const HOME_PATH = "/home";
 export const MESSAGES_PATH = "/";
 export const COMPLIANCE_CHECKER_PATH = "/compliance-checker";
 export const MESSAGES_TITLE = "Messages";

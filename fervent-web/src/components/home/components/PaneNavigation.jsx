@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -25,7 +24,7 @@ function PaneNavigation({ onClick = undefined }) {
   return (
     <List sx={{ width: '100%', bgcolor: 'inherit' }}>
       {paneList.map((pane, index) => {
-        const selected = pane.path == selectedPane;
+        const selected = pane.path == selectedPane.path;
 
         return (
           <ListItem key={index} disablePadding>
