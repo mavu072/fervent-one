@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import ChatBubble from './components/ChatBubble';
 import MessageInput from './components/MessageInput';
+import MessageBubbles from './components/MessageBubbles';
 import InlineLoader from '../loader/InlineLoader';
 import SectionLoader from '../loader/SectionLoader';
 import LoadMoreButton from '../buttons/LoadMoreButton';
@@ -16,7 +17,6 @@ import ReportService from '../../service/ReportService';
 import MessageResponderService from '../../service/MessageResponderService';
 import { AppContext } from '../context-provider/AppContext';
 import { ServiceContext } from '../context-provider/ServiceContext';
-import { formatTime } from '../../util/dateTimeUtil';
 import { scrollbarStyle } from '../ui/scrollbarUtil';
 import { scrollTo } from '../ui/scrollUtil';
 import { appName, MESSAGES_TITLE, DISCLAIMER_EXPERIMENTAL_AI, WARNING_HIDE_SENSITIVE_INFO } from '../../config/appConfig';
@@ -130,7 +130,7 @@ function MessagesPane() {
 
   /**
    * Removes specified file from current state.
-   * @param {*} fileId 
+   * @param {number} fileId 
    */
   const handleRemoveFile = (fileId) => {
     const updated = selectedFiles.filter((file, index) => index !== fileId);
@@ -214,36 +214,12 @@ function MessagesPane() {
         {!isMessagesloading &&
           <Stack spacing={2} justifyContent="flex-end" >
             <div ref={messagesTopRef}></div>
-
             {messages && messages.size > 0 &&
               <Stack display="flex" alignItems="center">
                 <LoadMoreButton title={"Load older messages"} onLoadMore={handleLoadOlder} />
               </Stack>
             }
-
-            {messages && messages.docs.map((message, index) => {
-              const { id, content, sources, attachment, role, createdAt } = message.data();
-              const isYou = role === 'user';
-              const arrivedAt = createdAt ? formatTime(createdAt.toDate()) : 'now';
-              return (
-                <Stack key={index} direction="row" spacing={2} flexDirection={isYou ? 'row-reverse' : 'row'}>
-                  <ChatBubble
-                    key={id}
-                    id={id}
-                    variant={isYou ? 'sent' : 'received'}
-                    content={content}
-                    sources={sources}
-                    attachment={attachment}
-                    arrivedAt={arrivedAt}
-                    sender={
-                      isYou ? <AccountAvatar user={user} tooltipTitle={"You"} placement={"top-end"} />
-                        : <AccountAvatar user={systemUser} tooltipTitle={systemUser.displayName} placement={"top-start"} />
-                    }
-                  />
-                </Stack>
-              );
-            })}
-
+            {messages && <MessageBubbles user={user} systemUser={systemUser} messages={messages} />}
             {isTyping &&
               (<Stack direction="row" spacing={2} flexDirection={'row'}>
                 <ChatBubble
@@ -254,16 +230,13 @@ function MessagesPane() {
                   sender={<AccountAvatar user={systemUser} placement={"right"} />}
                 />
               </Stack>)}
-
             <div ref={messagesEndRef}></div>
-
             <Stack display="flex" alignItems="center" textAlign="center" px={2} color={"text.secondary"} >
               <Typography variant="caption">{DISCLAIMER_EXPERIMENTAL_AI} {WARNING_HIDE_SENSITIVE_INFO}</Typography>
             </Stack>
           </Stack>
         }
       </Box>
-
       <MessageInput
         textMessageInput={textMessageInput}
         onChangeTextMessageInput={handleChangeTextMessageInput}

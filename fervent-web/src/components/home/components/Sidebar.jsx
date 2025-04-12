@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { listItemButtonClasses } from '@mui/material/ListItemButton';
-import { grey } from '@mui/material/colors';
 import { closeSidebar } from '../util/sidebarUtil';
 import { ThemeContext } from '../../context-provider/ThemeContext';
 import PaneNavigation from './PaneNavigation';
@@ -69,7 +68,7 @@ function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <Stack sx={{ alignItems: 'left', flexGrow: 1 }}>
+        <Stack sx={{ alignItems: 'left', ml: 1, flexGrow: 1 }}>
           <AppLogoIcon mode={mode} />
         </Stack>
       </Box>

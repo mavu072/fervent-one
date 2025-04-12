@@ -59,23 +59,12 @@ function ComplianceCheckerPane() {
             });
     }
 
-    /**
-     * Handle clear file.
-     */
     function handleClearFile() {
         setTitle(undefined);
         setFile(undefined);
         setAnalyisResult(undefined);
         setAnalysisTimeElapsed(undefined);
         setSearchText("");
-    }
-
-    /**
-     * Handle PDF text search.
-     * @param {string} text 
-     */
-    function handleSearch(text) {
-        setSearchText(text);
     }
 
     return (
@@ -97,7 +86,7 @@ function ComplianceCheckerPane() {
             <GlobalStyles
                 styles={{
                     ':root': {
-                        '--Footer-height': '30px',
+                        '--Footer-height': '52px',
                         '--ComplianceChecker-height': 'calc(100dvh - var(--Header-height))',
                         '--ComplianceChecker-width': '100dvw',
                         '--AnalysisPane-height': 'calc(var(--ComplianceChecker-height) - var(--Footer-height))',
@@ -153,13 +142,14 @@ function ComplianceCheckerPane() {
                             width: { xs: '100%', sm: '40%' },
                             minWidth: { sm: '300px' },
                             height: { sm: 'var(--AnalysisPane-height)', },
+                            minHeight: { xs: file ? '0' : '50%', sm: '0' },
                             border: 0,
                             ml: { sm: 1 },
                             ...scrollbarStyle,
                             scrollbarWidth: "none",
                         }}
                     >
-                        <AnalysisPane articles={analysisResult?.result} loading={analysing} onTextSearch={handleSearch} timeElapsed={analysisTimeElapsed} />
+                        <AnalysisPane articles={analysisResult?.result} loading={analysing} onTextSearch={setSearchText} timeElapsed={analysisTimeElapsed} />
                     </Stack>
                 </Stack>
                 <Stack className="Footer" width='100%' height='var(--Footer-height)'>
@@ -168,7 +158,8 @@ function ComplianceCheckerPane() {
                         sx={{
                             color: 'text.secondary',
                             textAlign: "center",
-                            py: '5px',
+                            pt: '20px',
+                            pb: '5px',
                             whiteSpace: 'nowrap',
                         }}
                     >

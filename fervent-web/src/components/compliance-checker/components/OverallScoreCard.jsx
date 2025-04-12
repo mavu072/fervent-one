@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent';
  */
 function OverallScoreCard({ score = 0 }) {
     return (
-        <Card variant="outlined" sx={{ maxWidth: '100%' }}>
+        <Card variant="outlined" sx={{ maxWidth: 'fit-content' }}>
             <CardContent
                 sx={{
                     p: 1,
@@ -21,7 +21,7 @@ function OverallScoreCard({ score = 0 }) {
                 }}
             >
                 <Typography variant="h7" component="div" sx={{ color: 'text.secondary' }}>
-                    Overall score <strong>{score}</strong>
+                    <strong>{score}</strong> Overall score
                 </Typography>
             </CardContent>
         </Card>
