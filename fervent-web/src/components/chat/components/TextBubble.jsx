@@ -37,14 +37,17 @@ function TextBubble({ isSent, content = null, sources = null, arrivedAt }) {
             <Typography
               component={isContentText ? "p" : "div"}
               level="body-sm"
-              sx={{ color: isSent ? 'white' : 'inherit', }}
+              sx={{
+                color: isSent ? 'white' : 'inherit',
+                whiteSpace: 'pre-wrap',
+              }}
             >
               {content}
             </Typography>
           )}
           {content && sources && <Divider />}
           {sources && sources.map((source, index) => (
-              <Link key={index} href={source.link} target="_blank">{source.title}</Link>
+            <Link key={index} href={source.link} target="_blank">{source.title}</Link>
           ))}
         </Paper>
       </Box>
