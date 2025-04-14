@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, useCallback } from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -19,8 +19,12 @@ import { AppContext } from '../context-provider/AppContext';
 import { ServiceContext } from '../context-provider/ServiceContext';
 import { scrollbarStyle } from '../ui/scrollbarUtil';
 import { scrollTo } from '../ui/scrollUtil';
-import { appName, MESSAGES_TITLE, DISCLAIMER_EXPERIMENTAL_AI, WARNING_HIDE_SENSITIVE_INFO } from '../../config/appConfig';
-import { DEF_MESSAGE_LIMIT, FILE_SIZE_LIMIT, LIMIT_INCREMENT_VALUE } from '../../constants/messageConstants';
+import {
+  appName, MESSAGES_TITLE, DISCLAIMER_EXPERIMENTAL_AI, WARNING_HIDE_SENSITIVE_INFO
+} from '../../config/appConfig';
+import {
+  DEF_MESSAGE_LIMIT, FILE_SIZE_LIMIT, LIMIT_INCREMENT_VALUE
+} from '../../constants/messageConstants';
 
 const systemUser = { displayName: appName };
 
@@ -49,27 +53,45 @@ function MessagesPane() {
   const [isTyping, setIsTyping] = useState(false);
 
   const messagesEndRef = useRef(null);
-  const messagesTopRef = useRef(null);
+  const messagesTopRef = useRef(null)
+
+  const cacheChatHistory = useCallback(async () => {
+    messageService.getChatHistory()
+      .then((chat) => {
+        setChatHistory(chat);
+      });
+  }, [setChatHistory]);
 
   useEffect(() => {
-    // Effect: Update `messages` query when loading more messages.
+    // Effect: Fetch and cache chat history when component mounts.
+    cacheChatHistory();
+  }, []); // Run only on mount.
+
+  useEffect(() => {
+    // Effect: Update messages query when loading more messages.
     setQuery(messageService.getAll(messageLimit));
   }, [messageLimit]);
 
   useEffect(() => {
-    // Effect: Scrolling, when `messages` get updated.
-    scrollTo(messagesEndRef); // Scroll to bottom
+    // Effect: Scroll to bottom or top, when messages get updated and update chat history.
+    if (messages && messages?.docs.length > 0) {
+      // Filter changes to get new and/or older messages.
+      const docChangesModified = messages.docChanges().filter((docChange) => docChange.type === "modified");
+      const docChangesAdded = messages.docChanges().filter((docChange) => docChange.type === "added");
 
-    // Effect: Update chat history state, when `messages` get updated.
-    setChatHistory(() => {
-      return messages?.docs.map(msg => {
-        const { content, role } = msg.data();
-        return {
-          role: role === "user" ? "human" : "ai",
-          content: content,
-        }
-      }).filter(msg => msg.content);
-    });
+      if (docChangesModified.length > 0) {
+        // New documents have been created: Add to chat history and scroll to bottom.
+        const docChanged = docChangesModified.shift();
+        updateChatHistory(docChanged.doc);
+        scrollTo(messagesEndRef);
+      } else if (docChangesAdded.length > 1 && messageLimit > DEF_MESSAGE_LIMIT) {
+        // No new document created, but added more into collection ref and message limit is altered:
+        // Assuming user intends to view older messages, scroll to top.
+        scrollTo(messagesTopRef);
+      }
+    } else {
+      scrollTo(messagesEndRef);
+    }
   }, [messages]);
 
   useState(() => {
@@ -80,20 +102,25 @@ function MessagesPane() {
   }, [messagesError]);
 
   /**
-   * Sets or updates message limit state.
-   */
-  const handleLoadOlder = () => {
-    setMessageLimit((prevLimit) => {
-      return prevLimit + LIMIT_INCREMENT_VALUE;
-    });
-  };
-
-  /**
    * Sets or updates text message input state.
    * @param {string} newInput 
    */
   const handleChangeTextMessageInput = (newInput) => {
     setTextMessageInput(newInput);
+  }
+
+  /**
+   * Add new message to chat history.
+   * @param {object} msg DocumentData.
+   */
+  const updateChatHistory = (msg) => {
+    const { content, role } = msg.data();
+    const newMsg = { content, role: role === "user" ? "human" : "ai", };
+    if (newMsg.content) {
+      setChatHistory((prevChatHistory) => {
+        return [...prevChatHistory, ...[newMsg]];
+      });
+    }
   }
 
   /**
@@ -119,7 +146,7 @@ function MessagesPane() {
 
     // Show error, if required.
     if (totalFileSize > maxSize) {
-      onInfoMessage("The amount of files you upload must not exceed 2 MB in total.");
+      onInfoMessage("The amount of files you upload must not exceed 5 MB in total.");
       uniqueNewFiles = [];
     }
 
@@ -138,11 +165,20 @@ function MessagesPane() {
   }
 
   /**
-   * Removes all files from current state.
+   * Removes all selected files from current state.
    */
   const handleRemoveAllFiles = () => {
     setSelectedFiles([]);
   }
+
+  /**
+   * Increments message limit to load older messages.
+   */
+  const handleLoadOlder = () => {
+    setMessageLimit((prevLimit) => {
+      return prevLimit + LIMIT_INCREMENT_VALUE;
+    });
+  };
 
   /**
    * Send message or upload files.
@@ -169,17 +205,17 @@ function MessagesPane() {
         // 4. a) Create confirmation message.
         if ((!newUserMsg || newUserMsg.trim() === '')) {
           const noun = uploadedFiles.length > 1 ? "files" : "file";
-          const confirmMsg = `I received the ${noun}. How would you like me to help with ${noun == "files" ? "them" : "it"}? For example, I can answer questions based on the contents.`;
+          let confirmMsg = `I received the ${noun}. How would you like me to help with ${noun == "files" ? "them" : "it"}?`;
+          confirmMsg += `\n\nFor example, I can answer questions based on the contents.`;
           await messageResponder.saveSystemMessage({ content: confirmMsg });
         }
       }
       // 6. Create response to message and/or files.
       await messageResponder.getSystemResponse(newUserMsg, chatHistory);
     } catch (error) {
-      // Show error.
       onInfoMessage(error?.message || "Messaging Error");
     } finally {
-      // Stop typing effect.
+      // Finally: Stop typing effect.
       setIsTyping(false);
     }
   }
