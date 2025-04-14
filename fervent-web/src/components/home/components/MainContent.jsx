@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import GlobalStyles from '@mui/material/GlobalStyles';
 import MessagesPane from "../../chat/MessagesPane";
 import ComplianceCheckerPane from "../../compliance-checker/ComplianceCheckerPane";
 import { ErrorPageNotFound } from "../../error/RouteErrors";
@@ -14,6 +15,13 @@ import { COMPLIANCE_CHECKER_PATH } from "../../../config/appConfig";
 function MainContent() {
     return (
         <Box component="section" className="MainContent" sx={{ flex: 1 }}>
+            <GlobalStyles
+                styles={{
+                    'html': {
+                        overflowY: 'hidden',
+                    },
+                }}
+            />
             <Paper
                 sx={{
                     flex: 1,

@@ -23,7 +23,7 @@ class BaseRepository {
      * 
      * @returns A Promise resolved with a DocumentReference pointing to the newly created document after it has been written to the backend.
      */
-    save = function (documentData) {
+    save(documentData) {
         return this.collectionRef.add(documentData);
     }
 
@@ -40,9 +40,9 @@ class BaseRepository {
      * 
      * @return A Promise resolved once the data has been successfully written to the backend.
      */
-    update = function (documentPath, updateData, { merge = false }) {
+    update(documentPath, updateData, { merge = false }) {
         return this.collectionRef.doc(documentPath)
-                                 .set(updateData, { merge: merge });
+            .set(updateData, { merge: merge });
     }
 
     /**
@@ -53,7 +53,7 @@ class BaseRepository {
      * 
      * @return The `DocumentReference` instance.
      */
-    get = function (documentPath) {
+    get(documentPath) {
         return this.collectionRef.doc(documentPath);
     }
 
@@ -68,10 +68,13 @@ class BaseRepository {
      * 
      * @return The created Query.
      */
-    getAll = function (limit, sort = 'asc') {
-        const query = this.collectionRef.orderBy('createdAt', sort)
-                                        .limitToLast(limit);
-        return query;
+    getAll(limit = null, sort = 'asc') {
+        if (limit) {
+            return this.collectionRef.orderBy('createdAt', sort)
+                .limitToLast(limit);
+        } else {
+            return this.collectionRef.orderBy('createdAt', sort);
+        }
     }
 
     /**
@@ -89,10 +92,10 @@ class BaseRepository {
      * 
      * @return The created Query.
      */
-    getAllWithinRange = function (startAfter, limit, sort = 'asc') {
+    getAllWithinRange(startAfter, limit, sort = 'asc') {
         const query = this.collectionRef.orderBy('createdAt', sort)
-                                        .startAfter(startAfter)
-                                        .limit(limit);
+            .startAfter(startAfter)
+            .limit(limit);
         return query;
     }
 }

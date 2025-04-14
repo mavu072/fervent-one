@@ -46,7 +46,7 @@ class BaseService {
      * @param {string} [sort="asc"] The sort direction. Accepts 'asc' or 'desc'.
      * @returns Query
      */
-    getAll(limit, sort = "asc") {
+    getAll(limit = null, sort = "asc") {
         return this.repository.getAll(limit, sort);
     }
 
