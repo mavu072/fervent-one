@@ -247,7 +247,6 @@ function MessagesPane() {
           flexDirection: 'column-reverse'
         }}
       >
-        {!isMessagesloading &&
           <Stack spacing={2} justifyContent="flex-end" >
             <div ref={messagesTopRef}></div>
             {messages && messages.size > 0 &&
@@ -271,7 +270,6 @@ function MessagesPane() {
               <Typography variant="caption">{DISCLAIMER_EXPERIMENTAL_AI} {WARNING_HIDE_SENSITIVE_INFO}</Typography>
             </Stack>
           </Stack>
-        }
       </Box>
       <MessageInput
         textMessageInput={textMessageInput}
