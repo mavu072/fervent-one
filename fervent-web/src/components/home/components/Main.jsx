@@ -9,23 +9,24 @@ import { ErrorPageNotFound } from "../../error/RouteErrors";
 import { COMPLIANCE_CHECKER_PATH } from "../../../config/appConfig";
 
 /**
- * MainContent.
+ * Main.
  * @returns JSX component
  */
-function MainContent() {
+function Main() {
     return (
-        <Box component="section" className="MainContent" sx={{ flex: 1 }}>
+        <Box component="section" className="Main" sx={{ flex: 1 }}>
             <GlobalStyles
                 styles={{
                     'html': {
                         overflowY: 'hidden',
+                        overflowX: 'hidden',
                     },
                 }}
             />
             <Paper
                 sx={{
                     flex: 1,
-                    width: '100%',
+                    width: { xs: '100%', lg: 'calc(100dvw - var(--Sidebar-width))' },
                     minHeight: '100%',
                     mx: 'auto',
                     pt: 'var(--Header-height)',
@@ -52,4 +53,4 @@ function MainContent() {
     )
 }
 
-export default MainContent;
+export default Main;

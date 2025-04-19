@@ -83,14 +83,10 @@ VITE_ASSISTANT_API_URL=http://localhost:8000 # Where are you running the backend
 # Client app details
 VITE_APP_NAME=AI Labour Companion
 VITE_APP_NAME_SHORT=AI Companion
-VITE_APP_DESCRIPTION="AI-powered Labour Insights Platform."
 VITE_ORG_NAME=Menity
 VITE_ORG_SITE=/about
 VITE_ORG_SUPPORT_EMAIL=xxxxx@gmail.com # Replace with valid email
 VITE_GIT_REPO=https://github.com/mavu072/fervent-one
-
-VITE_APP_META_DESCRIPTION="A free, AI-powered platform that helps South African employees understand their workplace rights. Get instant access to employment laws, legal information, and contract compliance checks to navigate workplace issues with confidence."
-VITE_APP_META_KEYWORDS="AI Legal Companion, South African labour laws, employment rights, workplace legal information, contract compliance checker, unfair dismissal, unpaid wages, workplace disputes, labour law AI, employee rights South Africa"
 ```
 
 3. Run application.

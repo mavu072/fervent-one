@@ -8,14 +8,15 @@ import { appName, MESSAGES_TITLE } from '../../../config/appConfig';
 import MenuButton from '../../buttons/MenuButton';
 import AccountContextMenu from '../../account/AccountContextMenu';
 import ToggleColorMode from '../../theme/ToggleColorMode';
-import { PaneNavigationContext } from '../../context-provider/PaneNavigationContext';
+import ToggleCollapseSidebar from './ToggleCollapseSidebar';
+import { SidebarContext } from '../../context-provider/SidebarContext';
 
 /**
  * Header.
  * @returns JSX Component
  */
 function Header() {
-  const { selectedPane } = useContext(PaneNavigationContext);
+  const { selectedTab, collapsed, toggleCollapse } = useContext(SidebarContext);
 
   return (
     <Paper
@@ -27,12 +28,13 @@ function Header() {
         top: 0,
         right: 0,
         height: 'var(--Header-height)',
-        width: { xs: '100dvw' },
+        width: { xs: '100%', lg: 'calc(100dvw - var(--Sidebar-width))' },
         zIndex: 9995,
         p: 2,
         pr: 1.5, // Shifting to create room for context menu.
         gap: .25, // Gap between children
         boxShadow: 'none',
+        border: 'none',
         borderRadius: 0,
       }}
     >
@@ -46,17 +48,16 @@ function Header() {
           },
         })}
       />
-      <Stack
-        sx={{
-          display: { xs: 'flex' },
-          m: 0,
-          p: 0,
-        }}
-      >
+      <Stack sx={{ display: { xs: 'flex', lg: 'none' }, m: 0, p: 0, }}>
         <MenuButton onClickHandler={toggleSidebar} />
       </Stack>
-      <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap flex={1}>
-        {selectedPane.title === "" || selectedPane.title === MESSAGES_TITLE ? appName : selectedPane.title}
+      {collapsed && (
+        <Stack sx={{ display: { xs: 'none', lg: 'flex' }, m: 0, p: 0, }}>
+          <ToggleCollapseSidebar onClickHandler={toggleCollapse} />
+        </Stack>
+      )}
+      <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap flex={1} pl={1}>
+        {selectedTab.title === "" || selectedTab.title === MESSAGES_TITLE ? appName : selectedTab.title}
       </Typography>
       <ToggleColorMode />
       <AccountContextMenu />

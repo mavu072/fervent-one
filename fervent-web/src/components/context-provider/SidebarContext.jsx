@@ -7,11 +7,12 @@ import {
     MESSAGES_PATH, MESSAGES_TITLE,
     HOME_PATH
 } from "../../config/appConfig";
+import { toggleSidebarWidth } from "../home/util/sidebarUtil";
 
-export const PaneNavigationContext = createContext();
+export const SidebarContext = createContext();
 
-function PaneNavigationProvider({ children }) {
-    const paneList = [
+function SidebarProvider({ children }) {
+    const tabList = [
         {
             path: MESSAGES_PATH,
             title: MESSAGES_TITLE,
@@ -25,27 +26,33 @@ function PaneNavigationProvider({ children }) {
     ];
     const navigate = useNavigate();
     const location = useLocation();
-    const defaultPath = paneList[0].path; // Choose message pane by default.
+    const defaultPath = tabList[0].path; // Choose message tab by default.
     const currentPath = location.pathname.replace(HOME_PATH, ""); // Get current active path.
-    const [selectedPane, setSelectedPane] = useState({
+    const [selectedTab, setSelectedTab] = useState({
         title: "",
         path: (!currentPath || currentPath === "/") ? defaultPath : currentPath, // Set default path.
     });
+    const [collapsed, setCollapsed] = useState(false);
 
-    const onSwitchPane = useCallback((targetPane) => {
-        const targetPaneTitle = paneList.filter((pane) => pane.path == targetPane).map((pane) => pane.title).join("");
-        setSelectedPane({
-            title: targetPaneTitle,
-            path: targetPane,
+    const switchTab = useCallback((targetTab) => {
+        const targetTabTitle = tabList.filter((tab) => tab.path == targetTab).map((tab) => tab.title).join("");
+        setSelectedTab({
+            title: targetTabTitle,
+            path: targetTab,
         });
-        navigate(HOME_PATH + targetPane);
-    }, [setSelectedPane, navigate]);
+        navigate(HOME_PATH + targetTab);
+    }, [setSelectedTab, navigate]);
 
-    const value = { paneList, selectedPane, onSwitchPane };
+    const toggleCollapse = useCallback(() => {
+        toggleSidebarWidth();
+        setCollapsed((prev) => (prev === true ? false : true));
+    }, [setCollapsed]);
 
-    return <PaneNavigationContext.Provider value={value}>
+    const value = { tabList, selectedTab, switchTab, collapsed, toggleCollapse };
+
+    return <SidebarContext.Provider value={value}>
         {children}
-    </PaneNavigationContext.Provider>;
+    </SidebarContext.Provider>;
 }
 
-export default PaneNavigationProvider;
+export default SidebarProvider;

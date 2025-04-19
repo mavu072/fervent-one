@@ -71,7 +71,7 @@ function ComplianceCheckerPane() {
         <Paper
             className="ComplianceChecker-container"
             sx={{
-                width: { xs: '100dvw' },
+                width: '100%',
                 height: 'var(--ComplianceChecker-height)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -88,7 +88,6 @@ function ComplianceCheckerPane() {
                     ':root': {
                         '--Footer-height': '52px',
                         '--ComplianceChecker-height': 'calc(100dvh - var(--Header-height))',
-                        '--ComplianceChecker-width': '100dvw',
                         '--AnalysisPane-height': 'calc(var(--ComplianceChecker-height) - var(--Footer-height))',
                     },
                 }}
@@ -97,30 +96,26 @@ function ComplianceCheckerPane() {
                 className="Inner-container"
                 sx={{
                     display: 'flex',
+                    flex: 1,
                     flexDirection: 'column',
-                    px: { xs: 2, sm: 4 },
-                    py: 0,
+                    p: 0,
                     overflow: { sm: 'hidden' },
-                    width: '100%',
                     height: 'var(--ComplianceChecker-height)',
                 }}
             >
-                <Stack
-                    className="Responsive-columns"
+                <Stack className="Responsive-columns"
                     sx={{
                         display: 'flex',
                         flexDirection: { xs: 'column', sm: 'row' },
                         flex: 1,
                         gap: 2,
-                        width: '100%',
+                        px: { xs: 2, sm: 4 },
                     }}
                 >
-                    <Stack
-                        className="File-column"
+                    <Stack className="File-column"
                         sx={{
                             flex: 1,
                             gap: 1,
-                            width: { xs: '100%', sm: 'var(--ComplianceChecker-width)' },
                             height: { sm: 'var(--AnalysisPane-height)' },
                             ...scrollbarStyle,
                             overflowY: { xs: 'unset', sm: "scroll" },
@@ -136,15 +131,13 @@ function ComplianceCheckerPane() {
                             </>
                         )}
                     </Stack>
-                    <Stack
-                        className="Analysis-column"
+                    <Stack className="Analysis-column"
                         sx={{
                             width: { xs: '100%', sm: '40%' },
                             minWidth: { sm: '300px' },
                             height: { sm: 'var(--AnalysisPane-height)', },
                             minHeight: { xs: file ? '0' : '50%', sm: '0' },
                             border: 0,
-                            ml: { sm: 1 },
                             ...scrollbarStyle,
                             scrollbarWidth: "none",
                         }}

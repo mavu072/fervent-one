@@ -106,7 +106,6 @@ function DropFileZone({ setFiles, accept, sizeLimit = 5000000, onMessage }) {
                     borderColor: "text.disabled",
                     textAlign: "center",
                     p: 4,
-                    mt: 1,
                     width: '100%',
                     height: '100%',
                 }}

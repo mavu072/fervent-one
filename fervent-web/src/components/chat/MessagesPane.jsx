@@ -62,6 +62,9 @@ function MessagesPane() {
       });
   }, [setChatHistory]);
 
+  const scrollToBottom = () => scrollTo(messagesEndRef);
+  const scrollToTop = () => scrollTo(messagesTopRef);
+
   useEffect(() => {
     // Effect: Fetch and cache chat history when component mounts.
     cacheChatHistory();
@@ -83,14 +86,12 @@ function MessagesPane() {
         // New documents have been created: Add to chat history and scroll to bottom.
         const docChanged = docChangesModified.shift();
         updateChatHistory(docChanged.doc);
-        scrollTo(messagesEndRef);
+        scrollToBottom();
       } else if (docChangesAdded.length > 1 && messageLimit > DEF_MESSAGE_LIMIT) {
         // No new document created, but added more into collection ref and message limit is altered:
         // Assuming user intends to view older messages, scroll to top.
-        scrollTo(messagesTopRef);
+        scrollToTop();
       }
-    } else {
-      scrollTo(messagesEndRef);
     }
   }, [messages]);
 
@@ -185,6 +186,7 @@ function MessagesPane() {
    */
   const handleSubmit = async () => {
     try {
+      scrollToBottom();
       // Store in local variables. The global vars are cleared when submission is triggered.
       const newUserMsg = textMessageInput;
       const uploadedFiles = [...selectedFiles];
@@ -224,7 +226,7 @@ function MessagesPane() {
     <Paper
       sx={{
         height: 'calc(100dvh - var(--Header-height))',
-        width: { xs: '100dvw' },
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         overflowY: 'hidden',
