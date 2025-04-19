@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import GlobalStyles from '@mui/material/GlobalStyles';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import GlobalStyles from '@mui/material/GlobalStyles';
-import MessagesPane from "../../chat/MessagesPane";
-import ComplianceCheckerPane from "../../compliance-checker/ComplianceCheckerPane";
+import Messages from "../../chat/Messages";
+import ComplianceChecker from "../../compliance-checker/ComplianceChecker";
 import { ErrorPageNotFound } from "../../error/RouteErrors";
 import { COMPLIANCE_CHECKER_PATH } from "../../../config/appConfig";
 
@@ -37,11 +37,11 @@ function Main() {
                     <Route
                         path="/"
                         index
-                        element={<MessagesPane />}
+                        element={<Messages />}
                     />
                     <Route
                         path={COMPLIANCE_CHECKER_PATH}
-                        element={<ComplianceCheckerPane />}
+                        element={<ComplianceChecker />}
                     />
                     <Route
                         path="*"

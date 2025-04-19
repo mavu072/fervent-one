@@ -29,10 +29,10 @@ import {
 const systemUser = { displayName: appName };
 
 /**
- * MessagesPane.
+ * Messages.
  * @returns JSX Component
  */
-function MessagesPane() {
+function Messages() {
   const { user, onInfoMessage } = useContext(AppContext);
   const { messageRepository, fileRepository, reportRepository } = useContext(ServiceContext);
   const messageService = new MessageService(messageRepository);
@@ -117,11 +117,13 @@ function MessagesPane() {
   const updateChatHistory = (msg) => {
     const { content, role } = msg.data();
     const newMsg = { content, role: role === "user" ? "human" : "ai", };
+    console.log("New messages formatted", newMsg);
     if (newMsg.content) {
       setChatHistory((prevChatHistory) => {
         return [...prevChatHistory, ...[newMsg]];
       });
     }
+    console.log("Chat History", chatHistory);
   }
 
   /**
@@ -249,29 +251,29 @@ function MessagesPane() {
           flexDirection: 'column-reverse'
         }}
       >
-          <Stack spacing={2} justifyContent="flex-end" >
-            <div ref={messagesTopRef}></div>
-            {messages && messages.size > 0 &&
-              <Stack display="flex" alignItems="center">
-                <LoadMoreButton title={"Load older messages"} onLoadMore={handleLoadOlder} />
-              </Stack>
-            }
-            {messages && <MessageBubbles user={user} systemUser={systemUser} messages={messages} />}
-            {isTyping &&
-              (<Stack direction="row" spacing={2} flexDirection={'row'}>
-                <ChatBubble
-                  variant="received"
-                  content={<InlineLoader />}
-                  attachment={null}
-                  arrivedAt="now"
-                  sender={<AccountAvatar user={systemUser} placement={"right"} />}
-                />
-              </Stack>)}
-            <div ref={messagesEndRef}></div>
-            <Stack display="flex" alignItems="center" textAlign="center" px={2} color={"text.secondary"} >
-              <Typography variant="caption">{DISCLAIMER_EXPERIMENTAL_AI} {WARNING_HIDE_SENSITIVE_INFO}</Typography>
+        <Stack spacing={2} justifyContent="flex-end" >
+          <div ref={messagesTopRef}></div>
+          {messages && messages.size > 0 &&
+            <Stack display="flex" alignItems="center">
+              <LoadMoreButton title={"Load older messages"} onLoadMore={handleLoadOlder} />
             </Stack>
+          }
+          {messages && <MessageBubbles user={user} systemUser={systemUser} messages={messages} />}
+          {isTyping &&
+            (<Stack direction="row" spacing={2} flexDirection={'row'}>
+              <ChatBubble
+                variant="received"
+                content={<InlineLoader />}
+                attachment={null}
+                arrivedAt="now"
+                sender={<AccountAvatar user={systemUser} placement={"right"} />}
+              />
+            </Stack>)}
+          <div ref={messagesEndRef}></div>
+          <Stack display="flex" alignItems="center" textAlign="center" px={2} color={"text.secondary"} >
+            <Typography variant="caption">{DISCLAIMER_EXPERIMENTAL_AI} {WARNING_HIDE_SENSITIVE_INFO}</Typography>
           </Stack>
+        </Stack>
       </Box>
       <MessageInput
         textMessageInput={textMessageInput}
@@ -286,4 +288,4 @@ function MessagesPane() {
   );
 }
 
-export default MessagesPane;
+export default Messages;

@@ -15,10 +15,10 @@ import FileName from "./components/FileName";
 import { appName, COMPLIANCE_CHECKER_TITLE, DISCLAIMER_EXPERIMENTAL_AI } from "../../config/appConfig";
 
 /**
- * ComplianceCheckerPane.
+ * ComplianceChecker.
  * @returns JSX Component.
  */
-function ComplianceCheckerPane() {
+function ComplianceChecker() {
     const { user, onInfoMessage } = useContext(AppContext);
     const [file, setFile] = useState();
     const [title, setTitle] = useState();
@@ -164,4 +164,4 @@ function ComplianceCheckerPane() {
     )
 }
 
-export default ComplianceCheckerPane;
+export default ComplianceChecker;
