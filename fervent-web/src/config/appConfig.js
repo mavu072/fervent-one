@@ -13,8 +13,14 @@ export const metaKeywords = "AI Labour Companion, AI Legal Companion, South Afri
 export const DISCLAIMER_EXPERIMENTAL_AI = "Generative AI is experimental and can make mistakes.";
 export const WARNING_HIDE_SENSITIVE_INFO = "Do not share any sensitive information. i.e. tax or bank details.";
 
+// Navigation
 export const HOME_PATH = "/home";
+
 export const MESSAGES_PATH = "/";
-export const COMPLIANCE_CHECKER_PATH = "/compliance-checker";
 export const MESSAGES_TITLE = "Messages";
+
+export const COMPLIANCE_CHECKER_PATH = "/compliance-checker";
 export const COMPLIANCE_CHECKER_TITLE = "Compliance Checker";
+
+export const SETTINGS_PATH = "/settings";
+export const SETTINGS_TITLE = "Settings";

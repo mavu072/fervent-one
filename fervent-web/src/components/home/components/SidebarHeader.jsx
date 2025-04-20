@@ -24,11 +24,13 @@ function SidebarHeader() {
             <Stack sx={{ alignItems: 'left', flexGrow: 1 }}>
                 <AppLogoIcon mode={mode} />
             </Stack>
-            {!collapsed && (
-                <Stack sx={{ display: { xs: 'none', lg: 'flex' } }}>
-                    <ToggleCollapseSidebar onClickHandler={toggleCollapse} />
-                </Stack>
-            )}
+            <Stack
+                sx={{
+                    display: { xs: 'none', lg: collapsed === false ? 'flex' : 'none' }
+                }}
+            >
+                <ToggleCollapseSidebar onClickHandler={toggleCollapse} />
+            </Stack>
         </Box>
     );
 }

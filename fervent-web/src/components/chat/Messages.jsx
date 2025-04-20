@@ -117,13 +117,13 @@ function Messages() {
   const updateChatHistory = (msg) => {
     const { content, role } = msg.data();
     const newMsg = { content, role: role === "user" ? "human" : "ai", };
-    console.log("New messages formatted", newMsg);
+    // console.log("New messages formatted", newMsg);
     if (newMsg.content) {
       setChatHistory((prevChatHistory) => {
         return [...prevChatHistory, ...[newMsg]];
       });
     }
-    console.log("Chat History", chatHistory);
+    // console.log("Chat History", chatHistory);
   }
 
   /**

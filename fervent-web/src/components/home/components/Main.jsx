@@ -6,7 +6,8 @@ import Box from '@mui/material/Box';
 import Messages from "../../chat/Messages";
 import ComplianceChecker from "../../compliance-checker/ComplianceChecker";
 import { ErrorPageNotFound } from "../../error/RouteErrors";
-import { COMPLIANCE_CHECKER_PATH } from "../../../config/appConfig";
+import { COMPLIANCE_CHECKER_PATH, SETTINGS_PATH } from "../../../config/appConfig";
+import Settings from "../../settings/Settings";
 
 /**
  * Main.
@@ -42,6 +43,10 @@ function Main() {
                     <Route
                         path={COMPLIANCE_CHECKER_PATH}
                         element={<ComplianceChecker />}
+                    />
+                    <Route
+                        path={SETTINGS_PATH}
+                        element={<Settings />}
                     />
                     <Route
                         path="*"

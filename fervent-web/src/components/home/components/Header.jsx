@@ -51,11 +51,15 @@ function Header() {
       <Stack sx={{ display: { xs: 'flex', lg: 'none' }, m: 0, p: 0, }}>
         <MenuButton onClickHandler={toggleSidebar} />
       </Stack>
-      {collapsed && (
-        <Stack sx={{ display: { xs: 'none', lg: 'flex' }, m: 0, p: 0, }}>
-          <ToggleCollapseSidebar onClickHandler={toggleCollapse} />
-        </Stack>
-      )}
+      <Stack
+        sx={{
+          display: { xs: 'none', lg: collapsed === true ? 'flex' : 'none' },
+          m: 0,
+          p: 0,
+        }}
+      >
+        <ToggleCollapseSidebar onClickHandler={toggleCollapse} />
+      </Stack>
       <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap flex={1} pl={1}>
         {selectedTab.title === "" || selectedTab.title === MESSAGES_TITLE ? appName : selectedTab.title}
       </Typography>

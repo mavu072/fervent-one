@@ -23,7 +23,7 @@ function Sidebar() {
         transition: 'transform 0.4s, width 0.4s',
         zIndex: 9998,
         height: '100dvh',
-        width: 'var(--Sidebar-width)',
+        width: { xs: 'var(--Sidebar-width-xs)', lg: 'var(--Sidebar-width)' },
         top: 0,
         pt: 2,
         px: 2,
@@ -38,8 +38,8 @@ function Sidebar() {
       <GlobalStyles
         styles={(theme) => ({
           ':root': {
-            '--Sidebar-width': standardScreenWidth,
-            [theme.breakpoints.up('md')]: {
+            '--Sidebar-width-xs': standardScreenWidth,
+            [theme.breakpoints.up('lg')]: {
               '--Sidebar-width': largeScreenWidth,
             },
             '--Sidebar-background-backdrop': 'rgba(0, 0, 0, 0.5)',
@@ -59,7 +59,7 @@ function Sidebar() {
           backgroundColor: 'var(--Sidebar-background-backdrop)',
           transition: 'opacity 0.4s',
           transform: {
-            xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--Sidebar-width, 0px)))',
+            xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--Sidebar-width-xs, 0px)))',
             lg: 'translateX(-100%)',
           },
         }}

@@ -7,6 +7,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { listItemButtonClasses } from '@mui/material/ListItemButton';
 import { SidebarContext } from "../../context-provider/SidebarContext";
+import { tabList } from "../util/sidebarTabsUtil";
+
+const lvl1Tabs = tabList.filter((tab) => tab.level === 1);
+const lvl2Tabs = tabList.filter((tab) => tab.level === 2);
 
 /**
  * SidebarList.
@@ -14,7 +18,7 @@ import { SidebarContext } from "../../context-provider/SidebarContext";
  * @returns JSX Component
  */
 function SidebarList({ onClick = undefined }) {
-  const { selectedTab, switchTab, collapsed, tabList } = useContext(SidebarContext);
+  const { selectedTab, switchTab, collapsed } = useContext(SidebarContext);
 
   function handleClick(panePath) {
     switchTab(panePath);
@@ -38,8 +42,11 @@ function SidebarList({ onClick = undefined }) {
           },
         }}
       >
-        <List sx={{ width: '100%', bgcolor: 'inherit' }}>
-          {tabList.map((tab, index) => {
+        <List
+          className="ListItem-group"
+          sx={{ width: '100%', bgcolor: 'inherit' }}
+        >
+          {lvl1Tabs.map((tab, index) => {
             const selected = tab.path === selectedTab.path;
             return (
               <ListItem key={index} disablePadding>
@@ -65,15 +72,55 @@ function SidebarList({ onClick = undefined }) {
                   >
                     {tab.icon}
                   </ListItemIcon>
-                  {!collapsed && (
-                    <ListItemText
-                      primary={tab.title}
-                      sx={{
-                        whiteSpace: 'nowrap',
-                        my: 0,
-                      }}
-                    />
-                  )}
+                  <ListItemText
+                    primary={tab.title}
+                    sx={{
+                      whiteSpace: 'nowrap',
+                      my: 0,
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
+        <List
+          className="ListItem-group"
+          sx={{ width: '100%', bgcolor: 'inherit', pt: 1.5 }}
+        >
+          {lvl2Tabs.map((tab, index) => {
+            const selected = tab.path === selectedTab.path;
+            return (
+              <ListItem key={index} disablePadding>
+                <ListItemButton
+                  selected={selected}
+                  onClick={() => { handleClick(tab.path) }}
+                  sx={{
+                    px: 1,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      p: 0,
+                      minWidth: '24px',
+                      minHeight: '24px',
+                      color: (theme) => {
+                        if (theme.palette.mode === 'light') {
+                          return selected ? 'primary.main' : 'grey.300';
+                        }
+                        return selected ? 'primary.main' : 'grey.700';
+                      },
+                    }}
+                  >
+                    {tab.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={tab.title}
+                    sx={{
+                      whiteSpace: 'nowrap',
+                      my: 0,
+                    }}
+                  />
                 </ListItemButton>
               </ListItem>
             );

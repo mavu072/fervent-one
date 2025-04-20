@@ -41,3 +41,20 @@ export function toggleSidebarWidth() {
         }
     }
 }
+
+/**
+ * Retrieves sidebar collapse preference from the local storage, returns false if not found.
+ * @returns Collapse Preference
+ */
+export function getSidebarCollapsePreference() {
+    const collapsed = localStorage.getItem('sidebarCollapsed');
+    return collapsed && collapsed === 'true' ? true : false;
+}
+
+/**
+ * Saves sidebar collapse preference in the local storage.
+ * @param {boolean} collapsed Collapse Preference
+ */
+export function saveSidebarCollapsePreference(collapsed) {
+    localStorage.setItem('sidebarCollapsed', ''+ collapsed);
+}

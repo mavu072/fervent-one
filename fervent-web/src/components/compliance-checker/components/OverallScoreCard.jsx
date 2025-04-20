@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent';
  */
 function OverallScoreCard({ score = 0 }) {
     return (
-        <Card variant="outlined" sx={{ maxWidth: 'fit-content' }}>
+        <Card variant="outlined" sx={{ maxWidth: 'fit-content', background: 'transparent' }}>
             <CardContent
                 sx={{
                     p: 1,

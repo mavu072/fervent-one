@@ -1,7 +1,7 @@
 
 /**
  * Retrieves theme preference from the local storage, return 'light' if not found.
- * @returns Theme
+ * @returns Theme mode
  */
 export const getThemePreference = () => {
     const storedPreference = localStorage.getItem('mode');
