@@ -46,9 +46,9 @@ function SignOutButton({ label = undefined, onClick = undefined }) {
             sx={{
                 textTransform: "capitalize",
             }}
+            startIcon={<LogoutRoundedIcon />}
         >
-            <LogoutRoundedIcon />
-            {label && <Typography>&nbsp;{label}</Typography>}
+            {label && <Typography>{label}</Typography>}
         </Button>
     );
 }

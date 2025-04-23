@@ -11,6 +11,7 @@ import Errors from "./Errors";
 import OverallScoreCard from "./OverallScoreCard";
 import Help from "./Help";
 import DocumentScannerIcon from '@mui/icons-material/DocumentScannerRounded';
+import BlockIcon from '@mui/icons-material/Block';
 
 /**
  * AnalysisPane.
@@ -19,7 +20,7 @@ import DocumentScannerIcon from '@mui/icons-material/DocumentScannerRounded';
  * @param {boolean} obj.loading Loading.
  * @returns JSX Component
  */
-function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapsed }) {
+function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapsed, error }) {
     const [selectedInfoType, setSelectedInfoType] = useState(0);
 
     // Categorize articles.
@@ -52,7 +53,7 @@ function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapse
             </>
             <Paper className="Analysis-header"
                 sx={{
-                    position: { xs: "relative", sm: "sticky"},
+                    position: { xs: "relative", sm: "sticky" },
                     top: { xs: "", sm: 0 },
                     backgroundColor: "background.body",
                     flexDirection: "column",
@@ -104,14 +105,24 @@ function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapse
             {sumArticles === 0 && (
                 <Stack flex={1} justifyContent={"center"} alignItems={"center"}>
                     <Stack flexDirection={"column"} justifyContent={"center"} alignItems={"center"} gap={2}>
-                        <DocumentScannerIcon sx={{ fontSize: 40, color: 'primary.main' }} />
-                        <Typography variant="body1" component="small" sx={{ color: 'text.secondary', width: '100%', textAlign: "center" }}>
-                            Insights will appear here.
-                        </Typography>
+                        {error ? (
+                            <>
+                                <BlockIcon sx={{ fontSize: 40, color: 'error.main' }} />
+                                <Typography variant="body1" component="small" sx={{ color: 'text.secondary', width: '100%', textAlign: "center" }}>
+                                    {error}
+                                </Typography>
+                            </>
+                        ) : (
+                            <>
+                                <DocumentScannerIcon sx={{ fontSize: 40, color: 'primary.main' }} />
+                                <Typography variant="body1" component="small" sx={{ color: 'text.secondary', width: '100%', textAlign: "center" }}>
+                                    Insights will appear here.
+                                </Typography>
+                            </>
+                        )}
                     </Stack>
                 </Stack>
             )}
-
             {timeElapsed &&
                 <Typography variant="body2" component="small" sx={{ color: 'text.secondary', width: '100%', textAlign: "center" }}>
                     Analysis completed in {timeElapsed} seconds.

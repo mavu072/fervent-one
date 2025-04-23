@@ -53,7 +53,11 @@ function Help() {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
             >
-                < HelpOutlineIcon />
+                < HelpOutlineIcon
+                    sx={(theme) => ({
+                        color: theme.palette.mode === 'light' ? 'grey.600' : 'grey.500',
+                    })}
+                />
             </IconButton>
             <Menu
                 id="def-menu"

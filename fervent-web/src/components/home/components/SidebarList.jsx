@@ -18,7 +18,7 @@ const lvl2Tabs = tabList.filter((tab) => tab.level === 2);
  * @returns JSX Component
  */
 function SidebarList({ onClick = undefined }) {
-  const { selectedTab, switchTab, collapsed } = useContext(SidebarContext);
+  const { selectedTab, switchTab } = useContext(SidebarContext);
 
   function handleClick(panePath) {
     switchTab(panePath);
@@ -39,6 +39,7 @@ function SidebarList({ onClick = undefined }) {
           flexDirection: 'column',
           [`& .${listItemButtonClasses.root}`]: {
             gap: 1.5,
+            borderRadius: '8px',
           },
         }}
       >

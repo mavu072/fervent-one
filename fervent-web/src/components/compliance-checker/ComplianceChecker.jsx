@@ -26,7 +26,7 @@ function ComplianceChecker() {
     const [analysing, setAnalysing] = useState(false);
     const [analysisTimeElapsed, setAnalysisTimeElapsed] = useState();
     const [searchText, setSearchText] = useState("");
-
+    const [analysisError, setAnalysisError] = useState();
     const fileAnalyser = new FileAnalysisService();
 
     /**
@@ -52,7 +52,9 @@ function ComplianceChecker() {
                 setAnalysisTimeElapsed(timeElapsed);
                 onInfoMessage(`Analysis completed in ${timeElapsed} secs.`)
             }).catch(error => {
-                onInfoMessage(`Analysis failed due to '${error?.message || "Unknown Error"}'.`);
+                const errorMsg = `Analysis failed due to '${error?.message || "Unknown Error"}'.`;
+                onInfoMessage(errorMsg);
+                setAnalysisError(errorMsg);
                 setAnalysing(false);
             }).finally(() => {
                 setAnalysing(false);
@@ -65,6 +67,7 @@ function ComplianceChecker() {
         setAnalyisResult(undefined);
         setAnalysisTimeElapsed(undefined);
         setSearchText("");
+        setAnalysisError(undefined);
     }
 
     return (
@@ -108,7 +111,7 @@ function ComplianceChecker() {
                         display: 'flex',
                         flexDirection: { xs: 'column', sm: 'row' },
                         flex: 1,
-                        gap: 2,
+                        gap: { xs: 2, sm: 4 },
                         px: { xs: 2, sm: 4 },
                     }}
                 >
@@ -142,7 +145,13 @@ function ComplianceChecker() {
                             scrollbarWidth: "none",
                         }}
                     >
-                        <AnalysisPane articles={analysisResult?.result} loading={analysing} onTextSearch={setSearchText} timeElapsed={analysisTimeElapsed} />
+                        <AnalysisPane
+                            articles={analysisResult?.result}
+                            loading={analysing}
+                            onTextSearch={setSearchText}
+                            timeElapsed={analysisTimeElapsed}
+                            error={analysisError}
+                        />
                     </Stack>
                 </Stack>
                 <Stack className="Footer" width='100%' height='var(--Footer-height)'>

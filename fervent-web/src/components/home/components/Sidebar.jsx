@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { closeSidebar, largeScreenWidth, standardScreenWidth } from '../util/sidebarUtil';
+import { closeSidebar, collapsedWidth, largeScreenWidth, standardScreenWidth } from '../util/sidebarUtil';
 import SidebarHeader from './SidebarHeader';
 import SidebarList from './SidebarList';
+import { SidebarContext } from '../../context-provider/SidebarContext';
 
 /**
  * Sidebar.
  * @returns JSX Component
  */
 function Sidebar() {
+  const { collapsed } = useContext(SidebarContext);
   return (
     <Paper
       className="Sidebar"
@@ -40,7 +42,7 @@ function Sidebar() {
           ':root': {
             '--Sidebar-width-xs': standardScreenWidth,
             [theme.breakpoints.up('lg')]: {
-              '--Sidebar-width': largeScreenWidth,
+              '--Sidebar-width': collapsed === true ? collapsedWidth : largeScreenWidth,
             },
             '--Sidebar-background-backdrop': 'rgba(0, 0, 0, 0.5)',
           },
