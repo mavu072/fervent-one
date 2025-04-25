@@ -1,4 +1,5 @@
 import firebase from "firebase/compat/app";
+import { BATCH_SIZE, deleteCollection } from "../firebase/firestoreUtil";
 
 class BaseRepository {
 
@@ -12,6 +13,8 @@ class BaseRepository {
      * @example const collectionPath = users/:id/messages
      */
     constructor(app, collectionPath) {
+        this.db = app.firestore;
+        this.collectionPath = collectionPath;
         this.collectionRef = app.firestore.collection(collectionPath);
     }
 
@@ -98,6 +101,20 @@ class BaseRepository {
             .limit(limit);
         return query;
     }
+
+    /**
+     * Call the 'recursiveDelete' callable function with a path to initiate a server-side delete.
+     * 
+     * @return Delete All Result.
+     */
+    deleteAll() { 
+        return new Promise((resolve, reject) => {
+            deleteCollection(this.db, this.collectionPath, BATCH_SIZE)
+            .then((res) => resolve(res))
+            .catch((err) => reject(err));
+        });
+    }
+  
 }
 
 export default BaseRepository;

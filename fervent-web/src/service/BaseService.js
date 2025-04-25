@@ -60,6 +60,14 @@ class BaseService {
     getAllWithinRange(startAfter, limit, sort = "asc") {
         return this.repository.getAllWithinRange(startAfter, limit, sort);
     }
+
+    /**
+     * deleteAll method.
+     * @returns Delete Result
+     */
+    deleteAll() {
+        return this.repository.deleteAll();
+    }
 }
 
 export default BaseService;

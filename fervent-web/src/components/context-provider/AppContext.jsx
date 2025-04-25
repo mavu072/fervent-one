@@ -9,6 +9,7 @@ const AppProvider = ({ children }) => {
     const auth = app.auth;
     const [user, isAuthLoading, authError] = useAuthState(auth);
     const [infoMsg, setInfoMsg] = useState({ message: null, count: 0 });
+    const [messageBulkDeleteInProgress, setMessageBulkDeleteInProgress] = useState(false);
 
     useEffect(() => {
         if (authError) console.log("Auth Error:", authError);
@@ -21,9 +22,13 @@ const AppProvider = ({ children }) => {
               count: prev.count + 1,
             }
           });
-    }, [setInfoMsg])
+    }, [setInfoMsg]);
 
-    const value = { user, app, auth, isAuthLoading, infoMsg, onInfoMessage };
+    const updateMessageBulkDeleteStatus = useCallback((bulkDeleteStatus) => {
+        setMessageBulkDeleteInProgress(bulkDeleteStatus);
+    });
+
+    const value = { user, app, auth, isAuthLoading, infoMsg, onInfoMessage, messageBulkDeleteInProgress, updateMessageBulkDeleteStatus };
 
     return <AppContext.Provider value={value}>
         {children}

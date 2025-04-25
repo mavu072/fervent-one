@@ -89,7 +89,7 @@ function ComplianceChecker() {
             <GlobalStyles
                 styles={{
                     ':root': {
-                        '--Footer-height': '52px',
+                        '--Footer-height': '40px',
                         '--ComplianceChecker-height': 'calc(100dvh - var(--Header-height))',
                         '--AnalysisPane-height': 'calc(var(--ComplianceChecker-height) - var(--Footer-height))',
                     },
@@ -103,7 +103,6 @@ function ComplianceChecker() {
                     flexDirection: 'column',
                     p: 0,
                     overflow: { sm: 'hidden' },
-                    height: 'var(--ComplianceChecker-height)',
                 }}
             >
                 <Stack className="Responsive-columns"
@@ -154,23 +153,28 @@ function ComplianceChecker() {
                         />
                     </Stack>
                 </Stack>
-                <Stack className="Footer" width='100%' height='var(--Footer-height)'>
-                    <Typography
-                        variant="caption"
-                        sx={{
-                            color: 'text.secondary',
-                            textAlign: "center",
-                            pt: '20px',
-                            pb: '5px',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
-                        {DISCLAIMER_EXPERIMENTAL_AI}
-                    </Typography>
-                </Stack>
             </Box>
+            <Stack className="Footer"
+                sx={{
+                    width: '100%',
+                    height: 'var(--Footer-height)',
+                }}
+            >
+                <Typography
+                    variant="caption"
+                    sx={{
+                        color: 'text.secondary',
+                        textAlign: "center",
+                        pt: '10px',
+                        pb: '10px',
+                        whiteSpace: 'nowrap',
+                    }}
+                >
+                    {DISCLAIMER_EXPERIMENTAL_AI}
+                </Typography>
+            </Stack>
         </Paper >
-    )
+    );
 }
 
 export default ComplianceChecker;
