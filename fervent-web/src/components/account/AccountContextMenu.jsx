@@ -4,10 +4,10 @@ import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import AccountAvatar from './AccountAvatar';
-import SignOutButton from "../login/components/SignOutButton";
-import { AppContext } from "../context-provider/AppContext";
 import AccountPreview from "./AccountPreview";
-import SettingsButton from "../settings/components/SettingsButton";
+import SignOutButton from "../login/components/SignOutButton";
+import GoToSettingsButton from "../settings/components/GoToSettingsButton";
+import { AppContext } from "../context-provider/AppContext";
 
 /**
  * AccountContextMenu.
@@ -62,7 +62,7 @@ function AccountContextMenu() {
                 {/* <MenuItem onClick={handleClose}>My Profile</MenuItem> */}
                 <Divider />
                 <MenuItem>
-                    <SettingsButton label="Settings" onClick={handleClose} />
+                    <GoToSettingsButton label="Settings" onClick={handleClose} />
                 </MenuItem>
                 <Divider />
                 <MenuItem>

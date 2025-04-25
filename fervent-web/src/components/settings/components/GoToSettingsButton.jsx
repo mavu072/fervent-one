@@ -6,13 +6,13 @@ import { SETTINGS_PATH } from "../../../config/appConfig";
 import { SidebarContext } from "../../context-provider/SidebarContext";
 
 /**
- * SettingsButton.
+ * Go to Settings.
  * @param {object} props  
  * @param {string} props.label (Optional) Button label.
  * @param {Function} props.onClick (Optional) Additional onclick event handler.
  * @returns JSX Component
  */
-function SettingsButton({ label = undefined, onClick = undefined }) {
+function GoToSettingsButton({ label = undefined, onClick = undefined }) {
     const { switchTab } = useContext(SidebarContext);
 
     function handleClick(e) {
@@ -39,4 +39,4 @@ function SettingsButton({ label = undefined, onClick = undefined }) {
     );
 }
 
-export default SettingsButton;
+export default GoToSettingsButton;
