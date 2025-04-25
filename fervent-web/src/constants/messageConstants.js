@@ -14,7 +14,7 @@ export const DEF_FILE_LIMIT = 100;
 export const LIMIT_INCREMENT_VALUE = 10;
 
 // File size.
-export const FILE_SIZE_LIMIT = 2000000; // 2 MB.
+export const FILE_SIZE_LIMIT = 5000000; // 5 MB.
 
 // Report types.
 export const TYPE_COMPLIANCE_REPORT = "complianceReport";

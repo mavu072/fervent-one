@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Link from '@mui/material/Link';
 import Divider from '@mui/material/Divider';
-import { grey, lightBlue } from "@mui/material/colors";
+import { lightBlue } from "@mui/material/colors";
 
 /**
  * TextBubble.
@@ -28,21 +28,26 @@ function TextBubble({ isSent, content = null, sources = null, arrivedAt }) {
             p: 1.25,
             borderRadius: 'var(--Chat-Bubble-radius)',
             backgroundColor: isSent ? lightBlue[700] :
-              theme.palette.mode === 'light' ? grey[300] : grey[800],
+              theme.palette.mode === 'light' ? 'grey.300' : 'grey.800',
+            color: isSent ? 'text.primary' :
+              theme.palette.mode === 'light' ? 'text.primary' : 'grey.100',
           })}
         >
           {content && (
             <Typography
               component={isContentText ? "p" : "div"}
               level="body-sm"
-              sx={{ color: isSent ? 'white' : 'inherit', }}
+              sx={{
+                color: isSent ? 'white' : 'inherit',
+                whiteSpace: 'pre-wrap',
+              }}
             >
               {content}
             </Typography>
           )}
           {content && sources && <Divider />}
           {sources && sources.map((source, index) => (
-              <Link key={index} href={source.link} target="_blank">{source.title}</Link>
+            <Link key={index} href={source.link} target="_blank">{source.title}</Link>
           ))}
         </Paper>
       </Box>

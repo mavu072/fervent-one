@@ -1,10 +1,10 @@
 import React from "react";
 import Box from '@mui/material/Box';
 import ServiceProvider from "../context-provider/ServiceContext";
-import PaneNavigationProvider from "../context-provider/PaneNavigationContext";
+import SidebarProvider from "../context-provider/SidebarContext";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import MainContent from "./components/MainContent";
+import Main from "./components/Main";
 
 /**
  * Home.
@@ -13,13 +13,13 @@ import MainContent from "./components/MainContent";
 function Home() {
     return (
         <ServiceProvider>
-            <PaneNavigationProvider>
-                <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
+            <SidebarProvider>
+                <Box sx={{ display: 'flex', width: '100dvw', minHeight: '100dvh' }}>
                     <Sidebar />
                     <Header />
-                    <MainContent />
+                    <Main />
                 </Box>
-            </PaneNavigationProvider>
+            </SidebarProvider>
         </ServiceProvider>
     );
 }

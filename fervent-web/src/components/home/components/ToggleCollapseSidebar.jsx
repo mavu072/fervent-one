@@ -1,14 +1,14 @@
 import React from "react";
 import IconButton from '@mui/material/IconButton';
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import ViewSidebarIcon from '@mui/icons-material/ViewSidebarOutlined';
 
 /**
- * MenuButton.
+ * ToggleCollapseSidebar.
  * @param {object} props
  * @param {Function} props.onClickHandler 
  * @returns JSX Component
  */
-function MenuButton({ onClickHandler }) {
+function ToggleCollapseSidebar({ onClickHandler }) {
     return (
         <IconButton
             onClick={() => onClickHandler()}
@@ -19,9 +19,9 @@ function MenuButton({ onClickHandler }) {
                 p: 0,
             }}
         >
-            <MenuRoundedIcon />
+            <ViewSidebarIcon />
         </IconButton>
     );
 }
 
-export default MenuButton;
+export default ToggleCollapseSidebar;

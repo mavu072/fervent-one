@@ -10,7 +10,7 @@ function TermsAndConditionsPage() {
         <React.Fragment>
             <>
                 <title>
-                    Terms and Conditions | {appName}
+                    Terms and Conditions – {appName}
                 </title>
             </>
             <BackButton />

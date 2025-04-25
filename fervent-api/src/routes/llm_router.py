@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, Form
+from fastapi import APIRouter, UploadFile, Form, File
 from typing import Annotated
 
 from definitions import API_TAGS
@@ -24,24 +24,26 @@ def create_chat_completion(message: Annotated[str, Form()]):
 
 
 @router.post("/v1/llm/chat", tags=[API_TAGS["llm"]])
-async def add_message_to_conversation(uuid: str | None, chat: Chat):
+async def add_message_to_conversation(chat: Chat):
     """
     Sends a new message to the LLM with conversational history.
 
-        :param str | None uuid: A unique identifier. Used to identify the directory storing this conversation's files.
-        :param Chat chat: Instance of Chat class. Contains the new message and previous messages.
+        :param Chat chat: Chat class. Contains the uuid, new message and previous messages.
     """
     return await send_message_to_assistant_with_conversational_chain(
-        uuid=uuid, message=chat.message.content, prev_messages=chat.prev_messages
+        uuid=chat.uuid, message=chat.message.content, prev_messages=chat.prev_messages
     )
 
 
 @router.post("/v1/llm/compliance-analysis", tags=[API_TAGS["llm"]])
-async def do_compliance_analysis(uuid: str, file: UploadFile):
+async def do_compliance_analysis(
+    uuid: Annotated[str, Form()], 
+    file: Annotated[UploadFile, File()]
+):
     """
-    Do a compliance analysis on a file.
+    Performs a compliance analysis on a file.
 
-        :param str uuid: A unique identifier. Used to identify the directory to store the uploaded file.
+        :param str uuid: A unique identifier. Used to identify the directory/vector store to store the uploaded file.
         :param UploadFile file: A file uploaded in the request.
     """
     return await send_file_to_assistant_with_analysis_chain(

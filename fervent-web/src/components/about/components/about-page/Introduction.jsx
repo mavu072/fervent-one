@@ -35,25 +35,23 @@ function Introduction() {
           </Typography>
 
           <Typography
-            variant="h4"
+            variant="h1"
             sx={{
               display: 'flex',
               flexDirection: 'column',
               alignSelf: 'center',
               textAlign: 'center',
-              fontSize: 'clamp(1rem, 10vw, 2.2rem)',
-              fontWeight: 600,
+              fontSize: 'clamp(2rem, 10vw, 4rem)',
             }}
           >
             We're on a mission to make&nbsp;
             <Typography
               component="span"
-              variant="h4"
+              variant="h1"
               sx={{
                 color: (theme) =>
                   theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
-                fontSize: 'clamp(1rem, 10vw, 2.2rem)',
-                fontWeight: 600,
+                fontSize: 'clamp(2rem, 10vw, 4rem)',
               }}
             >
               workplace rights and laws accessible and understandable to all South Africans.

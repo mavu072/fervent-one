@@ -15,21 +15,19 @@ import FileName from "./components/FileName";
 import { appName, COMPLIANCE_CHECKER_TITLE, DISCLAIMER_EXPERIMENTAL_AI } from "../../config/appConfig";
 
 /**
- * ComplianceCheckerPane.
+ * ComplianceChecker.
  * @returns JSX Component.
  */
-function ComplianceCheckerPane() {
+function ComplianceChecker() {
     const { user, onInfoMessage } = useContext(AppContext);
     const [file, setFile] = useState();
     const [title, setTitle] = useState();
-    const [fileBuffer, setFileBuffer] = useState();
     const [analysisResult, setAnalyisResult] = useState();
     const [analysing, setAnalysing] = useState(false);
     const [analysisTimeElapsed, setAnalysisTimeElapsed] = useState();
     const [searchText, setSearchText] = useState("");
-
+    const [analysisError, setAnalysisError] = useState();
     const fileAnalyser = new FileAnalysisService();
-    const reader = new FileReader();
 
     /**
      * Handle upload file.
@@ -41,18 +39,9 @@ function ComplianceCheckerPane() {
         setTitle(fl.name);
         setFile(fl);
 
-        // Listen for load event and set file content to buffer.
-        reader.addEventListener("load", () => {
-            const buffer = reader.result;
-            setFileBuffer(buffer);
-            setAnalysing(true);
-            onInfoMessage("Analysing document.");
-        });
-
-        // Read file.
-        reader.readAsArrayBuffer(fl);
-
         // Analyse
+        setAnalysing(true);
+        onInfoMessage("Analysing document.");
         const startTime = performance.now();
         fileAnalyser.analyseFile(user.uid, fl)
             .then(res => {
@@ -63,38 +52,29 @@ function ComplianceCheckerPane() {
                 setAnalysisTimeElapsed(timeElapsed);
                 onInfoMessage(`Analysis completed in ${timeElapsed} secs.`)
             }).catch(error => {
-                onInfoMessage(`Analysis failed due to '${error?.message || "Unknown Error"}'.`);
+                const errorMsg = `Analysis failed due to '${error?.message || "Unknown Error"}'.`;
+                onInfoMessage(errorMsg);
+                setAnalysisError(errorMsg);
                 setAnalysing(false);
             }).finally(() => {
                 setAnalysing(false);
             });
     }
 
-    /**
-     * Handle clear file.
-     */
     function handleClearFile() {
         setTitle(undefined);
         setFile(undefined);
-        setFileBuffer(undefined);
         setAnalyisResult(undefined);
         setAnalysisTimeElapsed(undefined);
         setSearchText("");
-    }
-
-    /**
-     * Handle PDF text search.
-     * @param {string} text 
-     */
-    function handleSearch(text) {
-        setSearchText(text);
+        setAnalysisError(undefined);
     }
 
     return (
         <Paper
             className="ComplianceChecker-container"
             sx={{
-                width: { xs: '100dvw', lg: 'calc(100dvw - var(--Sidebar-width))' },
+                width: '100%',
                 height: 'var(--ComplianceChecker-height)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -109,9 +89,8 @@ function ComplianceCheckerPane() {
             <GlobalStyles
                 styles={{
                     ':root': {
-                        '--Footer-height': '30px',
+                        '--Footer-height': '40px',
                         '--ComplianceChecker-height': 'calc(100dvh - var(--Header-height))',
-                        '--ComplianceChecker-width': 'calc(100dvw - var(--Sidebar-width))',
                         '--AnalysisPane-height': 'calc(var(--ComplianceChecker-height) - var(--Footer-height))',
                     },
                 }}
@@ -120,72 +99,82 @@ function ComplianceCheckerPane() {
                 className="Inner-container"
                 sx={{
                     display: 'flex',
+                    flex: 1,
                     flexDirection: 'column',
-                    px: { xs: 2, sm: 4 },
-                    py: 0,
+                    p: 0,
                     overflow: { sm: 'hidden' },
-                    width: '100%',
-                    height: 'var(--ComplianceChecker-height)',
                 }}
             >
-                <Stack
-                    className="Responsive-columns"
+                <Stack className="Responsive-columns"
                     sx={{
                         display: 'flex',
                         flexDirection: { xs: 'column', sm: 'row' },
                         flex: 1,
-                        gap: 2,
-                        width: '100%',
+                        gap: { xs: 2, sm: 4 },
+                        px: { xs: 2, sm: 4 },
                     }}
                 >
-                    <Stack
-                        className="File-column"
+                    <Stack className="File-column"
                         sx={{
                             flex: 1,
                             gap: 1,
-                            height: { xs: '100%', sm: 'var(--AnalysisPane-height)' },
-                            width: 'var(--ComplianceChecker-width)',
+                            height: { sm: 'var(--AnalysisPane-height)' },
                             ...scrollbarStyle,
                             overflowY: { xs: 'unset', sm: "scroll" },
                             overflowX: 'hidden',
                             scrollbarWidth: "none",
                         }}
                     >
-                        {file && <FileName fileName={title} onRemoveFile={handleClearFile} />}
-                        {!file && <DropFileZone files={file} setFiles={handleAddFiles} accept=".pdf" onMessage={onInfoMessage} />}
-                        {file && <PDFViewer fileSource={fileBuffer} searchText={searchText} />}
+                        {!file && <DropFileZone setFiles={handleAddFiles} accept=".pdf" onMessage={onInfoMessage} />}
+                        {file && (
+                            <>
+                                <FileName fileName={title} onRemoveFile={handleClearFile} />
+                                <PDFViewer src={file} searchText={searchText} />
+                            </>
+                        )}
                     </Stack>
-                    <Stack
-                        className="Analysis-column"
+                    <Stack className="Analysis-column"
                         sx={{
                             width: { xs: '100%', sm: '40%' },
                             minWidth: { sm: '300px' },
-                            height: { xs: '100%', sm: 'var(--AnalysisPane-height)', },
+                            height: { sm: 'var(--AnalysisPane-height)', },
+                            minHeight: { xs: file ? '0' : '50%', sm: '0' },
                             border: 0,
-                            ml: { sm: 1 },
                             ...scrollbarStyle,
                             scrollbarWidth: "none",
                         }}
                     >
-                        <AnalysisPane articles={analysisResult?.result} loading={analysing} onTextSearch={handleSearch} timeElapsed={analysisTimeElapsed} />
+                        <AnalysisPane
+                            articles={analysisResult?.result}
+                            loading={analysing}
+                            onTextSearch={setSearchText}
+                            timeElapsed={analysisTimeElapsed}
+                            error={analysisError}
+                        />
                     </Stack>
                 </Stack>
-                <Stack className="Footer" width='100%' height='var(--Footer-height)'>
-                    <Typography
-                        variant="caption"
-                        sx={{
-                            color: 'text.secondary',
-                            textAlign: "center",
-                            py: '5px',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
-                        {DISCLAIMER_EXPERIMENTAL_AI}
-                    </Typography>
-                </Stack>
             </Box>
+            <Stack className="Footer"
+                sx={{
+                    width: '100%',
+                    height: 'var(--Footer-height)',
+                }}
+            >
+                <Typography
+                    variant="caption"
+                    sx={{
+                        color: 'text.secondary',
+                        textAlign: "center",
+                        pt: '10px',
+                        pb: '10px',
+                        whiteSpace: 'nowrap',
+                    }}
+                >
+                    {DISCLAIMER_EXPERIMENTAL_AI}
+                </Typography>
+            </Stack>
         </Paper >
-    )
+    );
 }
 
-export default ComplianceCheckerPane;
+export default ComplianceChecker;

@@ -2,25 +2,21 @@ import React, { useContext } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import { listItemButtonClasses } from '@mui/material/ListItemButton';
-import { grey } from '@mui/material/colors';
-import { closeSidebar } from '../util/sidebarUtil';
-import { ThemeContext } from '../../context-provider/ThemeContext';
-import PaneNavigation from './PaneNavigation';
-import AppLogoIcon from '../../logo/AppLogo';
+import { closeSidebar, collapsedWidth, largeScreenWidth, standardScreenWidth } from '../util/sidebarUtil';
+import SidebarHeader from './SidebarHeader';
+import SidebarList from './SidebarList';
+import { SidebarContext } from '../../context-provider/SidebarContext';
 
 /**
  * Sidebar.
  * @returns JSX Component
  */
 function Sidebar() {
-  const { mode } = useContext(ThemeContext);
-
+  const { collapsed } = useContext(SidebarContext);
   return (
     <Paper
       className="Sidebar"
-      sx={(theme) => ({
+      sx={{
         position: { xs: 'fixed', lg: 'sticky' },
         transform: {
           xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1)))',
@@ -29,24 +25,26 @@ function Sidebar() {
         transition: 'transform 0.4s, width 0.4s',
         zIndex: 9998,
         height: '100dvh',
-        width: 'var(--Sidebar-width)',
+        width: { xs: 'var(--Sidebar-width-xs)', lg: 'var(--Sidebar-width)' },
         top: 0,
-        p: 2,
+        pt: 2,
+        px: 2,
         flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
         borderRadius: 0,
-        backgroundColor: theme.palette.mode === 'light' ? grey[100] : grey[900],
-      })}
+        backgroundColor: 'background.paper',
+      }}
     >
       <GlobalStyles
         styles={(theme) => ({
           ':root': {
-            '--Sidebar-width': '280px',
+            '--Sidebar-width-xs': standardScreenWidth,
             [theme.breakpoints.up('lg')]: {
-              '--Sidebar-width': '280px',
+              '--Sidebar-width': collapsed === true ? collapsedWidth : largeScreenWidth,
             },
+            '--Sidebar-background-backdrop': 'rgba(0, 0, 0, 0.5)',
           },
         })}
       />
@@ -60,34 +58,17 @@ function Sidebar() {
           width: '100vw',
           height: '100vh',
           opacity: 'var(--SideNavigation-slideIn)',
-          backgroundColor: 'var(--material-palette-background-backdrop)',
+          backgroundColor: 'var(--Sidebar-background-backdrop)',
           transition: 'opacity 0.4s',
           transform: {
-            xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--Sidebar-width, 0px)))',
+            xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--Sidebar-width-xs, 0px)))',
             lg: 'translateX(-100%)',
           },
         }}
         onClick={() => closeSidebar()}
       />
-      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <Stack sx={{ alignItems: 'left', flexGrow: 1 }}>
-          <AppLogoIcon mode={mode} />
-        </Stack>
-      </Box>
-      <Box
-        sx={{
-          minHeight: 0,
-          overflow: 'hidden auto',
-          flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          [`& .${listItemButtonClasses.root}`]: {
-            gap: 1.5,
-          },
-        }}
-      >
-        <PaneNavigation onClick={closeSidebar} />
-      </Box>
+      <SidebarHeader />
+      <SidebarList onClick={closeSidebar} />
     </Paper >
   );
 }

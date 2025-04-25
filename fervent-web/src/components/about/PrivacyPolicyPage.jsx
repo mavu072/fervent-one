@@ -10,7 +10,7 @@ function PrivacyPolicyPage() {
         <React.Fragment>
             <>
                 <title>
-                    Privacy Policy | {appName}
+                    Privacy Policy – {appName}
                 </title>
             </>
             <BackButton />

@@ -1,4 +1,5 @@
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, UploadFile, Form, File
+from typing import Annotated
 
 from definitions import API_TAGS
 from src.controllers.vectorstore_controller import (
@@ -24,11 +25,14 @@ def similarity_search_on_vector_database(input: str):
 
 
 @router.post("/v1/vector/collections/upload", tags=[API_TAGS["vector-store"]])
-def upload_files_to_vectorstore(collection_name: str, files: list[UploadFile]):
+def upload_files_to_vectorstore(
+    collection_name: Annotated[str, Form()], 
+    files: Annotated[list[UploadFile], File()]
+):
     """
     Upload a file to a users vector store collection, creates the collection if it does not exist.
     
-        :param str collection_name: A unique identifier. Used to identify the vectorstore collection to save the uploaded files.
+        :param str collection_name: A unique identifier. Used to identify the vector store collection to save the files.
         :param list[UploadFile] files: A list of files uploaded in the request.
     """
     return add_files_to_vectorstore(collection_name=collection_name, files=files)

@@ -18,19 +18,19 @@ const observerOptions = {};
 /**
  * PDFViewer.
  * @param {object} props
+ * @param {File} props.src PDF to be displayed.
  * @param {number} props.maxWidth Maximum page width.
- * @param {string} props.searchText Text to be found and highlighted.
+ * @param {string} props.searchText Text to be searched and highlighted on the page.
  * @returns JSX Component.
  */
-function PDFViewer({ fileSource, maxWidth = 800, searchText }) {
-    const file = useMemo(() => fileSource, [fileSource]);
+function PDFViewer({ src, maxWidth = 800, searchText }) {
     const [numPages, setNumPages] = useState();
     const [pageNumber, setPageNumber] = useState(1);
     const [containerRef, setContainerRef] = useState(null);
     const [containerWidth, setContainerWidth] = useState();
 
+    const file = useMemo(() => src, [src]);
     const textRenderer = useCallback((textItem) => highlightPattern(textItem.str, searchText), [searchText]);
-
     const onResize = useCallback((observerEntries) => {
         const [entry] = observerEntries; // De-structure entries array to get first entry.
 
@@ -42,8 +42,10 @@ function PDFViewer({ fileSource, maxWidth = 800, searchText }) {
     // Hook: Listen for container resizes and adjust page width.
     useResizeObserver(containerRef, observerOptions, onResize);
 
-    function onDocumentLoadSuccess({ numPages }) {
-        setNumPages(numPages);
+    function onDocumentLoadSuccess(doc) {
+        if (doc) {
+            setNumPages(doc.numPages);
+        }
     }
 
     function switchPage(offset) {
@@ -88,13 +90,13 @@ function PDFViewer({ fileSource, maxWidth = 800, searchText }) {
                 </Stack>
 
                 <Box className="PDF-Document" border={1} ref={setContainerRef}>
-                    <Document file={file} onLoadSuccess={onDocumentLoadSuccess} loading={<SectionLoader />}>
+                    {file && <Document file={file} onLoadSuccess={onDocumentLoadSuccess} loading={<SectionLoader />}>
                         <Page
                             pageNumber={pageNumber}
                             width={containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth}
                             customTextRenderer={textRenderer}
                         />
-                    </Document>
+                    </Document>}
                 </Box>
             </Stack>
 

@@ -17,6 +17,8 @@ class Message(BaseModel):
 
 class Chat(BaseModel):
     """Chat class."""
+    uuid: str | None
+    """(Optional) A unique identifier used to identify the directory/vector store storing this conversation's files."""
     message: Message
     """New message."""
     prev_messages: list[Message]

@@ -13,7 +13,7 @@ function AboutPage() {
         <React.Fragment>
             <>
                 <title>
-                    About Us | {orgName}
+                    About Us – {orgName}
                 </title>
             </>
             <BackButton />

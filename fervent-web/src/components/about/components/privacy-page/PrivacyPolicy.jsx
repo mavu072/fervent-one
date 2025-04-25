@@ -31,7 +31,7 @@ function PrivacyPolicy() {
                     <Box
                         sx={{
                             width: '100%',
-                            textAlign: { xs: 'left', sm: 'center' },
+                            textAlign: { xs: 'center', sm: 'center' },
                         }}
                     >
                         <Typography component="h2" variant="h4" color="text.primary">

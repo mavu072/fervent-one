@@ -29,6 +29,7 @@ function App() {
   return (
     <React.Fragment>
       {(isAuthLoading || !user) && <PageLoader />}
+      {/* Display messages from all nested routes under home. */}
       {infoMsg.message && <SnackBarNotification key={infoMsg.count} message={infoMsg.message} />}
       {user && <Home />}
     </React.Fragment>

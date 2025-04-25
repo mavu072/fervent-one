@@ -5,6 +5,10 @@
  * @returns 
  */
 export function highlightPattern(text, pattern) {
+    if (!pattern || pattern === "") {
+        return text;
+    }
+
     // Break text and search for words to account for text layout changes. e.g. missing newline and space characters.
     const parts = pattern.split(" ");
 
@@ -18,9 +22,7 @@ export function highlightPattern(text, pattern) {
 
     // Highlight text that contains up to 60% of the words.
     if (wordMatches > Math.floor((60 / 100) * parts.length)) {
-        parts.forEach((part) => {
-            text = text.replace(part, (value) => `<mark>${value}</mark>`);
-        });
+        text = `<mark>${text}</mark>`;
     }
 
     return text;

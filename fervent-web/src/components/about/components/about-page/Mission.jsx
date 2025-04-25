@@ -13,7 +13,7 @@ const items = [
         description:
             <div>
                 <p>
-                    Our mission is to make legal information accessible and understandable for all employees and laborers in South Africa.
+                    Our mission is to make legal information accessible and understandable for all employees and labourers in South Africa.
                 </p>
                 <p>
                     We believe that every worker deserves to know their rights and have the means to address workplace issues effectively and confidently.

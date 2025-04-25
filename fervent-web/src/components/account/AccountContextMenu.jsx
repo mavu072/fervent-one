@@ -4,16 +4,17 @@ import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import AccountAvatar from './AccountAvatar';
-import SignOutButton from "../login/components/SignOutButton";
-import { AppContext } from "../context-provider/AppContext";
 import AccountPreview from "./AccountPreview";
+import SignOutButton from "../login/components/SignOutButton";
+import GoToSettingsButton from "../settings/components/GoToSettingsButton";
+import { AppContext } from "../context-provider/AppContext";
 
 /**
  * AccountContextMenu.
  * @returns JSX Component
  */
 function AccountContextMenu() {
-    const { user, } = useContext(AppContext);
+    const { user } = useContext(AppContext);
 
     const [anchorElement, setAnchorElement] = React.useState(null);
     const open = Boolean(anchorElement);
@@ -48,12 +49,24 @@ function AccountContextMenu() {
                 }}
                 sx={{ zIndex: 9996, }}
             >
-                <AccountPreview />
+                <MenuItem
+                    disableTouchRipple
+                    sx={{
+                        ':hover': {
+                            backgroundColor: 'inherit'
+                        },
+                    }}
+                >
+                    <AccountPreview />
+                </MenuItem>
                 {/* <MenuItem onClick={handleClose}>My Profile</MenuItem> */}
-                {/* <MenuItem onClick={handleClose}>Settings</MenuItem> */}
                 <Divider />
                 <MenuItem>
-                    <SignOutButton label={"Log out"} onClick={handleClose} />
+                    <GoToSettingsButton label="Settings" onClick={handleClose} />
+                </MenuItem>
+                <Divider />
+                <MenuItem>
+                    <SignOutButton label="Log out" onClick={handleClose} />
                 </MenuItem>
             </Menu>
         </div>
