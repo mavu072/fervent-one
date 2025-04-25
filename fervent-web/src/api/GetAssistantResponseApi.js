@@ -18,10 +18,11 @@ export const getAssistantResponse = async (uuid, message, chatHistory = []) => {
 
     const baseUrl = getApiUrl();
     const config = {
-        url: `${baseUrl}/v1/llm/chat?uuid=${uuid}`,
+        url: `${baseUrl}/v1/llm/chat`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+            'uuid': uuid,
             'message': {
                 'role': 'human',
                 'content': message
@@ -60,11 +61,12 @@ export const getAssistantAnalysisResponse = async (uuid, file) => {
     }
 
     const formData = new FormData();
+    formData.append("uuid", uuid);
     formData.append("file", file, file.name);
 
     const baseUrl = getApiUrl();
     const config = {
-        url: `${baseUrl}/v1/llm/compliance-analysis?uuid=${uuid}`,
+        url: `${baseUrl}/v1/llm/compliance-analysis`,
         method: 'POST',
         headers: { }, // Set empty headers to allow browser to set file headers.
         body: formData,
@@ -96,11 +98,12 @@ export const uploadFilesToAssistant = async (uuid, files) => {
     }
 
     const formData = new FormData();
+    formData.append("collection_name", uuid);
     files.forEach((file) => formData.append("files", file, file.name));
 
     const baseUrl = getApiUrl();
     const config = {
-        url: `${baseUrl}/v1/vector/collections/upload?collection_name=${uuid}`,
+        url: `${baseUrl}/v1/vector/collections/upload`,
         method: 'POST',
         headers: { }, // Set empty headers to allow browser to set file headers.
         body: formData,
