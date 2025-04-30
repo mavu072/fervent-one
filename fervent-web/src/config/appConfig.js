@@ -8,7 +8,7 @@ export const orgSupportEmail = import.meta.env.VITE_ORG_SUPPORT_EMAIL;
 export const gitRepo = import.meta.env.VITE_GIT_REPO;
 
 export const metaDescription = "A free, AI-powered platform that helps South African employees understand their workplace rights. Get instant access to employment laws, legal information, and contract compliance checks to navigate workplace issues with confidence.";
-export const metaKeywords = "AI Labour Companion, AI Legal Companion, South African labour laws, employment rights, workplace legal information, contract compliance checker, unfair dismissal, unpaid wages, workplace disputes, labour law AI, employee rights South Africa";
+export const metaKeywords = "AI Labour Companion, AI Legal Companion, South African labour laws, employment rights, workplace legal information, contract compliance checker, contract compliance check, unfair dismissal, unpaid wages, workplace disputes, labour law AI, employee rights South Africa";
 
 export const DISCLAIMER_EXPERIMENTAL_AI = "Generative AI is experimental and can make mistakes.";
 export const WARNING_HIDE_SENSITIVE_INFO = "Do not share any sensitive information. i.e. tax or bank details.";
@@ -19,8 +19,8 @@ export const HOME_PATH = "/home";
 export const MESSAGES_PATH = "/";
 export const MESSAGES_TITLE = "Messages";
 
-export const COMPLIANCE_CHECKER_PATH = "/compliance-checker";
-export const COMPLIANCE_CHECKER_TITLE = "Compliance Checker";
+export const COMPLIANCE_CHECKER_PATH = "/compliance-check";
+export const COMPLIANCE_CHECKER_TITLE = "Compliance Check";
 
 export const SETTINGS_PATH = "/settings";
 export const SETTINGS_TITLE = "Settings";
