@@ -29,7 +29,7 @@ function Header() {
         right: 0,
         height: 'var(--Header-height)',
         width: { xs: '100%', lg: 'calc(100dvw - var(--Sidebar-width))' },
-        zIndex: 9995,
+        zIndex: 'modal',
         p: 2,
         pr: 1.5, // Shifting to create room for context menu.
         gap: .25, // Gap between children

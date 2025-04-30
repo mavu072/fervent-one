@@ -67,7 +67,9 @@ function Help() {
                 MenuListProps={{
                     'aria-labelledby': 'def-button',
                 }}
-                sx={{ zIndex: 9996, }}
+                sx={{
+                    zIndex: 'modal',
+                }}
             >
                 <Stack py={1} px={2}>
                     <Typography variant="body2" component="small" sx={{ color: 'text.secondary', pb: 1 }}>

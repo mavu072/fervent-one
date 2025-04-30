@@ -22,8 +22,8 @@ function Sidebar({ selectedTab, selectTab }) {
             }}
         >
             <List>
-                {settingsTabNames.map((tab) => (
-                    <ListItem>
+                {settingsTabNames.map((tab, index) => (
+                    <ListItem key={index}>
                         <ListItemButton
                             onClick={() => selectTab(tab.id)}
                             selected={selectedTab === tab.id}

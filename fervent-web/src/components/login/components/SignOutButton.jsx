@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { useNavigate } from 'react-router-dom';
-import firebase from "firebase/compat/app";
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
@@ -13,7 +12,7 @@ import { AppContext } from "../../context-provider/AppContext";
  * @param {Function} props.onClick (Optional) Additional onclick event handler.
  * @returns JSX Component
  */
-function SignOutButton({ label = undefined, onClick = undefined }) {
+function SignOutButton({ label = undefined, onClick = undefined, sx = {} }) {
     const { auth } = useContext(AppContext);
 
     const navigate = useNavigate();
@@ -45,6 +44,7 @@ function SignOutButton({ label = undefined, onClick = undefined }) {
             onClick={handleClick}
             sx={{
                 textTransform: "capitalize",
+                ...sx,
             }}
             startIcon={<LogoutRoundedIcon />}
         >

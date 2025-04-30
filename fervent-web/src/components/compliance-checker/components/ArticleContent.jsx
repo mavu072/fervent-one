@@ -45,7 +45,7 @@ function ArticleContent({ text }) {
                 onClose={handleClose}
                 aria-labelledby="responsive-dialog-title"
                 sx={{
-                    zIndex: 9999,
+                    zIndex: 'tooltip',
                 }}
             >
                 <DialogTitle id="responsive-dialog-title">

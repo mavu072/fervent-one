@@ -47,7 +47,7 @@ function AccountContextMenu() {
                 MenuListProps={{
                     'aria-labelledby': 'basic-button',
                 }}
-                sx={{ zIndex: 9996, }}
+                sx={{ zIndex: 'modal', }}
             >
                 <MenuItem
                     disableTouchRipple
@@ -62,11 +62,19 @@ function AccountContextMenu() {
                 {/* <MenuItem onClick={handleClose}>My Profile</MenuItem> */}
                 <Divider />
                 <MenuItem>
-                    <GoToSettingsButton label="Settings" onClick={handleClose} />
+                    <GoToSettingsButton
+                        label="Settings"
+                        onClick={handleClose}
+                        sx={{ justifyContent: "start" }}
+                    />
                 </MenuItem>
                 <Divider />
                 <MenuItem>
-                    <SignOutButton label="Log out" onClick={handleClose} />
+                    <SignOutButton
+                        label="Log out"
+                        onClick={handleClose}
+                        sx={{ justifyContent: "start" }}
+                    />
                 </MenuItem>
             </Menu>
         </div>

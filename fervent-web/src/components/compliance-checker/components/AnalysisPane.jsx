@@ -57,7 +57,7 @@ function AnalysisPane({ articles = [], loading = false, onTextSearch, timeElapse
                     top: { xs: "", sm: 0 },
                     backgroundColor: "background.body",
                     flexDirection: "column",
-                    zIndex: 1000,
+                    zIndex: 'modal',
                     pb: 1,
                     boxShadow: "none",
                 }}

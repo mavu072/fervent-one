@@ -14,7 +14,7 @@ function ConfirmationDialog({ dialogTitle, dialogContent, confirmAction, dismiss
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             sx={{
-                zIndex: 9999,
+                zIndex: 'tooltip',
             }}
         >
             <DialogTitle id="alert-dialog-title">

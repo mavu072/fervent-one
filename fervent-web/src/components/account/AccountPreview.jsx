@@ -16,8 +16,15 @@ function AccountPreview({ }) {
                 alignItems: "center",
                 minWidth: "240px",
                 gap: 1,
-                p: 1,
+                p: 2,
                 m: 0,
+                backgroundColor: (theme) => {
+                    if (theme.palette.mode === 'light') {
+                        return 'grey.200';
+                    }
+                    return 'grey.800';
+                },
+                borderRadius: '8px',
             }}
         >
             <Box>

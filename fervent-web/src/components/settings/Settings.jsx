@@ -79,7 +79,7 @@ function Settings() {
                         {Tabs.map((tab) => {
                             if (selectedTab === tab.id) {
                                 return (
-                                    <React.Fragment>
+                                    <React.Fragment key={tab.id}>
                                         {tab.element}
                                     </React.Fragment>
                                 );

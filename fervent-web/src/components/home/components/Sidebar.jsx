@@ -23,7 +23,7 @@ function Sidebar() {
           lg: 'none',
         },
         transition: 'transform 0.4s, width 0.4s',
-        zIndex: 9998,
+        zIndex: 'tooltip',
         height: '100dvh',
         width: { xs: 'var(--Sidebar-width-xs)', lg: 'var(--Sidebar-width)' },
         top: 0,
@@ -52,7 +52,7 @@ function Sidebar() {
         className="Sidebar-overlay"
         sx={{
           position: 'fixed',
-          zIndex: 9997,
+          zIndex: '9997',
           top: 0,
           left: 0,
           width: '100vw',

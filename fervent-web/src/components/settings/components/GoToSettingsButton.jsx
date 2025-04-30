@@ -12,7 +12,7 @@ import { SidebarContext } from "../../context-provider/SidebarContext";
  * @param {Function} props.onClick (Optional) Additional onclick event handler.
  * @returns JSX Component
  */
-function GoToSettingsButton({ label = undefined, onClick = undefined }) {
+function GoToSettingsButton({ label = undefined, onClick = undefined, sx = {} }) {
     const { switchTab } = useContext(SidebarContext);
 
     function handleClick(e) {
@@ -31,6 +31,7 @@ function GoToSettingsButton({ label = undefined, onClick = undefined }) {
             onClick={handleClick}
             sx={{
                 textTransform: "capitalize",
+                ...sx,
             }}
             startIcon={<SettingsIcon />}
         >
