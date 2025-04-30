@@ -20,7 +20,7 @@ function FileName({ fileName, onRemoveFile }) {
                 justifyContent: "space-between",
             }}
         >
-            <Typography variant="h6" component="div"
+            <Typography variant="h7" component="div"
                 sx={{
                     width: "100%",
                     fontWeight: 600,
