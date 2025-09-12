@@ -20,7 +20,7 @@ To set up a virtual env, do the following:
 
 - Install `virtualenv` and create `venv` directory:
 
-```commandline
+```zsh
 pip install virtualenv
 virtualenv venv
 ```
@@ -28,12 +28,12 @@ virtualenv venv
 - Activate `venv` in Windows with:
 
 In Powershell:
-```commandline
+```zsh
 venv\Scripts\activate
 ```
 
 In CMD:
-```commandline
+```zsh
 venv\Scripts\activate.bat
 ```
 
@@ -45,7 +45,7 @@ source venv/bin/activate
 
 - Deactivate `venv` with:
 
-```commandline
+```zsh
 deactivate
 ```
 
@@ -62,7 +62,7 @@ deactivate
 
     To test if Tesseract is installed correctly, run:
 
-    ```commandline
+    ```zsh
     tesseract
     ```
 
@@ -74,7 +74,7 @@ deactivate
 
     Download spacy and models.
 
-    ```commandline
+    ```zsh
     pip install -U pip setuptools wheel
     pip install -U spacy
     python -m spacy download en_core_web_sm
@@ -89,7 +89,7 @@ deactivate
 
 1. Install dependencies.
 
-```commandline
+```zsh
 pip install -r requirements.txt
 ```
 
@@ -104,11 +104,11 @@ ALLOWED_ORIGIN = "*" # Add allowed origin. Hint: This should be where your front
 
 3. Run application.
 
-```commandline
+```zsh
 python -m uvicorn main:app
 ```
 or
-```commandline
+```zsh
 uvicorn main:app
 ```
 
@@ -116,7 +116,7 @@ uvicorn main:app
 Hot-reloading refreshes the server when you save changes to the application files, without re-starting the server.
 To enable hot-reloading, start the server with the command:
 
-```commandline
+```zsh
 uvicorn main:app --reload
 ```
 
@@ -125,7 +125,7 @@ When you run the application with uvicorn, all the logs in the console/terminal 
 These logs do not contain timestamps and information from other processes. To access more verbose logs, 
 you must override uvicorn logs as follows:
 
-```commandline
+```zsh
  uvicorn main:app --log-config=log_conf.yaml
 ```
 
@@ -134,7 +134,7 @@ The log configurations are defined in the `log_conf.yaml` file.
 #### Deploy on your Private Network 
 To deploy the application on your private or home network, use the flag:
 
-```commandline
+```zsh
 uvicorn main:app --host 0.0.0.0
 ```
 
@@ -162,7 +162,7 @@ Done! Now, you can start querying the database and talking to the models.
 
 Unit tests have been configured and are runnable with `pytest`. To run unit tests, use the command:
 
-```commandline
+```zsh
 python -m pytest
 ```
 
@@ -170,13 +170,13 @@ python -m pytest
 
 You can also run tests on a single file, by using the command:
 
-```commandline
+```zsh
 python -m pytest sample-tests/test_demo.py
 ```
 
 You can run all tests within a module, as follows:
 
-```commandline
+```zsh
 python -m pytest [module_path]
 ```
 
@@ -184,7 +184,7 @@ python -m pytest [module_path]
 
 You can run a single unit test, as follows:
 
-```commandline
+```zsh
 python -m pytest sample-tests/test_demo.py::test_func()
 ```
 
@@ -192,8 +192,30 @@ python -m pytest sample-tests/test_demo.py::test_func()
 
 When running tests, you may want to print output to the console. Use `-s` to allow prints to show on the console:
 
-```commandline
+```zsh
 python -m pytest -s
 ```
 
 ---
+
+#### Running ChromaDB
+
+Run Chroma locally via the Chroma `cli`.
+
+```zsh
+pip install chromadb
+chroma run --host localhost --port 8000 --path ./my_chroma_data
+```
+
+`--host` The host to which to listen to, by default it is [localhost](http://localhost:8000/docs) , but if you want to expose it to your entire network then you can specify `0.0.0.0`.
+
+`--port` The port on which to listen to, by default this is 8000.
+
+`--path` The path where to persist your Chroma data locally.
+
+
+# Help Links
+
+- [**Chroma**](https://cookbook.chromadb.dev/running/running-chroma/)
+
+- [**FastAPI**](https://fastapi.tiangolo.com/)
