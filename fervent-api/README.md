@@ -93,6 +93,12 @@ deactivate
 pip install -r requirements.txt
 ```
 
+To install dependencies with locked versions, to reproduce exact environment.
+
+```zsh
+pip install -r requirements.lock
+```
+
 2. Create environment variables.
 
 Create an `.env file` and add the environment variables.

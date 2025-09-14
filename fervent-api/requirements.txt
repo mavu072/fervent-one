@@ -6,6 +6,14 @@ langchain
 langchain_chroma
 langchain_openai
 langchain_community
+langchain-experimental
+langgraph
+langgraph-supervisor
+langchain-tavily
+langchain[openai]
+openai
+presidio-analyzer
+presidio-anonymizer
 unstructured
 pillow
 pdf2image
@@ -14,3 +22,6 @@ spacy
 pytest
 pytest_asyncio
 pypdf
+Faker
+faiss-cpu
+tiktoken
