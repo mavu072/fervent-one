@@ -191,7 +191,7 @@ python -m pytest [module_path]
 You can run a single unit test, as follows:
 
 ```zsh
-python -m pytest sample-tests/test_demo.py::test_func()
+python -m pytest sample-tests/test_demo.py::test_func
 ```
 
 #### Printing output to console
