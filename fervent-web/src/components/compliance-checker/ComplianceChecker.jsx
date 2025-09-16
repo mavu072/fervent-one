@@ -120,7 +120,7 @@ function ComplianceChecker() {
                             gap: 1,
                             height: { sm: 'var(--AnalysisPane-height)' },
                             ...scrollbarStyle,
-                            overflowY: { xs: 'unset', sm: "scroll" },
+                            overflowY: { xs: 'unset', sm: "auto" },
                             overflowX: 'hidden',
                             scrollbarWidth: "none",
                         }}

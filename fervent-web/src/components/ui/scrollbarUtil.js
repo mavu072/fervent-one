@@ -1,6 +1,6 @@
 
 export const scrollbarStyle = {
-    overflowY: 'scroll',
+    overflowY: 'auto',
     scrollbarWidth: 'thin',
     scrollbarColor: '#434D5B #00000000',
 }
