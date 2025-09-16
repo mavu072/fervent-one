@@ -3,6 +3,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import ChatBubble from './components/ChatBubble';
 import MessageInput from './components/MessageInput';
@@ -28,6 +29,66 @@ import {
 
 const systemUser = { displayName: appName };
 
+function WelcomeBanner() {
+  return (
+    <Stack spacing={2} useFlexGap sx={{ width: { xs: '100%', sm: '70%' } }}>
+      <Typography
+        variant="h1"
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          alignSelf: 'center',
+          textAlign: 'center',
+          fontSize: 'clamp(2rem, 10vw, 3rem)',
+        }}
+      >
+        {"What's on your mind"}&nbsp;
+        <Typography
+          component="span"
+          variant="h1"
+          sx={{
+            fontSize: 'clamp(2rem, 10vw, 3rem)',
+            color: (theme) =>
+              theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
+          }}
+        >
+          {"today?"}
+        </Typography>
+      </Typography>
+    </Stack>
+  );
+}
+
+function LLMDisclaimer() {
+  return (
+    <Stack display="flex" alignItems="center" textAlign="center" px={2} color={"text.secondary"} >
+      <Typography variant="caption">{DISCLAIMER_EXPERIMENTAL_AI} {WARNING_HIDE_SENSITIVE_INFO}</Typography>
+    </Stack>
+  );
+}
+
+function TypingBubble() {
+  return (
+    <Stack direction="row" spacing={2} flexDirection={'row'}>
+      <ChatBubble
+        variant="received"
+        content={<InlineLoader />}
+        attachment={null}
+        arrivedAt="now"
+        sender={<AccountAvatar user={systemUser} placement={"right"} />}
+      />
+    </Stack>
+  );
+}
+
+function LoadMoreMessages({ onClick }) {
+  return (
+    <Stack display="flex" alignItems="center">
+      <LoadMoreButton title={"Load older messages"} onLoadMore={onClick} />
+    </Stack>
+  );
+}
+
 /**
  * Messages.
  * @returns JSX Component
@@ -51,6 +112,7 @@ function Messages() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
   const messagesEndRef = useRef(null);
   const messagesTopRef = useRef(null)
@@ -64,6 +126,12 @@ function Messages() {
 
   const scrollToBottom = () => scrollTo(messagesEndRef);
   const scrollToTop = () => scrollTo(messagesTopRef);
+
+  useEffect(() => {
+    if (!isMessagesloading && messages !== undefined) {
+      setHasLoadedOnce(true);
+    }
+  }, [isMessagesloading, messages]);
 
   useEffect(() => {
     // Effect: Fetch and cache chat history when component mounts.
@@ -225,66 +293,89 @@ function Messages() {
   }
 
   return (
-    <Paper
-      sx={{
-        height: 'calc(100dvh - var(--Header-height))',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        overflowY: 'hidden',
-        backgroundColor: 'background.body',
-        borderRadius: 0,
-      }}
-    >
+    <React.Fragment>
       <title>
         {MESSAGES_TITLE} – {appName}
       </title>
-      {isMessagesloading && <SectionLoader />}
-      <Box
+      <Paper
         sx={{
+          height: 'calc(100dvh - var(--Header-height))',
+          width: '100%',
           display: 'flex',
-          flex: 1,
-          minHeight: 0,
-          px: 2,
-          py: 0,
-          ...scrollbarStyle,
-          flexDirection: 'column-reverse'
+          flexDirection: 'column',
+          overflowY: 'hidden',
+          backgroundColor: 'background.body',
+          borderRadius: 0,
         }}
       >
-        <Stack spacing={2} justifyContent="flex-end" >
-          <div ref={messagesTopRef}></div>
-          {messages && messages.size > 0 &&
-            <Stack display="flex" alignItems="center">
-              <LoadMoreButton title={"Load older messages"} onLoadMore={handleLoadOlder} />
-            </Stack>
-          }
-          {messages && <MessageBubbles user={user} systemUser={systemUser} messages={messages} />}
-          {isTyping &&
-            (<Stack direction="row" spacing={2} flexDirection={'row'}>
-              <ChatBubble
-                variant="received"
-                content={<InlineLoader />}
-                attachment={null}
-                arrivedAt="now"
-                sender={<AccountAvatar user={systemUser} placement={"right"} />}
+        {/* Still loading → show loader */}
+        {isMessagesloading && <SectionLoader />}
+
+        {/* Messages available → show chat */}
+        {hasLoadedOnce && messages && messages.size > 0 &&
+          <React.Fragment>
+            <Box
+              sx={{
+                display: 'flex',
+                flex: 1,
+                minHeight: 0,
+                px: 2,
+                py: 0,
+                ...scrollbarStyle,
+                flexDirection: 'column-reverse'
+              }}
+            >
+              <Stack
+                className="Chat-area"
+                spacing={2}
+                justifyContent="flex-end"
+              >
+                <div ref={messagesTopRef}></div>
+                {messages.size >= DEF_MESSAGE_LIMIT && <LoadMoreMessages onClick={handleLoadOlder} />}
+                {messages && <MessageBubbles user={user} systemUser={systemUser} messages={messages} />}
+                {isTyping && <TypingBubble />}
+                <div ref={messagesEndRef}></div>
+                <LLMDisclaimer />
+              </Stack>
+            </Box>
+            <MessageInput
+              textMessageInput={textMessageInput}
+              onChangeTextMessageInput={handleChangeTextMessageInput}
+              selectedFiles={selectedFiles}
+              onAddSelectedFiles={handleAddSelectedFiles}
+              onRemoveFile={handleRemoveFile}
+              onRemoveAllFiles={handleRemoveAllFiles}
+              onSubmit={handleSubmit}
+            />
+          </React.Fragment>}
+
+        {/* No messages after load → show welcome */}
+        {hasLoadedOnce && messages && messages.size === 0 &&
+          <React.Fragment>
+            <Container
+              className='Welcome-banner'
+              sx={{
+                display: 'flex',
+                flex: 1,
+                flexDirection: 'column',
+                alignItems: 'center',
+                pt: { xs: 24, sm: 22, lg: 30 },
+              }}
+            >
+              <WelcomeBanner />
+              <MessageInput
+                textMessageInput={textMessageInput}
+                onChangeTextMessageInput={handleChangeTextMessageInput}
+                selectedFiles={selectedFiles}
+                onAddSelectedFiles={handleAddSelectedFiles}
+                onRemoveFile={handleRemoveFile}
+                onRemoveAllFiles={handleRemoveAllFiles}
+                onSubmit={handleSubmit}
               />
-            </Stack>)}
-          <div ref={messagesEndRef}></div>
-          <Stack display="flex" alignItems="center" textAlign="center" px={2} color={"text.secondary"} >
-            <Typography variant="caption">{DISCLAIMER_EXPERIMENTAL_AI} {WARNING_HIDE_SENSITIVE_INFO}</Typography>
-          </Stack>
-        </Stack>
-      </Box>
-      <MessageInput
-        textMessageInput={textMessageInput}
-        onChangeTextMessageInput={handleChangeTextMessageInput}
-        selectedFiles={selectedFiles}
-        onAddSelectedFiles={handleAddSelectedFiles}
-        onRemoveFile={handleRemoveFile}
-        onRemoveAllFiles={handleRemoveAllFiles}
-        onSubmit={handleSubmit}
-      />
-    </Paper>
+            </Container>
+          </React.Fragment>}
+      </Paper>
+    </React.Fragment>
   );
 }
 

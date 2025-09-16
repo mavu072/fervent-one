@@ -67,7 +67,7 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
                 </Stack>
                 <FormControl sx={{ flexGrow: 1, px: 1, }}>
                     <TextareaAutosize
-                        placeholder="Hi, how I can help you today?"
+                        placeholder="Send message"
                         aria-label="Message"
                         ref={textAreaRef}
                         onChange={handleChange}
