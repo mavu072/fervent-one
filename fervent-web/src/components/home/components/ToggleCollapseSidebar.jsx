@@ -19,7 +19,7 @@ function ToggleCollapseSidebar() {
             size="sm"
             sx={{
                 p: 1,
-                // color: (theme) => theme.palette.mode === 'light' ? 'grey.300' : 'grey.700',
+                color: (theme) => theme.palette.mode === 'light' ? 'grey.500' : 'grey.700',
                 ':hover': {
                     backgroundColor: 'inherit'
                 },
