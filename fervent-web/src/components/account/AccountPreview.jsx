@@ -31,10 +31,9 @@ function AccountPreview({ }) {
                 <AccountAvatar user={user} />
             </Box>
             <Box textAlign={"center"}>
-                {user.displayName &&
-                    <Typography variant="subtitle1" component="div" p={0} m={0}>
-                        {user.displayName}
-                    </Typography>}
+                <Typography variant="subtitle1" component="div" p={0} m={0}>
+                    {user.displayName ? `Hello, ${user.displayName}` : "Hey there!"}
+                </Typography>
                 <Typography variant="body3" color="textSecondary" component="small">
                     {user.email}
                 </Typography>

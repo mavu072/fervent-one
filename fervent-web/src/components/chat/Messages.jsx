@@ -42,7 +42,7 @@ function WelcomeBanner() {
           fontSize: 'clamp(2rem, 10vw, 3rem)',
         }}
       >
-        {"What's on your mind"}&nbsp;
+        {"What's on your mind"}
         <Typography
           component="span"
           variant="h1"
@@ -52,7 +52,7 @@ function WelcomeBanner() {
               theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
           }}
         >
-          {"today?"}
+          &nbsp;{"today?"}
         </Typography>
       </Typography>
     </Stack>
@@ -360,6 +360,7 @@ function Messages() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 pt: { xs: 24, sm: 22, lg: 30 },
+                gap: 1,
               }}
             >
               <WelcomeBanner />
