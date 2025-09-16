@@ -1,11 +1,44 @@
 import React, { useContext } from 'react';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
-import { closeSidebar, collapsedWidth, largeScreenWidth, standardScreenWidth } from '../util/sidebarUtil';
-import SidebarHeader from './SidebarHeader';
 import SidebarList from './SidebarList';
+import AppLogoIcon from '../../logo/AppLogo';
+import { ThemeContext } from '../../context-provider/ThemeContext';
 import { SidebarContext } from '../../context-provider/SidebarContext';
+import { closeSidebar, collapsedWidth, largeScreenWidth, standardScreenWidth } from '../util/sidebarUtil';
+import ToggleCollapseSidebar from './ToggleCollapseSidebar';
+
+function SidebarHeader() {
+  const { mode } = useContext(ThemeContext);
+  const { collapsed } = useContext(SidebarContext);
+
+  return (
+    <Box
+      className='Sidebar-header'
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
+        // pl: 1,
+        px: 1,
+        height: '25px',
+      }}
+    >
+      <Stack sx={{ alignItems: 'left', flexGrow: 1, px: 2 }}>
+        <AppLogoIcon mode={mode} />
+      </Stack>
+      <Stack
+        sx={{
+          display: { xs: 'none', lg: collapsed === false ? 'flex' : 'none' },
+        }}
+      >
+        <ToggleCollapseSidebar />
+      </Stack>
+    </Box>
+  );
+}
 
 /**
  * Sidebar.
@@ -28,7 +61,7 @@ function Sidebar() {
         width: { xs: 'var(--Sidebar-width-xs)', lg: 'var(--Sidebar-width)' },
         top: 0,
         pt: 2,
-        px: 2,
+        px: 0,
         flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
@@ -68,7 +101,7 @@ function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <SidebarHeader />
-      <SidebarList onClick={closeSidebar} />
+      <SidebarList />
     </Paper >
   );
 }

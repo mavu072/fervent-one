@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -8,23 +9,31 @@ import ListItemText from '@mui/material/ListItemText';
 import { listItemButtonClasses } from '@mui/material/ListItemButton';
 import { SidebarContext } from "../../context-provider/SidebarContext";
 import { tabList } from "../util/sidebarTabsUtil";
+import { closeSidebar } from "../util/sidebarUtil";
+import ToggleCollapseSidebar from "./ToggleCollapseSidebar";
 
 const lvl1Tabs = tabList.filter((tab) => tab.level === 1);
 const lvl2Tabs = tabList.filter((tab) => tab.level === 2);
+
+function ToggleSidebarListItem() {
+  return (
+    <ListItem key={9999} disablePadding>
+        <ToggleCollapseSidebar />
+    </ListItem>
+  );
+}
 
 /**
  * SidebarList.
  * @description Switch between tabs.
  * @returns JSX Component
  */
-function SidebarList({ onClick = undefined }) {
-  const { selectedTab, switchTab } = useContext(SidebarContext);
+function SidebarList() {
+  const { selectedTab, switchTab, collapsed } = useContext(SidebarContext);
 
   function handleClick(panePath) {
     switchTab(panePath);
-    if (onClick) {
-      onClick(); // If onClick is defined.
-    }
+    closeSidebar();
   }
 
   return (
@@ -45,7 +54,7 @@ function SidebarList({ onClick = undefined }) {
       >
         <List
           className="ListItem-group"
-          sx={{ width: '100%', bgcolor: 'inherit' }}
+          sx={{ width: '100%', bgcolor: 'inherit', px: 2 }}
         >
           {lvl1Tabs.map((tab, index) => {
             const selected = tab.path === selectedTab.path;
@@ -73,13 +82,13 @@ function SidebarList({ onClick = undefined }) {
                   >
                     {tab.icon}
                   </ListItemIcon>
-                  <ListItemText
+                  {!collapsed && <ListItemText
                     primary={tab.title}
                     sx={{
                       whiteSpace: 'nowrap',
                       my: 0,
                     }}
-                  />
+                  />}
                 </ListItemButton>
               </ListItem>
             );
@@ -87,7 +96,7 @@ function SidebarList({ onClick = undefined }) {
         </List>
         <List
           className="ListItem-group"
-          sx={{ width: '100%', bgcolor: 'inherit', pt: 1.5 }}
+          sx={{ width: '100%', bgcolor: 'inherit', pt: 2.5, px: 2 }}
         >
           {lvl2Tabs.map((tab, index) => {
             const selected = tab.path === selectedTab.path;
@@ -115,17 +124,18 @@ function SidebarList({ onClick = undefined }) {
                   >
                     {tab.icon}
                   </ListItemIcon>
-                  <ListItemText
+                  {!collapsed && <ListItemText
                     primary={tab.title}
                     sx={{
                       whiteSpace: 'nowrap',
                       my: 0,
                     }}
-                  />
+                  />}
                 </ListItemButton>
               </ListItem>
             );
           })}
+          {collapsed && <ToggleSidebarListItem />}
         </List>
       </Box>
     </React.Fragment>

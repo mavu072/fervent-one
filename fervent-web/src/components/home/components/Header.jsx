@@ -8,7 +8,6 @@ import { appName, MESSAGES_TITLE } from '../../../config/appConfig';
 import MenuButton from '../../buttons/MenuButton';
 import AccountContextMenu from '../../account/AccountContextMenu';
 import ToggleColorMode from '../../theme/ToggleColorMode';
-import ToggleCollapseSidebar from './ToggleCollapseSidebar';
 import { SidebarContext } from '../../context-provider/SidebarContext';
 
 /**
@@ -16,7 +15,7 @@ import { SidebarContext } from '../../context-provider/SidebarContext';
  * @returns JSX Component
  */
 function Header() {
-  const { selectedTab, collapsed, toggleCollapse } = useContext(SidebarContext);
+  const { selectedTab } = useContext(SidebarContext);
 
   return (
     <Paper
@@ -50,15 +49,6 @@ function Header() {
       />
       <Stack sx={{ display: { xs: 'flex', lg: 'none' }, m: 0, p: 0, }}>
         <MenuButton onClickHandler={toggleSidebar} />
-      </Stack>
-      <Stack
-        sx={{
-          display: { xs: 'none', lg: collapsed === true ? 'flex' : 'none' },
-          m: 0,
-          p: 0,
-        }}
-      >
-        <ToggleCollapseSidebar onClickHandler={toggleCollapse} />
       </Stack>
       <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap flex={1} pl={1}>
         {selectedTab.title === "" || selectedTab.title === MESSAGES_TITLE ? appName : selectedTab.title}
