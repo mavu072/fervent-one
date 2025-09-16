@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import TextareaAutosize from './TextareaAutosize';
 import UploadFileButton from '../../buttons/UploadFileButton';
 import SendMessageButton from './SendMessageButton';
 import FileInputList from './FileInputList';
 import { scrollbarStyle } from '../../ui/scrollbarUtil';
+import { grey } from '@mui/material/colors';
 
 /**
  * MessageInput.
@@ -20,7 +20,15 @@ import { scrollbarStyle } from '../../ui/scrollbarUtil';
  * @param {Function} props.onSubmit Submit action handler.
  * @returns JSX Component
  */
-function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFiles, onAddSelectedFiles, onRemoveFile, onRemoveAllFiles, onSubmit, }) {
+function MessageInput({
+    textMessageInput,
+    onChangeTextMessageInput,
+    selectedFiles,
+    onAddSelectedFiles,
+    onRemoveFile,
+    onRemoveAllFiles,
+    onSubmit,
+}) {
     const textAreaRef = useRef(null);
 
     function handleChange(event) {
@@ -33,9 +41,9 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
             onChangeTextMessageInput('');
             onRemoveAllFiles();
         }
-    };
+    }
 
-    function handeKeyDown(event) { 
+    function handeKeyDown(event) {
         // Ctrl/Command + Enter sends message.
         if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
             handleClick();
@@ -43,30 +51,39 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
     }
 
     return (
-        <Box sx={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            flexDirection: 'column',
-            width: '100%',
-            px: 2,
-            pb: { xs: 4, md: 2 },
-            pt: 1,
-        }}>
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                flexDirection: 'column',
+                width: '100%',
+                px: 2,
+                pb: { xs: 4, md: 2 },
+                pt: 1,
+            }}
+        >
             <FileInputList fileList={selectedFiles} onRemoveFile={onRemoveFile} />
-            <Stack
-                sx={{
-                    display: 'flex',
-                    flexGrow: 1,
-                    flexDirection: 'row',
-                    width: '100%',
-                }}
-            >
-                <Stack>
-                    {/* To be supported later: .jpg,.jpeg,.png, */}
-                    <UploadFileButton onAddSelectedFiles={onAddSelectedFiles} accept=".pdf" multiple />
-                </Stack>
-                <FormControl sx={{ flexGrow: 1, px: 1, }}>
+
+            <FormControl sx={{ width: '100%' }}>
+                <Box
+                    sx={(theme) => ({
+                        display: 'flex',
+                        alignItems: 'center',
+                        border: `1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]}`,
+                        borderRadius: 2,
+                        px: 1,
+                    })}
+                >
+                    {/* Start adornment */}
+                    <UploadFileButton
+                        onAddSelectedFiles={onAddSelectedFiles}
+                        accept=".pdf"
+                        multiple
+                    /> {/* To be supported later: .jpg,.jpeg,.png, */}
+
+                    {/* Textarea */}
                     <TextareaAutosize
+                        id="Message-input"
                         placeholder="Send message"
                         aria-label="Message"
                         ref={textAreaRef}
@@ -77,20 +94,19 @@ function MessageInput({ textMessageInput, onChangeTextMessageInput, selectedFile
                         onKeyDown={handeKeyDown}
                         sx={{
                             flexGrow: 1,
-                            border: "none",
-                            borderBottom: "1px solid grey",
-                            borderRadius: 0,
-                            '& textarea:first-of-type': {
-                                minHeight: 72,
-                            },
+                            border: 'none',
+                            outline: 'none',
+                            resize: 'none',
+                            background: 'transparent',
+                            padding: '8px',
                             ...scrollbarStyle,
                         }}
                     />
-                </FormControl>
-                <Stack>
+
+                    {/* End adornment */}
                     <SendMessageButton onSendMessage={handleClick} />
-                </Stack>
-            </Stack>
+                </Box>
+            </FormControl>
         </Box>
     );
 }
