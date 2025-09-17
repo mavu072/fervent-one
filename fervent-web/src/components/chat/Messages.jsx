@@ -338,15 +338,17 @@ function Messages() {
                 <LLMDisclaimer />
               </Stack>
             </Box>
-            <MessageInput
-              textMessageInput={textMessageInput}
-              onChangeTextMessageInput={handleChangeTextMessageInput}
-              selectedFiles={selectedFiles}
-              onAddSelectedFiles={handleAddSelectedFiles}
-              onRemoveFile={handleRemoveFile}
-              onRemoveAllFiles={handleRemoveAllFiles}
-              onSubmit={handleSubmit}
-            />
+            <Box px={2} pb={3} width={"100%"}>
+              <MessageInput
+                textMessageInput={textMessageInput}
+                onChangeTextMessageInput={handleChangeTextMessageInput}
+                selectedFiles={selectedFiles}
+                onAddSelectedFiles={handleAddSelectedFiles}
+                onRemoveFile={handleRemoveFile}
+                onRemoveAllFiles={handleRemoveAllFiles}
+                onSubmit={handleSubmit}
+              />
+            </Box>
           </React.Fragment>}
 
         {/* No messages after load → show welcome */}
