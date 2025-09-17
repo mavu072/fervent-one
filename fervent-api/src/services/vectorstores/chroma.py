@@ -55,6 +55,18 @@ def query_chroma(query: str):
 
     return docs
 
+def query_vector_store(query: str, db: Chroma, k: int = 4):
+    """Queries Chroma vector store."""
+
+    if not db:
+        return None
+
+    docs = db.similarity_search_with_relevance_scores(query, k=k)
+
+    if len(docs) == 0 or docs[0][1] < 0.7:
+        return None
+    
+    return docs
 
 async def aquery_vector_store(query: str, db: Chroma, k: int = 4):
     """Queries Chroma vector store asynchronously."""

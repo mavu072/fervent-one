@@ -70,4 +70,4 @@ def test_list_all_collections():
 
     print(f"Collections: {collections}")
 
-    assert len(collections) > 2 # Check for two or collections because langchain collection may have already been created.
+    assert len(collections) >= 2 # Check for two or collections because langchain collection may have already been created.
