@@ -52,15 +52,16 @@ function MessageInput({
 
     return (
         <Box
-            sx={{
+            sx={(theme) => ({
                 display: 'flex',
                 alignItems: 'flex-end',
                 flexDirection: 'column',
                 width: '100%',
-                px: 2,
-                pb: { xs: 4, md: 2 },
-                pt: 1,
-            }}
+                border: `1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[300]}`,
+                borderRadius: 6,
+                px: 0,
+                py: 0,
+            })}
         >
             <FileInputList fileList={selectedFiles} onRemoveFile={onRemoveFile} />
 
@@ -69,17 +70,25 @@ function MessageInput({
                     sx={(theme) => ({
                         display: 'flex',
                         alignItems: 'center',
-                        border: `1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]}`,
-                        borderRadius: 2,
-                        px: 1,
+                        px: { xs: '36px', sm: '40px' }, // padding so textarea doesn’t overlap buttons
+                        py: { xs: '6px', sm: '4px' },
+                        position: 'relative',
                     })}
                 >
                     {/* Start adornment */}
-                    <UploadFileButton
-                        onAddSelectedFiles={onAddSelectedFiles}
-                        accept=".pdf"
-                        multiple
-                    /> {/* To be supported later: .jpg,.jpeg,.png, */}
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            left: 4,
+                            bottom: 4,
+                        }}
+                    >
+                        <UploadFileButton
+                            onAddSelectedFiles={onAddSelectedFiles}
+                            accept=".pdf"
+                            multiple
+                        /> {/* To be supported later: .jpg,.jpeg,.png, */}
+                    </Box>
 
                     {/* Textarea */}
                     <TextareaAutosize
@@ -93,18 +102,26 @@ function MessageInput({
                         maxRows={5}
                         onKeyDown={handeKeyDown}
                         sx={{
-                            flexGrow: 1,
+                            width: '100%',
                             border: 'none',
                             outline: 'none',
                             resize: 'none',
                             background: 'transparent',
-                            padding: '8px',
+                            padding: { xs: '6px', sm: '8px' },
                             ...scrollbarStyle,
                         }}
                     />
 
                     {/* End adornment */}
-                    <SendMessageButton onSendMessage={handleClick} />
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            right: 4,
+                            bottom: 4,
+                        }}
+                    >
+                        <SendMessageButton onSendMessage={handleClick} />
+                    </Box>
                 </Box>
             </FormControl>
         </Box>
