@@ -16,12 +16,14 @@ function FileInputList({ fileList, onRemoveFile }) {
             gap={1}
             sx={{
                 display: 'flex',
-                flexGrow: 1,
                 flexDirection: 'row',
                 width: '100%',
-                mb: 1,
+                pb: fileList?.length > 0 ? 1 : 0,
+                px: fileList?.length > 0 ? 1 : 0,
+                pt: fileList?.length > 0 ? 1 : 0,
                 ...scrollbarStyle,
                 overflowY: 'hidden',
+                overflowX: 'auto',
             }}
         >
             {fileList && fileList.map((file, index) => (
